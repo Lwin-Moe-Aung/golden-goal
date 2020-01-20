@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 */
 Route::post('register', 'API\RegisterController@register');
 Route::post('login', 'API\AuthController@login');
-Route::post('logout', 'API\AuthController@logout');
+Route::get('logout', 'API\AuthController@logout');
 
 Route::middleware('auth:api')->group( function () {
 	Route::resource('products', 'API\ProductController');
 	Route::get('generate-user', 'API\UserManageController@generateUser');
+	Route::get('limit-member-time', 'API\UserManageController@limitMemberTime');
+	
 });

@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Validator;
+use Carbon\Carbon;
 
 class AuthController extends BaseController
 {
   
-   
     //login
     public function login(Request $request)
     {
@@ -31,7 +31,17 @@ class AuthController extends BaseController
             $error = "Unauthorized";
             return $this->sendError($error, 401);
         }
-        $user = $request->user();
+
+        $user = User::where('start_date', '<', Carbon::now())
+            ->where('end_date', '>' , Carbon::now())
+            ->where('id', '=', Auth::user()->id)
+            ->get();
+
+        if(count($user) < 1 && Auth::user()->role != "Admin"){
+            $error = "Unauthorized";
+            return $this->sendError($error, 401);
+        }
+        $user = Auth::user(); 
         $success['token'] =  $user->createToken('token')->accessToken;
         
         return $this->sendResponse($success,"login success");
@@ -41,16 +51,12 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         
-        $isUser = $request->user()->token()->revoke();
-        if($isUser){
-            $success['message'] = "Successfully logged out.";
-            return $this->sendResponse($success,"logout");
+        if (Auth::guard('api')->check()) {
+            Auth::guard('api')->user()->AauthAcessToken()->delete();
+            $error = "successfully logout";
+            return $this->sendError($error, 401);
         }
-        else{
-            $error = "Something went wrong.";
-            return $this->sendResponse($error,"wrong");
-        }
-            
+        
         
     }
 
