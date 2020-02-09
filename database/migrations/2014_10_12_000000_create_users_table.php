@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->enum('member_type', ['1', '2','3']);
+            $table->string('device_id');
+            $table->string('imei');
             $table->rememberToken();
             $table->timestamps();
         });

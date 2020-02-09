@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-
+use DB;
 
 class UserManageController extends BaseController
 {
@@ -161,8 +161,43 @@ class UserManageController extends BaseController
     public function destroy(Product $product)
     {
         $product->delete();
-
-
         return $this->sendResponse($product->toArray(), 'Product deleted successfully.');
+    }
+
+     /**
+     * get user profile.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getProfile($id)
+    {
+        $user = User::find($id);
+
+        if (is_null($user)) {
+            return $this->sendError('User not found.');
+        }
+
+        return $this->sendResponse($user->toArray(), 'User retrieved successfully.');
+    }
+
+    /**
+     * get user Lists.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserList(Request $request)
+    {
+        
+        $users = DB::table('users')
+            ->where('role', '!=', 'Admin')
+            ->paginate($request->input("per_page"));
+
+        if (is_null($users)) {
+            return $this->sendError('Users not found.');
+        }
+
+        return $this->sendResponse($users->toArray(), 'Users retrieved successfully.');
     }
 }

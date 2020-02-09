@@ -20,5 +20,8 @@ Route::middleware('auth:api')->group( function () {
 	Route::resource('products', 'API\ProductController');
 	Route::get('generate-user', 'API\UserManageController@generateUser');
 	Route::get('limit-member-time', 'API\UserManageController@limitMemberTime');
+	Route::get('profile/{id}', 'API\UserManageController@getProfile');
+	Route::get('user-list', 'API\UserManageController@getUserList');
+	
 	
 });
