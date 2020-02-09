@@ -18,8 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->enum('role', ['Admin', 'User']);
-            $table->dateTime('start_date')->nullable();;
-            $table->dateTime('end_date')->nullable();;
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
+            $table->enum('member_type', ['1', '2','3']);
             $table->rememberToken();
             $table->timestamps();
         });

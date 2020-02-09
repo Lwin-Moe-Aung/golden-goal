@@ -21,7 +21,7 @@ class UserManageController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateUser()
+    public function generateUser(Request $request)
     {
         
         $firastName = "GG";
@@ -33,19 +33,30 @@ class UserManageController extends BaseController
 
         $username =  ($countUser > 1) ? "{$username}-{$countUser}" : $username;
         $password =  Str::slug(str_random(8));
+        
+        if($request->member_type == 1){
+            $end_date = Carbon::now()->addDays(90);
+        }elseif($request->member_type == 2){
+            $end_date = Carbon::now()->addDays(180);
+        }else{
+            $end_date = Carbon::now()->addDays(360);
+        }
+        
 
         $user = new User;
         $user->username = $username;
         $user->password = Hash::make($password);
         $user->role = "User";
-        $user->start_date = Carbon::now();
-        $user->end_date = Carbon::now()->addDays(30);
+        $user->start_date = Carbon::now()->addDays(1);
+        $user->end_date = $end_date;
+        $user->member_type = $request->member_type;
         $user->save();
 
         $data = [
             'user_id' => $user->id,
             'username' => $username,
             'password'    => $password,
+            'member_type' => $user->member_type,
             'start_date' => Carbon::parse($user->start_date)->format('Y-m-d H:i:s'),
             'end_date' => Carbon::parse($user->end_date)->format('Y-m-d H:i:s'),
             
@@ -65,8 +76,24 @@ class UserManageController extends BaseController
     {
         
         $user = User::find($request->user_id);
+        
+        if($user->end_date >= Carbon::now()->toDateTimeString()){
+            $end_date = $user->end_date;
+        }else{
+            $end_date = Carbon::now();
+        }
+
+        if($request->member_type == 1){
+            $end_date = Carbon::parse($end_date)->addDays(90);
+        }elseif($request->member_type == 2){
+            $end_date = Carbon::parse($end_date)->addDays(180);
+        }else{
+            $end_date = Carbon::parse($end_date)->addDays(360);
+        }
+        
+        $user->member_type = $request->member_type;
         $user->start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
-        $user->end_date = Carbon::parse($request->end_date)->format('Y-m-d H:i:s');
+        $user->end_date = $end_date;
         $user->save();
 
         return $this->sendResponse(" ","successfully update time limit");

@@ -50,11 +50,11 @@ class AuthController extends BaseController
     //logout
     public function logout(Request $request)
     {
-        
+        // dd(Auth::guard('api')->user()->AauthAcessToken()); 
         if (Auth::guard('api')->check()) {
             Auth::guard('api')->user()->AauthAcessToken()->delete();
             $error = "successfully logout";
-            return $this->sendError($error, 401);
+            return $this->sendError($error, 200);
         }
         
         
