@@ -47,7 +47,7 @@ class UserManageController extends BaseController
         $user->username = $username;
         $user->password = Hash::make($password);
         $user->role = "User";
-        $user->start_date = Carbon::now()->addDays(1);
+        $user->start_date = Carbon::now();
         $user->end_date = $end_date;
         $user->member_type = $request->member_type;
         $user->save();
