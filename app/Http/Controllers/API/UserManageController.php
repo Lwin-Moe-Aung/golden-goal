@@ -95,8 +95,12 @@ class UserManageController extends BaseController
         $user->start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
         $user->end_date = $end_date;
         $user->save();
-
-        return $this->sendResponse(" ","successfully update time limit");
+        $data = [
+            'start_date' => $user->start_date,
+            'end_date' => $user->end_date,
+            'status' => $user->member_type,
+        ];
+        return $this->sendResponse($data,"successfully update time limit");
     }
 
 

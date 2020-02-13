@@ -38,8 +38,8 @@ class AuthController extends BaseController
             ->get();
 
         if(count($user) < 1 && Auth::user()->role != "Admin"){
-            $error = "Unauthorized";
-            return $this->sendError($error, 401);
+            $error = "expired end date";
+            return $this->sendError($error,'');
         }
         $user = Auth::user(); 
         $success['user_id'] = $user->id;
@@ -56,7 +56,7 @@ class AuthController extends BaseController
         if (Auth::guard('api')->check()) {
             Auth::guard('api')->user()->AauthAcessToken()->delete();
             $error = "successfully logout";
-            return $this->sendError($error, 200);
+            return $this->sendResponse($error, "successfully logout");
         }
         
         
