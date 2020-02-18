@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 class UserManageController extends BaseController
@@ -23,6 +24,11 @@ class UserManageController extends BaseController
      */
     public function generateUser(Request $request)
     {
+       
+        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         $firastName = "GG";
         $lastName = str_random(5);
@@ -74,6 +80,10 @@ class UserManageController extends BaseController
      */
     public function limitMemberTime(Request $request)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         $user = User::find($request->user_id);
         
@@ -112,9 +122,12 @@ class UserManageController extends BaseController
      */
     public function show($id)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $product = Product::find($id);
-
-
         if (is_null($product)) {
             return $this->sendError('Product not found.');
         }
@@ -133,9 +146,12 @@ class UserManageController extends BaseController
      */
     public function update(Request $request, Product $product)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $input = $request->all();
-
-
         $validator = Validator::make($input, [
             'name' => 'required',
             'detail' => 'required'
@@ -164,6 +180,11 @@ class UserManageController extends BaseController
      */
     public function destroy(Product $product)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $product->delete();
         return $this->sendResponse($product->toArray(), 'Product deleted successfully.');
     }
@@ -176,8 +197,12 @@ class UserManageController extends BaseController
      */
     public function getProfile($id)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $user = User::find($id);
-
         if (is_null($user)) {
             return $this->sendError('User not found.');
         }
@@ -193,6 +218,10 @@ class UserManageController extends BaseController
      */
     public function getUserList(Request $request)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         $users = DB::table('users')
             ->where('role', '!=', 'Admin')

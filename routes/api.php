@@ -16,7 +16,6 @@ Route::post('register', 'API\RegisterController@register');
 Route::post('login', 'API\AuthController@login');
 Route::get('logout', 'API\AuthController@logout');
 
-Route::middleware('auth:api')->group( function () {
 	Route::resource('products', 'API\ProductController');
 	Route::resource('changes', 'API\ChangeController');
 	Route::delete('changes_all_delete', 'API\ChangeController@changesAllDelete');
@@ -26,6 +25,5 @@ Route::middleware('auth:api')->group( function () {
 	Route::get('limit-member-time', 'API\UserManageController@limitMemberTime');
 	Route::get('profile/{id}', 'API\UserManageController@getProfile');
 	Route::get('user-list', 'API\UserManageController@getUserList');
-	
-	
-});
+		
+

@@ -32,14 +32,17 @@ class AuthController extends BaseController
             return $this->sendError($error, 401);
         }
 
-        $user = User::where('start_date', '<', Carbon::now())
-            ->where('end_date', '>' , Carbon::now())
-            ->where('id', '=', Auth::user()->id)
+        $user = User::
+            where('id', '=', Auth::user()->id)
             ->get();
-
-        if(count($user) < 1 && Auth::user()->role != "Admin"){
+        
+        if($user[0]->end_date <= Carbon::now()->toDateTimeString() && Auth::user()->role != "Admin"){
             $error = "expired end date";
-            return $this->sendError($error,'');
+            $data = [
+                "end_date" => $user[0]->end_date,
+            ];
+
+            return $this->sendError($error,$data);
         }
         $user = Auth::user(); 
         $success['user_id'] = $user->id;
@@ -58,7 +61,8 @@ class AuthController extends BaseController
             $error = "successfully logout";
             return $this->sendResponse($error, "successfully logout");
         }
-        
+        $error = "Unauthorized user";
+        return $this->sendError($error,'');
         
     }
 

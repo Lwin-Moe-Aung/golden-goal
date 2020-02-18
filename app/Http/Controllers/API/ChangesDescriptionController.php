@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\ChangesDescription;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 
 class ChangesDescriptionController extends BaseController
@@ -19,9 +20,12 @@ class ChangesDescriptionController extends BaseController
      */
     public function index()
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $changes_description = ChangesDescription::all();
-
-
         return $this->sendResponse($changes_description->toArray(), 'Changes retrieved successfully.');
     }
 
@@ -34,9 +38,12 @@ class ChangesDescriptionController extends BaseController
      */
     public function store(Request $request)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $input = $request->all();
-
-
         $validator = Validator::make($input, [
             'description' => 'required',
             
@@ -64,9 +71,12 @@ class ChangesDescriptionController extends BaseController
      */
     public function show($id)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $changes_description = ChangesDescription::find($id);
-
-
         if (is_null($changes_description)) {
             return $this->sendError('Changes description not found.');
         }
@@ -85,8 +95,13 @@ class ChangesDescriptionController extends BaseController
      */
     public function update(Request $request, ChangesDescription $changes_description)
     {
-        $input = $request->all();
 
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
+        $input = $request->all();
         $validator = Validator::make($input, [
                     'description' => 'required',
                     
@@ -114,19 +129,23 @@ class ChangesDescriptionController extends BaseController
      */
     public function destroy(ChangesDescription $changes_description)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         $changes_description->delete();
-
-
         return $this->sendResponse($changes_description->toArray(), 'Changes description deleted successfully.');
     }
 
     public function changesDesAllDelete()
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         ChangesDescription::truncate();
-
-
         return $this->sendResponse('', 'All Changes description deleted successfully.');
     }
 }

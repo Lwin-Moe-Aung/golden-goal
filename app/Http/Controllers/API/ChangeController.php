@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Change;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 
 class ChangeController extends BaseController
@@ -19,6 +20,11 @@ class ChangeController extends BaseController
      */
     public function index()
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $change = Change::all();
 
 
@@ -34,9 +40,12 @@ class ChangeController extends BaseController
      */
     public function store(Request $request)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $input = $request->all();
-
-
         $validator = Validator::make($input, [
             'start_date' => 'required',
             'match' => 'required',
@@ -64,9 +73,12 @@ class ChangeController extends BaseController
      */
     public function show($id)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $change = Change::find($id);
-
-
         if (is_null($change)) {
             return $this->sendError('Changes not found.');
         }
@@ -85,8 +97,12 @@ class ChangeController extends BaseController
      */
     public function update(Request $request, Change $change)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
+        
         $input = $request->all();
-
         $validator = Validator::make($input, [
                     'start_date' => 'required',
                     'match' => 'required',
@@ -120,19 +136,23 @@ class ChangeController extends BaseController
      */
     public function destroy(Change $change)
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         $change->delete();
-
-
         return $this->sendResponse($change->toArray(), 'Changes deleted successfully.');
     }
 
     public function changesAllDelete()
     {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'');
+        }
         
         Change::truncate();
-
-
         return $this->sendResponse('', 'All Changes deleted successfully.');
     }
 }
