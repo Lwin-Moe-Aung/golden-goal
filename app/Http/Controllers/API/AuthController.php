@@ -41,8 +41,8 @@ class AuthController extends BaseController
             $data = [
                 "end_date" => $user[0]->end_date,
             ];
-
-            return $this->sendError($error,$data);
+             
+            return $this->sendError($error,$data, 201);
         }
         $user = Auth::user(); 
         $success['user_id'] = $user->id;

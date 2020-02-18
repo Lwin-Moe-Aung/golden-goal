@@ -22,7 +22,7 @@ class ChangesDescriptionController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $changes_description = ChangesDescription::all();
@@ -40,7 +40,7 @@ class ChangesDescriptionController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $input = $request->all();
@@ -73,7 +73,7 @@ class ChangesDescriptionController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $changes_description = ChangesDescription::find($id);
@@ -98,7 +98,7 @@ class ChangesDescriptionController extends BaseController
 
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $input = $request->all();
@@ -131,7 +131,7 @@ class ChangesDescriptionController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $changes_description->delete();
@@ -142,7 +142,7 @@ class ChangesDescriptionController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         ChangesDescription::truncate();

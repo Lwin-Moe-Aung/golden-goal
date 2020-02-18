@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChangeController extends BaseController
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +23,7 @@ class ChangeController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $change = Change::all();
@@ -42,7 +43,7 @@ class ChangeController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $input = $request->all();
@@ -75,7 +76,7 @@ class ChangeController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $change = Change::find($id);
@@ -99,7 +100,7 @@ class ChangeController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $input = $request->all();
@@ -138,7 +139,7 @@ class ChangeController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $change->delete();
@@ -149,7 +150,7 @@ class ChangeController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         Change::truncate();

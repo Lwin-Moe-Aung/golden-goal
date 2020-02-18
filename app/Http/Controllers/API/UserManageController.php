@@ -27,7 +27,7 @@ class UserManageController extends BaseController
        
         if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $firastName = "GG";
@@ -82,7 +82,7 @@ class UserManageController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $user = User::find($request->user_id);
@@ -103,8 +103,9 @@ class UserManageController extends BaseController
         
         $user->member_type = $request->member_type;
         $user->start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
-        $user->end_date = $end_date;
+        $user->end_date = Carbon::parse($end_date)->format('Y-m-d H:i:s');
         $user->save();
+       
         $data = [
             'start_date' => $user->start_date,
             'end_date' => $user->end_date,
@@ -124,7 +125,7 @@ class UserManageController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $product = Product::find($id);
@@ -148,7 +149,7 @@ class UserManageController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $input = $request->all();
@@ -182,7 +183,7 @@ class UserManageController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $product->delete();
@@ -199,7 +200,7 @@ class UserManageController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $user = User::find($id);
@@ -220,7 +221,7 @@ class UserManageController extends BaseController
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
-            return $this->sendError($error,'');
+            return $this->sendError($error,'',202);
         }
         
         $users = DB::table('users')
