@@ -15,7 +15,7 @@ class CreateChangesTable extends Migration
     {
         Schema::create('changes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->time('start_date')->nullable();
+            $table->string('start_date')->nullable();
             $table->string('match')->nullable();
             $table->string('start_body')->nullable();
             $table->string('start_goal')->nullable();
