@@ -25,5 +25,10 @@ Route::get('logout', 'API\AuthController@logout');
 	Route::get('limit-member-time', 'API\UserManageController@limitMemberTime');
 	Route::get('profile/{id}', 'API\UserManageController@getProfile');
 	Route::get('user-list', 'API\UserManageController@getUserList');
-		
 
+
+	Route::resource('percentages', 'API\PercentagesController');
+	Route::delete('percentages_all_delete', 'API\PercentagesController@percentagesAllDelete');	
+
+	Route::resource('percentages_descriptions', 'API\PercentagesDescriptionController');
+	Route::delete('percentage_des_all_delete', 'API\PercentagesDescriptionController@percentagesDesAllDelete');
