@@ -32,3 +32,6 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::resource('percentages_descriptions', 'API\PercentagesDescriptionController');
 	Route::delete('percentage_des_all_delete', 'API\PercentagesDescriptionController@percentagesDesAllDelete');
+
+
+	Route::resource('Leagues ', 'API\LeaguesController');
