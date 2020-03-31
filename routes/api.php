@@ -25,13 +25,22 @@ Route::get('logout', 'API\AuthController@logout');
 	Route::get('limit-member-time', 'API\UserManageController@limitMemberTime');
 	Route::get('profile/{id}', 'API\UserManageController@getProfile');
 	Route::get('user-list', 'API\UserManageController@getUserList');
-
+	Route::resource('leagues', 'API\LeaguesController');
 
 	Route::resource('percentages', 'API\PercentagesController');
 	Route::delete('percentages_all_delete', 'API\PercentagesController@percentagesAllDelete');	
 
 	Route::resource('percentages_descriptions', 'API\PercentagesDescriptionController');
 	Route::delete('percentage_des_all_delete', 'API\PercentagesDescriptionController@percentagesDesAllDelete');
+	Route::post('leagues_update', 'API\LeaguesController@leagueUpdate');
 
+	Route::resource('football_teams', 'API\FootballTeamController');
+	Route::post('football_team_update', 'API\FootballTeamController@footballTeamUpdate');
+	Route::get('get_team_by_leg_id/{id}', 'API\FootballTeamController@getTeamByLeagueid');
 
-	Route::resource('Leagues ', 'API\LeaguesController');
+	Route::resource('estimations', 'API\EstimationController');
+	Route::post('get_estimations_by_date', 'API\EstimationController@getEstimationsByDate');
+
+	Route::get('get_ordered_league', 'API\EstimationController@getOrderedLeagues');
+	Route::get('get_estimations_by_id/{id}', 'API\EstimationController@getEstimationsById');
+	
