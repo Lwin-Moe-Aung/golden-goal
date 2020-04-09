@@ -80,7 +80,7 @@ class LeaguesController extends BaseController
             $icon_thumb_nail_path = '/'."League_icons".'/'.date("Y")."-".date("m").'/'.date("d").'/'.$filethumb;
             
             $icon_thumb_nail = public_path('storage/'.$icon_thumb_nail_path);
-            $img = Image::make($request->file('league_icon')->getRealPath())->resize(90,45)->save($icon_thumb_nail);
+            $img = Image::make($request->file('league_icon')->getRealPath())->resize(90,90)->save($icon_thumb_nail);
             $league['league_icon'] = $icon_thumb_nail_path;
             
         }
@@ -148,7 +148,7 @@ class LeaguesController extends BaseController
             $icon_thumb_nail_path = '/'."League_icons".'/'.date("Y")."-".date("m").'/'.date("d").'/'.$filethumb;
             
             $icon_thumb_nail = public_path('storage/'.$icon_thumb_nail_path);
-            $img = Image::make($request->file('league_icon')->getRealPath())->resize(90,45)->save($icon_thumb_nail);
+            $img = Image::make($request->file('league_icon')->getRealPath())->resize(90,90)->save($icon_thumb_nail);
             $league->league_icon = $icon_thumb_nail_path;
             
         }

@@ -171,7 +171,12 @@ class EstimationController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-      
+        
+        $league = League::select('*')->orderBy('priority', 'ASC')->get();
+        $ordered_leagues = [];
+        foreach ($league as $key => $value) {
+            $ordered_leagues[$value->id] = $value;
+        }
         $estimation = DB::table('estimations')
             ->select('*')
             ->where('date', '=', $request->input('date'))
@@ -187,7 +192,12 @@ class EstimationController extends BaseController
                 $value->away_team_name = $team->team_name;
                 $value->away_team_icon = $team->team_icon;
 
-                $estimation_by_date[$value->league_id][] = $value;
+                $estimation_by_date[$value->league_id]["league_id"] = $ordered_leagues[$value->league_id]["id"];
+                $estimation_by_date[$value->league_id]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
+                $estimation_by_date[$value->league_id]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
+                $estimation_by_date[$value->league_id]["priority"] = $ordered_leagues[$value->league_id]["priority"];
+                $estimation_by_date[$value->league_id]["match"][] = $value;
+
                 
             }
             return $this->sendResponse($estimation_by_date, 'Estimation By Date was retrieved successfully.');
