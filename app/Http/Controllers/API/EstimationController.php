@@ -192,14 +192,15 @@ class EstimationController extends BaseController
                 $value->away_team_name = $team->team_name;
                 $value->away_team_icon = $team->team_icon;
 
-                $estimation_by_date[$value->league_id]["league_id"] = $ordered_leagues[$value->league_id]["id"];
-                $estimation_by_date[$value->league_id]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
-                $estimation_by_date[$value->league_id]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
-                $estimation_by_date[$value->league_id]["priority"] = $ordered_leagues[$value->league_id]["priority"];
-                $estimation_by_date[$value->league_id]["match"][] = $value;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_id"] = $ordered_leagues[$value->league_id]["id"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
 
                 
             }
+            ksort($estimation_by_date);
             return $this->sendResponse($estimation_by_date, 'Estimation By Date was retrieved successfully.');
             
         }
