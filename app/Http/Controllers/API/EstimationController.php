@@ -183,6 +183,7 @@ class EstimationController extends BaseController
             ->get();
           
         $estimation_by_date = [];
+        $estimation_by_date_no_key = [];
         if(count($estimation) > 0){
             foreach ($estimation as $key => $value) {
                 $team = Team::find($value->home);
@@ -201,7 +202,11 @@ class EstimationController extends BaseController
                 
             }
             ksort($estimation_by_date);
-            return $this->sendResponse($estimation_by_date, 'Estimation By Date was retrieved successfully.');
+
+            foreach ($estimation_by_date as $key1 => $value1) {
+                $estimation_by_date_no_key[] = $value1;
+            }
+            return $this->sendResponse($estimation_by_date_no_key, 'Estimation By Date was retrieved successfully.');
             
         }
          return $this->sendError('No Data.....');    
