@@ -16,6 +16,7 @@ class CreateEstimationsTable extends Migration
         Schema::create('estimations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('date');
+            $table->string('time')->nullable();
             $table->integer('league_id');
             $table->integer('home');
             $table->integer('away');

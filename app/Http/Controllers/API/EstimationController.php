@@ -24,16 +24,37 @@ class EstimationController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        $leagues = League::all();
+        $estimations = DB::table('estimations')
+            
+            ->paginate($request->input("per_page"));
 
+         if(count($estimations) > 0){
+            foreach ($estimations as $key => $value) {
+               
+                $team = Team::find($value->home);
+                $value->home_team_name = $team->team_name;
+                $value->home_team_icon = $team->team_icon;
+                $team = Team::find($value->away);
+                $value->away_team_name = $team->team_name;
+                $value->away_team_icon = $team->team_icon;
+                $league = League::find($value->league_id);
+                $value->league_name = $league->league_name;
+                $value->league_icon = $league->league_icon;
 
-        return $this->sendResponse($leagues->toArray(), 'Leagues retrieved successfully.');
+                $estimations[$key] = $value;
+                
+            }
+            
+            return $this->sendResponse($estimations->toArray(), 'estimations retrieved successfully.');
+            
+        }
+        return $this->sendError('No Data.....');    
     }
 
 
@@ -68,6 +89,7 @@ class EstimationController extends BaseController
         $estimation = new Estimation;
 
         $estimation['date'] = $request->input('date');
+        $estimation['time'] = $request->input('time');
         $estimation['league_id'] = $request->input('league_id');
         $estimation['home'] =$request->input('home');
         $estimation['away'] =$request->input('away');
@@ -116,6 +138,7 @@ class EstimationController extends BaseController
         $estimation = Estimation::findOrFail($id);
 
         $estimation['date'] = $request->input('date');
+        $estimation['time'] = $request->input('time');
         $estimation['league_id'] = $request->input('league_id');
         $estimation['home'] =$request->input('home');
         $estimation['away'] =$request->input('away');

@@ -188,4 +188,38 @@ class LeaguesController extends BaseController
        
         return $this->sendResponse($leagueed->toArray(), 'league deleted successfully.');
     }
+
+    public function changeLeaguePriority(Request $request){
+         if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'',202);
+        }
+
+        $input = $request->all();
+
+
+        $validator = Validator::make($input, [
+            'league_id' => 'required',
+            'old_priority' => 'required',
+            'new_priority' => 'required'
+
+        ]);
+        
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+        $league = League::where('priority','=',$input['new_priority'])->first();
+        $league->priority = $input['old_priority'];
+        $league->update();
+
+        $leagues = League::find($input['league_id']);
+        $leagues->priority = $input['new_priority'];
+        $leagues->update();
+        
+        
+
+        return $this->sendResponse('','League Priority changed successfully.');
+
+        
+    }
 }
