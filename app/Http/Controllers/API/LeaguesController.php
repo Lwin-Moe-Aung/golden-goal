@@ -7,6 +7,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\League;
+use App\Team;
+use App\Estimation;
+
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -173,9 +176,18 @@ class LeaguesController extends BaseController
             return $this->sendError($error,'',202);
         }
        
-        $leagueed = League::findOrFail($id);
+        $leagueed = League::find($id);
+       
+        if($leagueed == null ){
+            return $this->sendError("Invalid league id",'',404);
+        }
+        
         $leagueed->delete();
-
+        // $team = Team::select('id')->where('league_id','=',$id)->get();
+        $football_team = Team::where('league_id','=',$id)->delete();
+        
+        $estimation = Estimation::where('league_id','=',$id)->delete();
+       
         $leagues = League::all();
         foreach ($leagues as $league) {
             if($league->priority > $leagueed->priority ){

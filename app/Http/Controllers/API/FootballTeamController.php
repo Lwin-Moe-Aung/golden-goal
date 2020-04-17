@@ -12,6 +12,7 @@ use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Image;
+use App\Estimation;
 use Illuminate\Support\Facades\Auth;
 
 class FootballTeamController extends BaseController
@@ -174,6 +175,7 @@ class FootballTeamController extends BaseController
        
         $football_team = Team::findOrFail($id);
         $football_team->delete();
+        $estimation = Estimation::where('home', $id)->orwhere('away', $id)->delete();
        
         return $this->sendResponse($football_team->toArray(), 'football_team deleted successfully.');
     }
