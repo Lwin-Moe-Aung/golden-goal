@@ -66,6 +66,7 @@ class EstimationController extends BaseController
      */
     public function store(Request $request)
     {
+        
         if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
@@ -106,6 +107,11 @@ class EstimationController extends BaseController
         $estimation['home_last_matchs'] =$request->input('home_last_matchs');
         $estimation['away_last_matchs'] =$request->input('away_last_matchs');
         $estimation['description'] =$request->input('description');
+        $estimation['odd'] =$request->input('odd');
+        $estimation['odd_value'] =$request->input('odd_value');
+        $estimation['odd_team'] =$request->input('odd_team');
+        $estimation['over_under_odd'] =$request->input('over_under_odd');
+        $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
         $estimation->save();
 
 

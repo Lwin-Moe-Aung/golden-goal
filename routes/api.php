@@ -45,4 +45,6 @@ Route::get('logout', 'API\AuthController@logout');
 	Route::get('get_estimations_by_id/{id}', 'API\EstimationController@getEstimationsById');
 
 	Route::post('change_league_priority', 'API\LeaguesController@changeLeaguePriority');
+
+	Route::post('play-tips', 'API\TipsController@playTips');
 	
