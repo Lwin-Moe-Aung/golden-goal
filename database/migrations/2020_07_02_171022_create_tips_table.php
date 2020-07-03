@@ -20,6 +20,8 @@ class CreateTipsTable extends Migration
             $table->integer('play_team_id')->nullable();
             $table->enum('over',['yes', 'no'])->default('no');
             $table->enum('under',['yes', 'no'])->default('no');
+            $table->string('tips_result')->nullable();
+            $table->string('over_under_result')->nullable();
             $table->timestamps();
         });
     }

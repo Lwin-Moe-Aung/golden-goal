@@ -57,20 +57,143 @@ class TipsController extends BaseController
 		}else{
 			$dif = $estimation->away_final_result - $estimation->home_final_result;
 			$second = $estimation->home;
-		}
-
+        }
+        if($estimation->odd == "L"){
+            $estimation->odd = 0;
+        }
+        
+        //odd
 		if($dif < $estimation->odd){
-			return $estimation->odd_team." lose but ". $second."  win ";
+           
+            $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$estimation->odd_team)
+                    ->update(['tips_result' => '-100']);
+            
+            $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$second)
+                    ->update(['tips_result' => '+100']);
 
 		}elseif($dif == $estimation->odd){
+       
+            
+            if($estimation->odd_sign == "+"){
+                // $rs = $estimation->odd_sign.$estimation->odd_value;
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$estimation->odd_team)
+                    ->update(['tips_result' => '+'.$estimation->odd_value]);
+
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$second)
+                    ->update(['tips_result' => '-'.$estimation->odd_value]);
+            }elseif($estimation->odd_sign == "-"){
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$estimation->odd_team)
+                    ->update(['tips_result' => '-'.$estimation->odd_value]);
+
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$second)
+                    ->update(['tips_result' => '+'.$estimation->odd_value]);
+            }elseif($estimation->odd_sign == "="){
+
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','!=', null)
+                    ->update(['tips_result' => '=']);
+            }
 			
-			return $estimation->odd_team." = ".$estimation->odd_value." but ".$second." = ". $estimation->odd_value;
 			
 		}elseif($dif > $estimation->odd){
-			return $estimation->odd_team ." win but ". $second."  lose ";
-		}
+			$tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$estimation->odd_team)
+                    ->update(['tips_result' => '+100']);
+            
+            $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('play_team_id','=',$second)
+                    ->update(['tips_result' => '-100']);
+        }
+        
 
-        // return $this->sendResponse($estimation, 'Successfully add result!');
+
+        //for over under
+        if($estimation->over_under_odd != null){
+            
+            $total = (int)$estimation->home_final_result + (int)$estimation->away_final_result;
+            if($total < $estimation->over_under_odd){
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('over','=',"yes")
+                    ->where('under','=',"no")
+                    ->update(['over_under_result' => '-100']);
+            
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('under','=',"yes")
+                    ->where('over','=',"no")
+                    ->update(['over_under_result' => '+100']);
+            }elseif($total == $estimation->over_under_odd){
+
+                if($estimation->over_under_sign == "+"){
+                    
+                    $tips = Tip::select('*')
+                        ->where('estimation_id','=',$request->estimation_id)
+                        ->where('over','=',"yes")
+                        ->where('under','=',"no")
+                        ->update(['over_under_result' => '+'.$estimation->over_under_odd_value]);
+            
+                    $tips = Tip::select('*')
+                        ->where('estimation_id','=',$request->estimation_id)
+                        ->where('under','=',"yes")
+                        ->where('over','=',"no")
+                        ->update(['over_under_result' => '-'.$estimation->over_under_odd_value]);
+                }elseif($estimation->over_under_sign == "-"){
+                    $tips = Tip::select('*')
+                        ->where('estimation_id','=',$request->estimation_id)
+                        ->where('over','=',"yes")
+                        ->where('under','=',"no")
+                        ->update(['over_under_result' => '-'.$estimation->over_under_odd_value]);
+            
+                    $tips = Tip::select('*')
+                        ->where('estimation_id','=',$request->estimation_id)
+                        ->where('under','=',"yes")
+                        ->where('over','=',"no")
+                        ->update(['over_under_result' => '+'.$estimation->over_under_odd_value]);
+
+                }elseif($estimation->over_under_sign == "="){
+                    
+                    $tips = Tip::select('*')
+                        ->where('estimation_id','=',$request->estimation_id)
+                        ->where('under','=',"yes")
+                        ->update(['over_under_result' => '=']); 
+
+                    $tips = Tip::select('*')
+                        ->where('estimation_id','=',$request->estimation_id)
+                        ->where('over','=',"yes")
+                        ->update(['over_under_result' => '=']); 
+                }  
+            }elseif($total > $estimation->over_under_odd){
+
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('over','=',"yes")
+                    ->where('under','=',"no")
+                    ->update(['over_under_result' => '+100']);
+            
+                $tips = Tip::select('*')
+                    ->where('estimation_id','=',$request->estimation_id)
+                    ->where('under','=',"yes")
+                    ->where('over','=',"no")
+                    ->update(['over_under_result' => '-100']);
+            }
+        }
+        return $this->sendResponse($estimation, 'Successfully add result!');
 
 
     }

@@ -15,6 +15,6 @@ class Tip extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'estimation_id', 'play_team_id', 'over', 'under'
+        'user_id', 'estimation_id', 'play_team_id', 'over', 'under','tips_result','over_under_result'
     ];
 }

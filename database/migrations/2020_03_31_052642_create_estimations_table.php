@@ -36,7 +36,9 @@ class CreateEstimationsTable extends Migration
             $table->string('odd')->nullable();
             $table->string('odd_value')->nullable();
             $table->integer('odd_team')->nullable();
+            $table->string('odd_sign')->nullable();
             $table->string('over_under_odd')->nullable();
+            $table->string('over_under_sign')->nullable();
             $table->string('over_under_odd_value')->nullable();
             $table->string('home_final_result')->nullable();
             $table->string('away_final_result')->nullable();
