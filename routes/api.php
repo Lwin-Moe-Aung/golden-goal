@@ -48,4 +48,8 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::post('play-tips', 'API\TipsController@playTips');
 	Route::post('add-result', 'API\TipsController@addResult');
+	Route::get('get-user-list-byrank', 'API\TipsController@getUserListByRank');
+
+	Route::get('get-user-tips-history', 'API\TipsController@getUserTipsHistory');
+
 	
