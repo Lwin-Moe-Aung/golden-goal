@@ -322,24 +322,23 @@ class TipsController extends BaseController
 
     public function getUserTipsHistory(Request $request){
 
-        // if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
-        //     $error = "Unauthorized user";
-        //     return $this->sendError($error,'',202);
-        // }
+        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'',202);
+        }
 
-        // $users_history = DB::table('tips')
-        //     ->join('estimations as est', 'est.id', '=', 'tips.estimation_id')
-        //     ->where('user_id','=',$request->input("user_id"))
-        //     ->select('tips.play_team_id', 'tips.over', 'tips.under', 'tips.tips_result', 'tips.over_under_result', 'est.date','est.time','est.league_id','est.home','est.away','est.description','est.odd','est.odd_sign','est.odd_value','est.odd_team','over_under_odd','over_under_sign','over_under_odd_value','home_final_result','away_final_result')
-        //     ->get();
+        $tips_history = DB::select( DB::raw("Select  estimations.* , tips.* , t4.team_name as play_team_name from tips
+                INNER JOIN (	SELECT est.id as estimations_id ,est.date, est.time,est.odd,est.odd_sign, est.odd_value,est.over_under_odd,est.over_under_sign,est.over_under_odd_value, est.home_final_result, est.away_final_result, t1.team_name as home,t1.team_icon as home_icon ,t2.team_name as away , t2.team_icon as away_icon , t3.team_name as odd_team_name, t3.team_icon as odd_team_icon , le.league_name, le.league_icon from estimations est
+                    INNER JOIN teams t1 on t1.id = est.home  
+                    INNER JOIN teams t2 on t2.id = est.away
+                    INNER JOIN teams t3 on t3.id = est.odd_team
+                    INNER JOIN leagues le on le.id = est.league_id
+                ) as estimations on estimations.estimations_id = tips.estimation_id 
+                INNER JOIN teams t4 on t4.id = tips.play_team_id
+                WHERE tips.user_id = 2
+                ORDER BY tips.created_at DESC;"));
 
-        // $leagues = League::all()->toArray();
-        // $teams = Team::all()->toArray();
-        // foreach($users_history as $key=>$value){
-        //     $users_history[$key]->league_id = $leagues[$users_history[$key]->league_id]
 
-            
-        // }
-        // return $this->sendResponse($teams , 'Successfully get User List By Ranks');
+        return $this->sendResponse($tips_history , 'Successfully get User List By Ranks');
     }
 }
