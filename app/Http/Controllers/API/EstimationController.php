@@ -46,7 +46,10 @@ class EstimationController extends BaseController
                 $league = League::find($value->league_id);
                 $value->league_name = $league->league_name;
                 $value->league_icon = $league->league_icon;
-
+                $team = Team::find($value->odd_team);
+                $value->odd_team_name = $team->team_name;
+                $value->odd_team_icon = $team->team_icon;
+               
                 $estimations[$key] = $value;
                 
             }

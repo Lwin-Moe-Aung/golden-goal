@@ -30,7 +30,7 @@ class TipsController extends BaseController
      */
     public function playTips(Request $request)
     {
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
@@ -307,7 +307,7 @@ class TipsController extends BaseController
     
     public function getUserListByRank(Request $request){
 
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
@@ -322,7 +322,7 @@ class TipsController extends BaseController
 
     public function getUserTipsHistory(Request $request){
 
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
