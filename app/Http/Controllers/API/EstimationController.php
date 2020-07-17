@@ -199,7 +199,7 @@ class EstimationController extends BaseController
      
     public function getEstimationsByDate(Request $request)
     {
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
