@@ -62,7 +62,7 @@ class AuthController extends BaseController
             return $this->sendResponse($error, "successfully logout");
         }
         $error = "Unauthorized user";
-        return $this->sendError($error,'');
+        return $this->sendError($error,'',201);
         
     }
 

@@ -57,7 +57,7 @@ class EstimationController extends BaseController
             return $this->sendResponse($estimations->toArray(), 'estimations retrieved successfully.');
             
         }
-        return $this->sendError('No Data.....');    
+        return $this->sendError('No Data.....','',202);    
     }
 
 
@@ -213,7 +213,7 @@ class EstimationController extends BaseController
             ->select('*')
             ->where('date', '=', $request->input('date'))
             ->get();
-          
+        
         $estimation_by_date = [];
         $estimation_by_date_no_key = [];
         if(count($estimation) > 0){
@@ -264,15 +264,36 @@ class EstimationController extends BaseController
      
     public function getEstimationsById($id)
     {
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
        
         $estimation = Estimation::findOrFail($id);
-        if( count($estimation->toArray()) > 0){
-            return $this->sendResponse($estimation, 'Estimation are retrieved successfully.');
+        if( count($estimation->toArray()) <= 0){
+            return $this->sendError('No Data.....');    
         }
-        return $this->sendError('No Data.....');    
+        
+        $voting_result = DB::select( DB::raw(
+            "SELECT teams.team_name,teams.team_icon,tipss.voting from teams 
+                INNER JOIN(
+		        SELECT play_team_id,COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." GROUP BY play_team_id) as tipss on tipss.play_team_id = teams.id;"));
+
+        if(isset($voting_result[0]) && isset($voting_result[1])){
+           
+            $teama = ($voting_result[0]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
+            $teamb = ($voting_result[1]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
+            $voting_result[0]->voting = $teama;
+            $voting_result[1]->voting = $teamb;
+
+        }
+        $data =[
+            "estimation"=>$estimation,
+            "voting_result"=>$voting_result
+        ];
+
+        return $this->sendResponse($data, 'Estimation are retrieved successfully.');
+
     }
 }

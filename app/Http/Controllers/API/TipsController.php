@@ -326,6 +326,7 @@ class TipsController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
+        $user_info = User::find($request->user_id);
 
         $tips_history = DB::select( DB::raw("Select  estimations.* , tips.* , t4.team_name as play_team_name from tips
                 INNER JOIN (	SELECT est.id as estimations_id ,est.date, est.time,est.odd,est.odd_sign, est.odd_value,est.over_under_odd,est.over_under_sign,est.over_under_odd_value, est.home_final_result, est.away_final_result, t1.team_name as home,t1.team_icon as home_icon ,t2.team_name as away , t2.team_icon as away_icon , t3.team_name as odd_team_name, t3.team_icon as odd_team_icon , le.league_name, le.league_icon from estimations est
@@ -335,10 +336,13 @@ class TipsController extends BaseController
                     INNER JOIN leagues le on le.id = est.league_id
                 ) as estimations on estimations.estimations_id = tips.estimation_id 
                 INNER JOIN teams t4 on t4.id = tips.play_team_id
-                WHERE tips.user_id = 2
+                WHERE tips.user_id = ".$request->user_id."
                 ORDER BY tips.created_at DESC;"));
+        $data = [
+            'user_info'=> $user_info,
+            'tips_history' => $tips_history
+        ];
 
-
-        return $this->sendResponse($tips_history , 'Successfully get User List By Ranks');
+        return $this->sendResponse($data , 'Successfully get User List By Ranks');
     }
 }
