@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->enum('member_type', ['1', '2','3']);
             $table->string('device_id')->nullable();
             $table->string('imei')->nullable();
+            $table->string('profile_photo')->nullable();
             $table->float('rank')->nullable();
             $table->rememberToken();
             $table->timestamps();

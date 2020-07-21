@@ -14,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class UserManageController extends BaseController
 {
@@ -233,5 +235,49 @@ class UserManageController extends BaseController
         }
 
         return $this->sendResponse($users->toArray(), 'Users retrieved successfully.');
+    }
+
+     /**
+     * get user Lists.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userProfileEdit(Request $request)
+    {
+        if (!Auth::guard('api')->check()) {
+            $error = "Unauthorized user";
+            return $this->sendError($error,'',202);
+        }
+        
+        // dd($request->user_name);
+        $users = User::find( $request->user_id);
+            
+
+        $users->username = $request->user_name;
+
+        if($request->hasFile('profile_photo')) {
+            $icon_name = Str::random(20);
+            $file = $request->file('profile_photo');
+
+            $filenametostore = $icon_name.'.'.$file->getClientOriginalExtension();
+            $icon_path = '/'."User_profiles".'/'.date("Y")."-".date("m").'/'.date("d").'/'.$filenametostore;
+            
+            Storage::disk('public')->put($icon_path, file_get_contents($file));
+            
+
+            //Resize image here
+            $thumbnail_name = 'thumbnail_'.Str::random(20);
+
+            $filethumb = $thumbnail_name.'.'.$file->getClientOriginalExtension();
+            $icon_thumb_nail_path = '/'."User_profiles".'/'.date("Y")."-".date("m").'/'.date("d").'/'.$filethumb;
+            
+            $icon_thumb_nail = public_path('storage/'.$icon_thumb_nail_path);
+            $img = Image::make($request->file('profile_photo')->getRealPath())->resize(200,200)->save($icon_thumb_nail);
+            $users->profile_photo = $icon_thumb_nail_path;
+        }
+        $users->save();
+
+        return $this->sendResponse($users->toArray(), 'Users profile Updated successfully.');
     }
 }

@@ -42,7 +42,7 @@ Route::get('logout', 'API\AuthController@logout');
 	Route::post('get_estimations_by_date', 'API\EstimationController@getEstimationsByDate');
 
 	Route::get('get_ordered_league', 'API\EstimationController@getOrderedLeagues');
-	Route::get('get_estimations_by_id/{id}', 'API\EstimationController@getEstimationsById');
+	Route::get('get_estimations_by_id', 'API\EstimationController@getEstimationsById');
 
 	Route::post('change_league_priority', 'API\LeaguesController@changeLeaguePriority');
 
@@ -51,5 +51,7 @@ Route::get('logout', 'API\AuthController@logout');
 	Route::get('get-user-list-byrank', 'API\TipsController@getUserListByRank');
 
 	Route::get('get-user-tips-history', 'API\TipsController@getUserTipsHistory');
+
+	Route::post('user-profile-edit', 'API\UserManageController@userProfileEdit');
 
 	
