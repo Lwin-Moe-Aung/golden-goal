@@ -280,4 +280,55 @@ class UserManageController extends BaseController
 
         return $this->sendResponse($users->toArray(), 'Users profile Updated successfully.');
     }
+
+
+
+     /**
+     * facebook login
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function fbLogin(Request $request)
+    {
+        
+        $user = User::select('*')
+                ->where('fb_id','=',$request->fb_id)
+                ->get();
+       
+        if(count($user) <= 0){
+            $user = new User();
+            $user->username = $request->username;
+            
+            $user->role = "User";
+            $user->start_date = Carbon::now();
+            $user->end_date = Carbon::parse(Carbon::now())->addDays(90);
+            $user->member_type = 1;
+            $user->password = bcrypt($request->password);
+            $user->fb_id = $request->fb_id;
+            $user->profile_photo = $request->profile_photo;
+            $user->save();
+        }else{
+            
+            $user = User::find($user[0]->id);
+            $user->username = $request->username;
+            
+            $user->fb_id = $request->fb_id;
+            $user->profile_photo = $request->profile_photo;
+            $user->save();
+        }
+        $credentials = request(['username', 'password']);
+        
+        if(!Auth::attempt($credentials)){
+            $error = "Unauthorized";
+            return $this->sendError($error, 401);
+        }
+        $user = Auth::user(); 
+        
+        $success['user_id'] = $user->id;
+        $success['name'] = $user->username;
+        $success['token'] =  $user->createToken('token')->accessToken;
+        
+        return $this->sendResponse($success,"login success");
+    }
 }

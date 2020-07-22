@@ -54,4 +54,6 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::post('user-profile-edit', 'API\UserManageController@userProfileEdit');
 
+	Route::post('fb-login', 'API\UserManageController@fbLogin');
+
 	
