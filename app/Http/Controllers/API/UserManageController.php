@@ -27,20 +27,20 @@ class UserManageController extends BaseController
     public function generateUser(Request $request)
     {
        
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        if (Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+      
         $firastName = "GG";
-        $lastName = str_random(5);
+        $lastName = str_random(8);
         
         $username = $firastName . "-" . $lastName;
         $userRows  = User::whereRaw("username REGEXP '^{$username}(-[0-9]*)?$'")->get();
         $countUser = count($userRows) + 1;
 
         $username =  ($countUser > 1) ? "{$username}-{$countUser}" : $username;
-        $password =  Str::slug(str_random(8));
+        $password =  Str::slug(str_random(10));
         
         if($request->member_type == 1){
             $end_date = Carbon::now()->addDays(90);
@@ -57,6 +57,7 @@ class UserManageController extends BaseController
         $user->role = "User";
         $user->start_date = Carbon::now();
         $user->end_date = $end_date;
+        $user->profile_id = Carbon::now()->timestamp;
         $user->member_type = $request->member_type;
         $user->save();
 
@@ -65,6 +66,7 @@ class UserManageController extends BaseController
             'username' => $username,
             'password'    => $password,
             'member_type' => $user->member_type,
+            'profile_id' => $user->profile_id,
             'start_date' => Carbon::parse($user->start_date)->format('Y-m-d H:i:s'),
             'end_date' => Carbon::parse($user->end_date)->format('Y-m-d H:i:s'),
             
@@ -295,10 +297,11 @@ class UserManageController extends BaseController
         $user = User::select('*')
                 ->where('fb_id','=',$request->fb_id)
                 ->get();
-       
+        $username = explode("-", $request->username);
+        $username = $username[0];
         if(count($user) <= 0){
             $user = new User();
-            $user->username = $request->username;
+            $user->username = $username;
             
             $user->role = "User";
             $user->start_date = Carbon::now();
@@ -306,18 +309,20 @@ class UserManageController extends BaseController
             $user->member_type = 1;
             $user->password = bcrypt($request->password);
             $user->fb_id = $request->fb_id;
+            $user->profile_id = Carbon::now()->timestamp;
             $user->profile_photo = $request->profile_photo;
             $user->save();
         }else{
             
             $user = User::find($user[0]->id);
-            $user->username = $request->username;
+            $user->username = $username;
             
             $user->fb_id = $request->fb_id;
             $user->profile_photo = $request->profile_photo;
             $user->save();
         }
-        $credentials = request(['username', 'password']);
+        
+        $credentials = request(['fb_id', 'password']);
         
         if(!Auth::attempt($credentials)){
             $error = "Unauthorized";
@@ -327,6 +332,8 @@ class UserManageController extends BaseController
         
         $success['user_id'] = $user->id;
         $success['name'] = $user->username;
+        $success['profile_photo'] = $user->profile_photo;
+        $success['profile_id'] = $user->profile_id;
         $success['token'] =  $user->createToken('token')->accessToken;
         
         return $this->sendResponse($success,"login success");

@@ -47,6 +47,11 @@ class AuthController extends BaseController
         $user = Auth::user(); 
         $success['user_id'] = $user->id;
         $success['name'] = $user->username;
+        $success['profile_photo'] = $user->profile_photo;
+        $success['profile_id'] = $user->profile_id;
+        $success['member_type'] = $user->member_type;
+        $success['start_date'] = $user->start_date;
+        $success['end_date'] = $user->end_date;
         $success['token'] =  $user->createToken('token')->accessToken;
         
         return $this->sendResponse($success,"login success");
