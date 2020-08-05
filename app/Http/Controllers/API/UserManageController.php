@@ -311,6 +311,14 @@ class UserManageController extends BaseController
             $user->fb_id = $request->fb_id;
             $user->profile_id = Carbon::now()->timestamp;
             $user->profile_photo = $request->profile_photo;
+            if(isset($request->profile_photo)){
+                $poster_path = '/'."User_profiles".'/' . date("Y") . "/" . date("m") . "/" . date("d") . "/";
+                $photo_name = Str::random(20);
+                $cover_file_path = $poster_path . $photo_name . ".jpg";
+                $file_contents = file_get_contents($request->profile_photo);
+                Storage::disk('public')->put($cover_file_path, $file_contents);
+                $user->profile_photo = $cover_file_path;
+            }
             $user->save();
         }else{
             
@@ -318,7 +326,7 @@ class UserManageController extends BaseController
             $user->username = $username;
             
             $user->fb_id = $request->fb_id;
-            $user->profile_photo = $request->profile_photo;
+            
             $user->save();
         }
         
