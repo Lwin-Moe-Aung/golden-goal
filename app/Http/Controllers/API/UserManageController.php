@@ -33,7 +33,7 @@ class UserManageController extends BaseController
         }
       
         $firastName = "GG";
-        $lastName = str_random(8);
+        $lastName = str_random(10);
         
         $username = $firastName . "-" . $lastName;
         $userRows  = User::whereRaw("username REGEXP '^{$username}(-[0-9]*)?$'")->get();
@@ -229,6 +229,8 @@ class UserManageController extends BaseController
         }
         
         $users = DB::table('users')
+            ->Where('username','=', $request->input("search_value"))
+            ->orWhere('profile_id','=', $request->input("search_value"))
             ->where('role', '!=', 'Admin')
             ->paginate($request->input("per_page"));
 

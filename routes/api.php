@@ -46,7 +46,9 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::post('change_league_priority', 'API\LeaguesController@changeLeaguePriority');
 
-	Route::post('play-tips', 'API\TipsController@playTips');
+	Route::post('play-tips-odd', 'API\TipsController@playTipsOdd');
+	Route::post('play-tips-over-under', 'API\TipsController@playTipsOverUnder');
+
 	Route::post('add-result', 'API\TipsController@addResult');
 	Route::get('get-user-list-byrank', 'API\TipsController@getUserListByRank');
 
