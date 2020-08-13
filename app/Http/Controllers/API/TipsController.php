@@ -379,6 +379,7 @@ class TipsController extends BaseController
                 WHERE tips.user_id = ".$request->user_id."
                 ORDER BY tips.created_at DESC;"));
        
+        $current_tips = [];
         foreach($tips_history as $key=>$data){
             if($data->home_final_result == null){
                 $current_tips[] = $data;
