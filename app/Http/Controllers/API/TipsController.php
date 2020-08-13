@@ -378,17 +378,18 @@ class TipsController extends BaseController
                 INNER JOIN teams t4 on t4.id = tips.play_team_id
                 WHERE tips.user_id = ".$request->user_id."
                 ORDER BY tips.created_at DESC;"));
-        $current_tips = [];
+       
         foreach($tips_history as $key=>$data){
             if($data->home_final_result == null){
                 $current_tips[] = $data;
-                unset($tips_history[$key]);
+                $tips_history[$key] = "";
             }
         }
+        
         $data = [
             'user_info'=> $user_info,
             'current_tips'=> $current_tips,
-            'tips_history' => $tips_history
+            'tips_history' => array_values(array_filter($tips_history)),
         ];
 
         return $this->sendResponse($data , 'Successfully get User List By Ranks');
