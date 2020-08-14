@@ -45,7 +45,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 70px;
             }
 
             .links > a {
@@ -81,13 +81,13 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                   Welcome to Golden Goal MM
+                   Welcome to Golden Goal
                 </div>
                 
                 <div class="links">
-                    <a href="#">Download Application</a>
-                    <a href="{{ url('terms_condition') }}">Terms & Condition</a>
-                    <a href="{{ url('privacy_policy') }}">Privacy Policy</a>
+                    <a href="#" style="background-color:DodgerBlue;color: white!important;">Download Application</a> <br>
+                    <a href="{{ url('terms_condition') }}" style="background-color:green;color: white!important;">Terms & Condition</a> <br>
+                    <a href="{{ url('privacy_policy') }}" style="background-color: red;color: white!important;">Privacy Policy</a> <br>
 
                 </div>
             </div>
