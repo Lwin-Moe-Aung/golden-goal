@@ -325,7 +325,7 @@ class EstimationController extends BaseController
             }  
         }
        
-
+        $estimation->play_status = $estimation->home_final_result == null ? true: false;
         $estimation->can_play_tip = $can_play_tip;
         $estimation->can_play_over_under = $can_play_over_under;
 
