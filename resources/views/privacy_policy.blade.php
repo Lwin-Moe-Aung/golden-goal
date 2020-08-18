@@ -61,7 +61,7 @@
                                                             Policy<span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
-                                                    <li><a href="#"> Download Application
+                                                    <li><a href="#"> Download 
                                                             <span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>

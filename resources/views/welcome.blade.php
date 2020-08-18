@@ -58,10 +58,10 @@
                                                             Policy<span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
-                                                    <li><a href="#"> Download Application
-                                                        <span></span>
-                                                        <span></span>
-                                                        <span></span> <span></span></a></li>
+                                                   <li><a href="#">Download
+                                                            <span></span>
+                                                            <span></span>
+                                                            <span></span> <span></span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
