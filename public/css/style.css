@@ -6757,8 +6757,38 @@ h6 {
     text-align: center; }
       .header-main .nav-menu > ul {
         opacity: 1; 
-      text-align: center;} }
+        text-align: center;
+    } 
+  }
+  @media screen and (max-width: 768px) {
+    .header-main .nav-menu > ul li {
+      margin: 0 auto;
+      text-align: center;
+      width: 100%;
+    } 
+    .navbar-nav {
+      margin: unset !important;
+    }
+    .header-main .header-upper ul {
+      float: unset !important;
+    }
+  }
 
+  @media screen and (min-width: 768px) {
+    .logo-img {
+      width: 106px !important;
+    }
+    .footer-logo-img {
+      width: 156px;
+    }
+  } 
+   @media screen and (min-width: 800px) {
+    
+    .header-main nav ul li a {
+      font-size: 14px !important;
+      font-weight: 100 !important;
+    }
+  } 
 .header-main .navbar-nav {
   float: none;
   padding-top: 20vH; }

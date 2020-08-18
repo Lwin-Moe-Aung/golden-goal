@@ -3,11 +3,12 @@
 
                     <div class=container>
                         <div class=row>
-                            <a href="#"
+                           
+                            <a href="{{ url('/') }}"
                                 class=footer-logo><img
-                                    src=images/logo.png alt=image>
+                                    src=images/logo.png alt=image class="footer-logo-img">
                             </a>
-
+                           
                             <div class=footer-container>
                                 <ul class=clearfix>
                                     <li><a

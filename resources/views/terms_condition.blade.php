@@ -31,7 +31,7 @@
                     <div class="header-lower clearfix">
                         <div class=container>
                             <div class=row><h1 class=logo><a href=index-2.html><img
-                                            src="images/logo.png" alt=image style="width:154px;"></a></h1>
+                                            src="images/logo.png" alt=image style="width:154px;" class="logo-img"></a></h1>
                                 <div class=menubar>
                                     <nav class=navbar>
                                         <div class=nav-wrapper>
@@ -60,6 +60,10 @@
                                                             <span></span></a></li>
                                                     <li><a href="{{ url('/privacy_policy') }}">Privacy
                                                             Policy<span></span>
+                                                            <span></span>
+                                                            <span></span> <span></span></a></li>
+                                                    <li><a href="#"> Download Application
+                                                            <span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
                                                 </ul>
