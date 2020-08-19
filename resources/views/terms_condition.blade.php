@@ -18,7 +18,7 @@
         <meta content='blog' ng-if='og_meta.type' property='og:type'>
         <meta content='https://goldengoalmm.com/' ng-if='og_meta.url' property='og:url'>
         <meta content='goldengoal' ng-if='og_meta.title' property='og:title'>
-        <meta content='https://goldengoalmm.com/storage/og/logo.png' ng-if='og_meta.image' property='og:image'>
+        <meta content='https://goldengoalmm.com/storage/logo.png' ng-if='og_meta.image' property='og:image'>
         {{-- <meta content='{{og_meta.image_width}}' ng-if='og_meta.image_width' property='og:image:width'>
         <meta content='{{og_meta.image_height}}' ng-if='og_meta.image_height' property='og:image:height'> --}}
         <meta content='Golden goal is the best choice for the customer.' ng-if='og_meta.description' property='og:description'>
