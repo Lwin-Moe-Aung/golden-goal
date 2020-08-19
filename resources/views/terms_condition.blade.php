@@ -11,6 +11,19 @@
             content="width=device-width, height=device-height,
             initial-scale=1.0, user-scalable=0, minimum-scale=1.0,
             maximum-scale=1.0">
+
+        <meta content='Golden goal is the best choice for the customer.' name='description' ng-if='metadata.description'>
+        <meta content='en_US' property='og:locale'>
+        <meta content='593758534890229' property='fb:app_id'>
+        <meta content='blog' ng-if='og_meta.type' property='og:type'>
+        <meta content='https://goldengoalmm.com/' ng-if='og_meta.url' property='og:url'>
+        <meta content='goldengoal' ng-if='og_meta.title' property='og:title'>
+        <meta content='https://goldengoalmm.com/storage/og/logo.png' ng-if='og_meta.image' property='og:image'>
+        {{-- <meta content='{{og_meta.image_width}}' ng-if='og_meta.image_width' property='og:image:width'>
+        <meta content='{{og_meta.image_height}}' ng-if='og_meta.image_height' property='og:image:height'> --}}
+        <meta content='Golden goal is the best choice for the customer.' ng-if='og_meta.description' property='og:description'>
+        <meta content='RoadGoat' property='og:site_name'>
+
         <title>golden goal</title>
         
         <link rel="shortcut icon" href="/css/favicon.ico">
