@@ -34,6 +34,12 @@ class TipsController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
+        $estimation = Estimation::find($request->estimation_id);
+
+        $est_date = date("Y-m-d H:i:s", strtotime($estimation->date.$estimation->time));
+        if(Carbon::now()->diffInMinutes($est_date,false) <= 0 ){
+            return $this->sendError('Sorry ! Too late to do tip..','',200);
+        }
 
         $tip = Tip::where('user_id',$request->user_id)->where('estimation_id',$request->estimation_id)->first();
         if($tip != null){
@@ -63,7 +69,13 @@ class TipsController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
+        $estimation = Estimation::find($request->estimation_id);
 
+        $est_date = date("Y-m-d H:i:s", strtotime($estimation->date.$estimation->time));
+        if(Carbon::now()->diffInMinutes($est_date,false) <= 0 ){
+            return $this->sendError('Sorry ! Too late to do tip..','',200);
+        }
+        
         $tip = Tip::where('user_id',$request->user_id)->where('estimation_id',$request->estimation_id)->first();
         if($tip != null){
             $tip->user_id = $request->user_id;

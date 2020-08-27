@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Image;
 use Illuminate\Support\Facades\Auth;
 use DB;
+Use \Carbon\Carbon;
 
 
 class EstimationController extends BaseController
@@ -324,8 +325,9 @@ class EstimationController extends BaseController
                 $can_play_over_under = true;
             }  
         }
-       
-        $estimation->play_status = $estimation->home_final_result == null ? true: false;
+        // $dt = strtotime($estimation->date.$estimation->time);
+        $est_date = date("Y-m-d H:i:s", strtotime($estimation->date.$estimation->time));
+        $estimation->play_status = Carbon::now()->diffInMinutes($est_date,false) <= 0 ? false: true;
         $estimation->can_play_tip = $can_play_tip;
         $estimation->can_play_over_under = $can_play_over_under;
 
