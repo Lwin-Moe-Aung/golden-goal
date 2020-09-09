@@ -34,6 +34,16 @@ class TipsController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
+        $user = User::find($request->user_id);
+        
+        if($user->end_date <= Carbon::now()->toDateTimeString() && Auth::guard('api')->user()->role != 'Admin'){
+            $error = "Your account is expired..";
+            
+             
+            return $this->sendError($error,$user->end_date, 201);
+        }
+
+        
         $estimation = Estimation::find($request->estimation_id);
 
         $est_date = date("Y-m-d H:i:s", strtotime($estimation->date.$estimation->time));

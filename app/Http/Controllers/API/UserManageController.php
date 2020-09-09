@@ -227,11 +227,14 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
-        $users = DB::table('users')
-            ->Where('username','=', $request->input("search_value"))
-            ->orWhere('profile_id','=', $request->input("search_value"))
-            ->where('role', '!=', 'Admin')
+        $raw = "";
+        if($request->input("search_value")){
+            $raw = "(u.username = '".$request->input("search_value")."' OR u.profile_id = '".$request->input("search_value")."') And ";
+        }
+        $raw .=" u.role != 'Admin'";
+        //dd($raw);
+        $users = DB::table('users as u')
+            ->whereRaw($raw )
             ->paginate($request->input("per_page"));
 
         if (is_null($users)) {

@@ -292,21 +292,63 @@ class EstimationController extends BaseController
         }
         
         $voting_result = DB::select( DB::raw(
-            "SELECT teams.team_name,teams.team_icon,tipss.voting from teams 
-                INNER JOIN(
-		        SELECT play_team_id,COUNT( estimation_id) as voting from tips 
-                WHERE tips.estimation_id = ".$id." GROUP BY play_team_id) as tipss on tipss.play_team_id = teams.id;"));
+            "SELECT play_team_id,COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and play_team_id IS NOT NULL GROUP BY play_team_id"));
+        
+        $over_voting = DB::select( DB::raw(
+            "SELECT COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and over = 'yes' GROUP BY play_team_id"));
+        $under_voting = DB::select( DB::raw(
+            "SELECT COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and under = 'yes' GROUP BY play_team_id"));
 
+        
         if(isset($voting_result[0]) && isset($voting_result[1])){
            
             $teama = ($voting_result[0]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
             $teamb = ($voting_result[1]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
-            $voting_result[0]->voting = round($teama,2)."%";
-            $voting_result[1]->voting = round($teamb,2)."%";
+            
+            if( $estimation->home ==  $voting_result[0]->play_team_id){
+                $home_odd_voting = round($teama,2);
+                $away_odd_voting = round($teamb,2);
+            }else{
+                $home_odd_voting = round($teamb,2);
+                $away_odd_voting = round($teama,2);
+            }
 
         }elseif(isset($voting_result[0]) && !isset($voting_result[1])){
-            $voting_result[0]->voting = "100%";
+            if( $estimation->home ==  $voting_result[0]->play_team_id){
+                $home_odd_voting = 100;
+                $away_odd_voting = 0;
+            }else{
+                $home_odd_voting = 0;
+                $away_odd_voting = 100;
+            }
+        }else{
+            $home_odd_voting = 0;
+            $away_odd_voting = 0;
         }
+
+        if(isset($over_voting[0]) && isset($under_voting[0])){
+           
+            $over = ($over_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
+            $under = ($under_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
+            $over_tip_voting = round($over,2);
+            $under_tip_voting = round($under,2);
+           
+
+        }elseif(isset($over_voting[0]) && !isset($under_voting[0])){
+            $over_tip_voting = 100;
+            $under_tip_voting = 0;
+        }elseif(isset($under_voting[0]) && !isset($over_voting[0])){
+            $over_tip_voting = 0;
+            $under_tip_voting = 100;
+        }else{
+            $over_tip_voting = 0;
+            $under_tip_voting = 0;
+        }
+        
+
         $tip = Tip::select('*')
                 ->where('user_id','=',$user_id)
                 ->where('estimation_id','=',$id)
@@ -330,13 +372,14 @@ class EstimationController extends BaseController
         $estimation->play_status = Carbon::now()->diffInMinutes($est_date,false) <= 0 ? false: true;
         $estimation->can_play_tip = $can_play_tip;
         $estimation->can_play_over_under = $can_play_over_under;
+        $estimation->home_odd_voting = $home_odd_voting;
+        $estimation->away_odd_voting = $away_odd_voting;
+        $estimation->over_tip_voting = $over_tip_voting;
+        $estimation->under_tip_voting = $under_tip_voting;
 
-        $data =[
-            "estimation"=>$estimation,
-            "voting_result"=>$voting_result
-        ];
+        
 
-        return $this->sendResponse($data, 'Estimation are retrieved successfully.');
+        return $this->sendResponse($estimation, 'Estimation are retrieved successfully.');
 
     }
 }
