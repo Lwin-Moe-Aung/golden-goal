@@ -378,8 +378,13 @@ class TipsController extends BaseController
         if($user_info == null){
             return $this->sendResponse([] , "the user doesn't exit");
         }
-        $tip_count = DB::select( DB::raw("SELECT COUNT(id) as count from tips WHERE user_id=".$request->user_id." GROUP BY user_id"));
-        $user_info->tip_count = isset($tip_count[0])? $tip_count[0]->count : "";
+       
+        $odd_tip_count = DB::select( DB::raw("SELECT COUNT(id) as count from tips WHERE user_id=".$request->user_id." and play_team_id IS NOT NULL  GROUP BY user_id;"));
+        $over_under_tip_count = DB::select( DB::raw("SELECT COUNT(id) as count from tips WHERE user_id=".$request->user_id." and (over = 'yes' OR under = 'yes')   GROUP BY user_id;"));
+
+        $user_info->odd_tip_count = isset($odd_tip_count[0])? $odd_tip_count[0]->count : "";
+        $user_info->over_under_tip_count = isset($over_under_tip_count[0])? $over_under_tip_count[0]->count : "";
+
         $tips_history = DB::select( DB::raw("Select  estimations.* , tips.* , t4.team_name as play_team_name from tips
                 INNER JOIN (	SELECT est.id as estimations_id ,est.date, est.time,est.odd,est.odd_sign, est.odd_value,est.over_under_odd,est.over_under_sign,est.over_under_odd_value, est.home_final_result, est.away_final_result, t1.team_name as home,t1.team_icon as home_icon ,t2.team_name as away , t2.team_icon as away_icon , t3.team_name as odd_team_name, t3.team_icon as odd_team_icon , le.league_name, le.league_icon from estimations est
                     INNER JOIN teams t1 on t1.id = est.home  
