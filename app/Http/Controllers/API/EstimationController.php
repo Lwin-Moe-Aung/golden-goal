@@ -298,6 +298,7 @@ class EstimationController extends BaseController
         $over_voting = DB::select( DB::raw(
             "SELECT COUNT( estimation_id) as voting from tips 
                 WHERE tips.estimation_id = ".$id." and over = 'yes'"));
+                
         $under_voting = DB::select( DB::raw(
             "SELECT COUNT( estimation_id) as voting from tips 
                 WHERE tips.estimation_id = ".$id." and under = 'yes'"));
@@ -328,8 +329,8 @@ class EstimationController extends BaseController
             $home_odd_voting = 0;
             $away_odd_voting = 0;
         }
-
-        if(isset($over_voting[0]) && isset($under_voting[0])){
+       
+        if($over_voting[0]->voting != 0 && $under_voting[0]->voting != 0){
            
             $over = ($over_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
             $under = ($under_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
@@ -337,10 +338,10 @@ class EstimationController extends BaseController
             $under_tip_voting = round($under,2);
            
 
-        }elseif(isset($over_voting[0]) && !isset($under_voting[0])){
+        }elseif($over_voting[0]->voting != 0 && $under_voting[0]->voting == 0){
             $over_tip_voting = 100;
             $under_tip_voting = 0;
-        }elseif(isset($under_voting[0]) && !isset($over_voting[0])){
+        }elseif($under_voting[0]->voting == 0 && $over_voting[0]->voting != 0){
             $over_tip_voting = 0;
             $under_tip_voting = 100;
         }else{

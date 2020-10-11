@@ -192,7 +192,7 @@ class TipsController extends BaseController
             "SELECT COUNT( estimation_id) as voting from tips 
                 WHERE tips.estimation_id = ".$id." and under = 'yes'"));
         
-        if(isset($over_voting[0]) && isset($under_voting[0])){
+        if($over_voting[0]->voting != 0 && $under_voting[0]->voting != 0){
            
             $over = ($over_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
             $under = ($under_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
@@ -200,16 +200,17 @@ class TipsController extends BaseController
             $under_tip_voting = round($under,2);
            
 
-        }elseif(isset($over_voting[0]) && !isset($under_voting[0])){
+        }elseif($over_voting[0]->voting != 0 && $under_voting[0]->voting == 0){
             $over_tip_voting = 100;
             $under_tip_voting = 0;
-        }elseif(isset($under_voting[0]) && !isset($over_voting[0])){
+        }elseif($under_voting[0]->voting == 0 && $over_voting[0]->voting != 0){
             $over_tip_voting = 0;
             $under_tip_voting = 100;
         }else{
             $over_tip_voting = 0;
             $under_tip_voting = 0;
         }
+        
 
         return [
             'over_tip_voting' =>  $over_tip_voting,
