@@ -297,10 +297,10 @@ class EstimationController extends BaseController
         
         $over_voting = DB::select( DB::raw(
             "SELECT COUNT( estimation_id) as voting from tips 
-                WHERE tips.estimation_id = ".$id." and over = 'yes' GROUP BY play_team_id"));
+                WHERE tips.estimation_id = ".$id." and over = 'yes'"));
         $under_voting = DB::select( DB::raw(
             "SELECT COUNT( estimation_id) as voting from tips 
-                WHERE tips.estimation_id = ".$id." and under = 'yes' GROUP BY play_team_id"));
+                WHERE tips.estimation_id = ".$id." and under = 'yes'"));
 
         
         if(isset($voting_result[0]) && isset($voting_result[1])){
@@ -353,19 +353,25 @@ class EstimationController extends BaseController
                 ->where('user_id','=',$user_id)
                 ->where('estimation_id','=',$id)
                 ->first();
-        
+        // dd($tip->play_team_id);
         $can_play_tip = false;
         $can_play_over_under = false;
         if($tip == null){
             $can_play_tip = true;
             $can_play_over_under = true;
+            $play_team_id = null;
+            $played_over = false;
+            $played_under = false;
         }else{
             if($tip->play_team_id == null){
                 $can_play_tip = true;
             }
             if($tip->over == "no" &&  $tip->under == "no"){
                 $can_play_over_under = true;
-            }  
+            }
+            $play_team_id = $tip->play_team_id;
+            $played_over = $tip->over == 'yes'? true: false;
+            $played_under = $tip->under == 'yes'? true: false;
         }
         // $dt = strtotime($estimation->date.$estimation->time);
         $est_date = date("Y-m-d H:i:s", strtotime($estimation->date.$estimation->time));
@@ -376,6 +382,11 @@ class EstimationController extends BaseController
         $estimation->away_odd_voting = $away_odd_voting;
         $estimation->over_tip_voting = $over_tip_voting;
         $estimation->under_tip_voting = $under_tip_voting;
+        $estimation->play_team_id = $play_team_id;
+        $estimation->played_over = $played_over;
+        $estimation->played_under = $played_under;
+
+
 
         
 

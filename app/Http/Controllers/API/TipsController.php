@@ -65,7 +65,68 @@ class TipsController extends BaseController
            
         }
         $tip->save();
+        $voting = $this->calculateOddVoting($request->estimation_id);
+        $tip->home_odd_voting =  $voting["home_odd_voting"];
+        $tip->away_odd_voting =  $voting["away_odd_voting"];
+
         return $this->sendResponse($tip, 'Successfully play tips odd!');
+    }
+    
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function calculateOddVoting($id)
+    {
+        $estimation = Estimation::find($id);
+       
+        if($estimation == null){
+            return $this->sendError('No Data.....','',202);    
+        }
+
+        $voting_result = DB::select( DB::raw(
+            "SELECT play_team_id,COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and play_team_id IS NOT NULL GROUP BY play_team_id"));
+        
+        $over_voting = DB::select( DB::raw(
+            "SELECT COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and over = 'yes' GROUP BY play_team_id"));
+        $under_voting = DB::select( DB::raw(
+            "SELECT COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and under = 'yes' GROUP BY play_team_id"));
+
+        
+        if(isset($voting_result[0]) && isset($voting_result[1])){
+           
+            $teama = ($voting_result[0]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
+            $teamb = ($voting_result[1]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
+            
+            if( $estimation->home ==  $voting_result[0]->play_team_id){
+                $home_odd_voting = round($teama,2);
+                $away_odd_voting = round($teamb,2);
+            }else{
+                $home_odd_voting = round($teamb,2);
+                $away_odd_voting = round($teama,2);
+            }
+
+        }elseif(isset($voting_result[0]) && !isset($voting_result[1])){
+            if( $estimation->home ==  $voting_result[0]->play_team_id){
+                $home_odd_voting = 100;
+                $away_odd_voting = 0;
+            }else{
+                $home_odd_voting = 0;
+                $away_odd_voting = 100;
+            }
+        }else{
+            $home_odd_voting = 0;
+            $away_odd_voting = 0;
+        }
+        return [
+            'home_odd_voting' =>  $home_odd_voting,
+            'away_odd_voting' =>  $away_odd_voting,
+
+        ];
     }
 
      /**
@@ -101,7 +162,61 @@ class TipsController extends BaseController
             $tip->under = $request->under;
         }
         $tip->save();
+        $voting = $this->calculateOverUnderVoting($request->estimation_id);
+        $tip->over_tip_voting =  $voting["over_tip_voting"];
+        $tip->under_tip_voting =  $voting["under_tip_voting"];
+
         return $this->sendResponse($tip, 'Successfully play tips Over Under!');
+    }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function calculateOverUnderVoting($id)
+    {
+        $estimation = Estimation::find($id);
+       
+        if($estimation == null){
+            return $this->sendError('No Data.....','',202);    
+        }
+        $voting_result = DB::select( DB::raw(
+            "SELECT play_team_id,COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and play_team_id IS NOT NULL GROUP BY play_team_id"));
+        
+        $over_voting = DB::select( DB::raw(
+            "SELECT COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and over = 'yes'"));
+        $under_voting = DB::select( DB::raw(
+            "SELECT COUNT( estimation_id) as voting from tips 
+                WHERE tips.estimation_id = ".$id." and under = 'yes'"));
+        
+        if(isset($over_voting[0]) && isset($under_voting[0])){
+           
+            $over = ($over_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
+            $under = ($under_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
+            $over_tip_voting = round($over,2);
+            $under_tip_voting = round($under,2);
+           
+
+        }elseif(isset($over_voting[0]) && !isset($under_voting[0])){
+            $over_tip_voting = 100;
+            $under_tip_voting = 0;
+        }elseif(isset($under_voting[0]) && !isset($over_voting[0])){
+            $over_tip_voting = 0;
+            $under_tip_voting = 100;
+        }else{
+            $over_tip_voting = 0;
+            $under_tip_voting = 0;
+        }
+
+        return [
+            'over_tip_voting' =>  $over_tip_voting,
+            'under_tip_voting' =>  $under_tip_voting,
+
+        ];
+
     }
 
     public function addResult(Request $request){
