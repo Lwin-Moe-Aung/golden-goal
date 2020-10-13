@@ -331,17 +331,16 @@ class EstimationController extends BaseController
         }
        
         if($over_voting[0]->voting != 0 && $under_voting[0]->voting != 0){
-           
             $over = ($over_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
             $under = ($under_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
             $over_tip_voting = round($over,2);
             $under_tip_voting = round($under,2);
-           
 
         }elseif($over_voting[0]->voting != 0 && $under_voting[0]->voting == 0){
+            
             $over_tip_voting = 100;
             $under_tip_voting = 0;
-        }elseif($under_voting[0]->voting == 0 && $over_voting[0]->voting != 0){
+        }elseif($under_voting[0]->voting != 0 && $over_voting[0]->voting == 0){
             $over_tip_voting = 0;
             $under_tip_voting = 100;
         }else{
