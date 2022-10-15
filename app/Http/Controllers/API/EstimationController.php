@@ -9,6 +9,8 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Estimation;
 use App\Team;
 use App\League;
+use App\Change;
+use App\Percentage;
 use App\Tip;
 use Validator;
 use Illuminate\Support\Str;
@@ -288,11 +290,15 @@ class EstimationController extends BaseController
             return $this->sendError($error,'',202);
         }
 
-        $estimation = Estimation::find($id);
+        $estimation = Estimation::where('id',$id)
+                    ->where('publish', '!=', '0')
+                    ->first();
 
         if($estimation == null){
             return $this->sendError('No Data.....','',202);
         }
+        $estimation->changes_data = Change::where('estimation_id', $id)->where('publish', '!=', '0')->first();
+        $estimation->percentage_data = Percentage::where('estimation_id', $id)->where('publish', '!=', '0')->first();
 
         $voting_result = DB::select( DB::raw(
             "SELECT play_team_id,COUNT( estimation_id) as voting from tips
@@ -300,12 +306,11 @@ class EstimationController extends BaseController
 
         $over_voting = DB::select( DB::raw(
             "SELECT COUNT( estimation_id) as voting from tips
-                WHERE tips.estimation_id = ".$id." and over = 'yes'"));
+                WHERE tips.estimation_id = ".$id." and tips.over = 'yes'"));
 
         $under_voting = DB::select( DB::raw(
             "SELECT COUNT( estimation_id) as voting from tips
-                WHERE tips.estimation_id = ".$id." and under = 'yes'"));
-
+                WHERE tips.estimation_id = ".$id." and tips.under = 'yes'"));
 
         if(isset($voting_result[0]) && isset($voting_result[1])){
 
@@ -356,7 +361,7 @@ class EstimationController extends BaseController
                 ->where('user_id','=',$user_id)
                 ->where('estimation_id','=',$id)
                 ->first();
-        // dd($tip->play_team_id);
+        // dd($tip);
         $can_play_tip = false;
         $can_play_over_under = false;
         if($tip == null){

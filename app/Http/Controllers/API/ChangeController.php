@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChangeController extends BaseController
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +25,7 @@ class ChangeController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $change = Change::all();
 
 
@@ -45,17 +45,17 @@ class ChangeController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
         $validator = Validator::make($input, [
             'start_date' => 'required',
             'match' => 'required',
-            
+            'estimation_id' => 'required',
         ]);
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
 
@@ -78,7 +78,7 @@ class ChangeController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $change = Change::find($id);
         if (is_null($change)) {
             return $this->sendError('Changes not found.');
@@ -102,7 +102,7 @@ class ChangeController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
         $validator = Validator::make($input, [
                     'start_date' => 'required',
@@ -111,9 +111,9 @@ class ChangeController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-        
+
         $change->start_date = $input['start_date'];
         $change->match = $input['match'];
         $change->start_body = $input['start_body'];
@@ -122,6 +122,9 @@ class ChangeController extends BaseController
         $change->morning_goal = $input['morning_goal'];
         $change->evening_body = $input['evening_body'];
         $change->evening_goal = $input['evening_goal'];
+        $change->publish = $input['publish'];
+        $change->estimation_id = $input['estimation_id'];
+
         $change->save();
 
 
@@ -141,7 +144,7 @@ class ChangeController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $change->delete();
         return $this->sendResponse($change->toArray(), 'Changes deleted successfully.');
     }
@@ -152,7 +155,7 @@ class ChangeController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         Change::truncate();
         return $this->sendResponse('', 'All Changes deleted successfully.');
     }

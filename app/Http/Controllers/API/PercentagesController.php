@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PercentagesController extends BaseController
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +25,7 @@ class PercentagesController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $percentage = Percentage::all();
 
 
@@ -45,17 +45,17 @@ class PercentagesController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
         $validator = Validator::make($input, [
             'start_date' => 'required',
             'match' => 'required',
-            
+            'estimation_id' => 'required',
         ]);
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
 
@@ -74,12 +74,12 @@ class PercentagesController extends BaseController
      */
     public function show($id)
     {
-        
+
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $percentage = Percentage::find($id);
         if (is_null($percentage)) {
             return $this->sendError('Percentages not found.');
@@ -103,7 +103,7 @@ class PercentagesController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
         $validator = Validator::make($input, [
                     'start_date' => 'required',
@@ -112,9 +112,9 @@ class PercentagesController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-        
+
         $percentage->start_date = $input['start_date'];
         $percentage->match = $input['match'];
         $percentage->home = $input['home'];
@@ -122,7 +122,9 @@ class PercentagesController extends BaseController
         $percentage->away = $input['away'];
         $percentage->goal_over = $input['goal_over'];
         $percentage->goal_under = $input['goal_under'];
-       
+        $percentage->publish = $input['publish'];
+        $percentage->estimation_id = $input['estimation_id'];
+
         $percentage->save();
 
 
@@ -142,8 +144,8 @@ class PercentagesController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
-        
+
+
         $percentage->delete();
         return $this->sendResponse($percentage->toArray(), 'Percentages deleted successfully.');
     }
@@ -154,8 +156,8 @@ class PercentagesController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
-        
+
+
         Percentage::truncate();
         return $this->sendResponse('', 'All Percentage deleted successfully.');
     }

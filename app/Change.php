@@ -15,6 +15,15 @@ class Change extends Model
      * @var array
      */
     protected $fillable = [
-        'start_date', 'match', 'start_body', 'start_goal', 'morning_body', 'morning_goal', 'evening_body', 'evening_goal'
+        'start_date',
+        'match',
+        'start_body',
+        'start_goal',
+        'morning_body',
+        'morning_goal',
+        'evening_body',
+        'evening_goal',
+        'publish',
+        'estimation_id'
     ];
 }

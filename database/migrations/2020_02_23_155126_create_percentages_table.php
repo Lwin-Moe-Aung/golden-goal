@@ -22,6 +22,8 @@ class CreatePercentagesTable extends Migration
             $table->string('away')->nullable();
             $table->string('goal_over')->nullable();
             $table->string('goal_under')->nullable();
+            $table->enum('publish', ['0', '1'])->default('1');
+            $table->integer('estimation_id');
             $table->timestamps();
         });
     }

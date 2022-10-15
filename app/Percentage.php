@@ -15,6 +15,14 @@ class Percentage extends Model
      * @var array
      */
     protected $fillable = [
-        'start_date', 'match', 'home', 'draw', 'away', 'goal_over', 'goal_under'
+        'start_date',
+        'match',
+        'home',
+        'draw',
+        'away',
+        'goal_over',
+        'goal_under',
+        'publish',
+        'estimation_id'
     ];
 }

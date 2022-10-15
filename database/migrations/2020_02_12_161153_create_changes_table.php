@@ -23,6 +23,8 @@ class CreateChangesTable extends Migration
             $table->string('morning_goal')->nullable();
             $table->string('evening_body')->nullable();
             $table->string('evening_goal')->nullable();
+            $table->enum('publish', ['0', '1'])->default('1');
+            $table->integer('estimation_id');
             $table->timestamps();
         });
     }
