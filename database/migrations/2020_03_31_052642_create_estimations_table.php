@@ -42,6 +42,7 @@ class CreateEstimationsTable extends Migration
             $table->string('over_under_odd_value')->nullable();
             $table->string('home_final_result')->nullable();
             $table->string('away_final_result')->nullable();
+            $table->enum('publish', ['0', '1'])->default('1');
             $table->timestamps();
         });
     }

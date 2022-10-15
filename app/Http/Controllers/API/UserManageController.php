@@ -26,22 +26,21 @@ class UserManageController extends BaseController
      */
     public function generateUser(Request $request)
     {
-       
+
         if (Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-      
         $firastName = "GG";
         $lastName = str_random(10);
-        
+
         $username = $firastName . "-" . $lastName;
         $userRows  = User::whereRaw("username REGEXP '^{$username}(-[0-9]*)?$'")->get();
         $countUser = count($userRows) + 1;
 
         $username =  ($countUser > 1) ? "{$username}-{$countUser}" : $username;
         $password =  Str::slug(str_random(10));
-        
+
         if($request->member_type == 1){
             $end_date = Carbon::now()->addDays(90);
         }elseif($request->member_type == 2){
@@ -49,7 +48,7 @@ class UserManageController extends BaseController
         }else{
             $end_date = Carbon::now()->addDays(360);
         }
-        
+
 
         $user = new User;
         $user->username = $username;
@@ -69,7 +68,7 @@ class UserManageController extends BaseController
             'profile_id' => $user->profile_id,
             'start_date' => Carbon::parse($user->start_date)->format('Y-m-d H:i:s'),
             'end_date' => Carbon::parse($user->end_date)->format('Y-m-d H:i:s'),
-            
+
         ];
 
         return $this->sendResponse($data, 'New user  generate successfully.');
@@ -88,9 +87,9 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $user = User::find($request->user_id);
-        
+
         if($user->end_date >= Carbon::now()->toDateTimeString()){
             $end_date = $user->end_date;
         }else{
@@ -104,12 +103,12 @@ class UserManageController extends BaseController
         }else{
             $end_date = Carbon::parse($end_date)->addDays(360);
         }
-        
+
         $user->member_type = $request->member_type;
         $user->start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
         $user->end_date = Carbon::parse($end_date)->format('Y-m-d H:i:s');
         $user->save();
-       
+
         $data = [
             'start_date' => $user->start_date,
             'end_date' => $user->end_date,
@@ -131,7 +130,7 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $product = Product::find($id);
         if (is_null($product)) {
             return $this->sendError('Product not found.');
@@ -155,7 +154,7 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
         $validator = Validator::make($input, [
             'name' => 'required',
@@ -164,7 +163,7 @@ class UserManageController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
 
@@ -189,7 +188,7 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $product->delete();
         return $this->sendResponse($product->toArray(), 'Product deleted successfully.');
     }
@@ -206,7 +205,7 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $user = User::find($id);
         if (is_null($user)) {
             return $this->sendError('User not found.');
@@ -256,10 +255,10 @@ class UserManageController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         // dd($request->user_name);
         $users = User::find( $request->user_id);
-            
+
 
         $users->username = $request->user_name;
 
@@ -269,16 +268,16 @@ class UserManageController extends BaseController
 
             $filenametostore = $icon_name.'.'.$file->getClientOriginalExtension();
             $icon_path = '/'."User_profiles".'/'.date("Y")."-".date("m").'/'.date("d").'/'.$filenametostore;
-            
+
             Storage::disk('public')->put($icon_path, file_get_contents($file));
-            
+
 
             //Resize image here
             $thumbnail_name = 'thumbnail_'.Str::random(20);
 
             $filethumb = $thumbnail_name.'.'.$file->getClientOriginalExtension();
             $icon_thumb_nail_path = '/'."User_profiles".'/'.date("Y")."-".date("m").'/'.date("d").'/'.$filethumb;
-            
+
             $icon_thumb_nail = public_path('storage/'.$icon_thumb_nail_path);
             $img = Image::make($request->file('profile_photo')->getRealPath())->resize(200,200)->save($icon_thumb_nail);
             $users->profile_photo = $icon_thumb_nail_path;
@@ -298,7 +297,7 @@ class UserManageController extends BaseController
      */
     public function fbLogin(Request $request)
     {
-        
+
         $user = User::select('*')
                 ->where('fb_id','=',$request->fb_id)
                 ->get();
@@ -307,7 +306,7 @@ class UserManageController extends BaseController
         if(count($user) <= 0){
             $user = new User();
             $user->username = $username;
-            
+
             $user->role = "User";
             $user->start_date = Carbon::now();
             $user->end_date = Carbon::parse(Carbon::now())->addDays(90);
@@ -326,29 +325,29 @@ class UserManageController extends BaseController
             }
             $user->save();
         }else{
-            
+
             $user = User::find($user[0]->id);
             $user->username = $username;
-            
+
             $user->fb_id = $request->fb_id;
-            
+
             $user->save();
         }
-        
+
         $credentials = request(['fb_id', 'password']);
-        
+
         if(!Auth::attempt($credentials)){
             $error = "Unauthorized";
             return $this->sendError($error, 401);
         }
-        $user = Auth::user(); 
-        
+        $user = Auth::user();
+
         $success['user_id'] = $user->id;
         $success['name'] = $user->username;
         $success['profile_photo'] = $user->profile_photo;
         $success['profile_id'] = $user->profile_id;
         $success['token'] =  $user->createToken('token')->accessToken;
-        
+
         return $this->sendResponse($success,"login success");
     }
 }

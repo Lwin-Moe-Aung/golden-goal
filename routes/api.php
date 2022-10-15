@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 // Route::post('register', 'API\RegisterController@register');
+// Route::post('login', function(Request $request) {
+//     return "hello world";
+// });
+
 Route::post('login', 'API\AuthController@login');
 Route::get('logout', 'API\AuthController@logout');
 
@@ -28,7 +32,7 @@ Route::get('logout', 'API\AuthController@logout');
 	Route::resource('leagues', 'API\LeaguesController');
 
 	Route::resource('percentages', 'API\PercentagesController');
-	Route::delete('percentages_all_delete', 'API\PercentagesController@percentagesAllDelete');	
+	Route::delete('percentages_all_delete', 'API\PercentagesController@percentagesAllDelete');
 
 	Route::resource('percentages_descriptions', 'API\PercentagesDescriptionController');
 	Route::delete('percentage_des_all_delete', 'API\PercentagesDescriptionController@percentagesDesAllDelete');
@@ -58,4 +62,3 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::post('fb-login', 'API\UserManageController@fbLogin');
 
-	

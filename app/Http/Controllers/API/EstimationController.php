@@ -33,12 +33,12 @@ class EstimationController extends BaseController
             return $this->sendError($error,'',202);
         }
         $estimations = DB::table('estimations')
-            
+            ->where('publish', '=', '1')
             ->paginate($request->input("per_page"));
 
          if(count($estimations) > 0){
             foreach ($estimations as $key => $value) {
-               
+
                 $team = Team::find($value->home);
                 $value->home_team_name = $team->team_name;
                 $value->home_team_icon = $team->team_icon;
@@ -51,15 +51,15 @@ class EstimationController extends BaseController
                 $team = Team::find($value->odd_team);
                 $value->odd_team_name = $team->team_name;
                 $value->odd_team_icon = $team->team_icon;
-               
+
                 $estimations[$key] = $value;
-                
+
             }
-            
+
             return $this->sendResponse($estimations->toArray(), 'estimations retrieved successfully.');
-            
+
         }
-        return $this->sendError('No Data.....','',202);    
+        return $this->sendError('No Data.....','',202);
     }
 
 
@@ -71,14 +71,14 @@ class EstimationController extends BaseController
      */
     public function store(Request $request)
     {
-        
+
         if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-       
+
         $input = $request->all();
-        
+
 
         $validator = Validator::make($input, [
             'date' => 'required',
@@ -88,9 +88,9 @@ class EstimationController extends BaseController
 
         ]);
 
-        
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
         $estimation = new Estimation;
 
@@ -120,6 +120,7 @@ class EstimationController extends BaseController
         $estimation['over_under_odd'] =$request->input('over_under_odd');
         $estimation['over_under_sign'] =$request->input('over_under_sign');
         $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
+        $estimation['publish'] =$request->input('publish');
         $estimation->save();
 
 
@@ -128,14 +129,14 @@ class EstimationController extends BaseController
 
     public function update(Request $request, $id)
     {
-       
+
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
-        
+
         $validator = Validator::make($input, [
             'date' => 'required',
             'league_id' => 'required',
@@ -146,9 +147,9 @@ class EstimationController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-        
+
         $estimation = Estimation::findOrFail($id);
 
         $estimation['date'] = $request->input('date');
@@ -176,17 +177,18 @@ class EstimationController extends BaseController
         $estimation['over_under_odd'] =$request->input('over_under_odd');
         $estimation['over_under_sign'] =$request->input('over_under_sign');
         $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
+        $estimation['publish'] =$request->input('publish');
 
         $estimation->save();
 
 
         return $this->sendResponse($estimation->toArray(), 'Estimation Updated successfully.');
     }
-   
 
 
 
-      
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -199,24 +201,24 @@ class EstimationController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-       
+
         $estimation = Estimation::findOrFail($id);
         $estimation->delete();
 
-        
-       
+
+
         return $this->sendResponse($estimation->toArray(), 'league deleted successfully.');
     }
 
 
-     
+
     public function getEstimationsByDate(Request $request)
     {
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $league = League::select('*')->orderBy('priority', 'ASC')->get();
         $ordered_leagues = [];
         foreach ($league as $key => $value) {
@@ -225,8 +227,9 @@ class EstimationController extends BaseController
         $estimation = DB::table('estimations')
             ->select('*')
             ->where('date', '=', $request->input('date'))
+            ->where('publish', '=', '1')
             ->get();
-        
+
         $estimation_by_date = [];
         $estimation_by_date_no_key = [];
         if(count($estimation) > 0){
@@ -244,7 +247,7 @@ class EstimationController extends BaseController
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
 
-                
+
             }
             ksort($estimation_by_date);
 
@@ -252,20 +255,20 @@ class EstimationController extends BaseController
                 $estimation_by_date_no_key[] = $value1;
             }
             return $this->sendResponse($estimation_by_date_no_key, 'Estimation By Date was retrieved successfully.');
-            
+
         }
-        return $this->sendError('No Data.....','',202);    
-        
+        return $this->sendError('No Data.....','',202);
+
     }
 
-     
+
     public function getOrderedLeagues()
     {
         if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-       
+
         $league = League::select('*')->orderBy('priority', 'ASC')->get();
         $ordered_leagues = [];
         foreach ($league as $key => $value) {
@@ -274,7 +277,7 @@ class EstimationController extends BaseController
         return $this->sendResponse($ordered_leagues, 'Ordered Leagues are retrieved successfully.');
     }
 
-     
+
     public function getEstimationsById(Request $request)
     {
         $id = $request->estimation_id;
@@ -284,31 +287,31 @@ class EstimationController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-       
+
         $estimation = Estimation::find($id);
-       
+
         if($estimation == null){
-            return $this->sendError('No Data.....','',202);    
+            return $this->sendError('No Data.....','',202);
         }
-        
+
         $voting_result = DB::select( DB::raw(
-            "SELECT play_team_id,COUNT( estimation_id) as voting from tips 
+            "SELECT play_team_id,COUNT( estimation_id) as voting from tips
                 WHERE tips.estimation_id = ".$id." and play_team_id IS NOT NULL GROUP BY play_team_id"));
-        
+
         $over_voting = DB::select( DB::raw(
-            "SELECT COUNT( estimation_id) as voting from tips 
+            "SELECT COUNT( estimation_id) as voting from tips
                 WHERE tips.estimation_id = ".$id." and over = 'yes'"));
-                
+
         $under_voting = DB::select( DB::raw(
-            "SELECT COUNT( estimation_id) as voting from tips 
+            "SELECT COUNT( estimation_id) as voting from tips
                 WHERE tips.estimation_id = ".$id." and under = 'yes'"));
 
-        
+
         if(isset($voting_result[0]) && isset($voting_result[1])){
-           
+
             $teama = ($voting_result[0]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
             $teamb = ($voting_result[1]->voting / ($voting_result[0]->voting +  $voting_result[1]->voting)) *100;
-            
+
             if( $estimation->home ==  $voting_result[0]->play_team_id){
                 $home_odd_voting = round($teama,2);
                 $away_odd_voting = round($teamb,2);
@@ -329,7 +332,7 @@ class EstimationController extends BaseController
             $home_odd_voting = 0;
             $away_odd_voting = 0;
         }
-       
+
         if($over_voting[0]->voting != 0 && $under_voting[0]->voting != 0){
             $over = ($over_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
             $under = ($under_voting[0]->voting / ($under_voting[0]->voting +  $over_voting[0]->voting)) *100;
@@ -337,7 +340,7 @@ class EstimationController extends BaseController
             $under_tip_voting = round($under,2);
 
         }elseif($over_voting[0]->voting != 0 && $under_voting[0]->voting == 0){
-            
+
             $over_tip_voting = 100;
             $under_tip_voting = 0;
         }elseif($under_voting[0]->voting != 0 && $over_voting[0]->voting == 0){
@@ -347,7 +350,7 @@ class EstimationController extends BaseController
             $over_tip_voting = 0;
             $under_tip_voting = 0;
         }
-        
+
 
         $tip = Tip::select('*')
                 ->where('user_id','=',$user_id)
@@ -388,7 +391,7 @@ class EstimationController extends BaseController
 
 
 
-        
+
 
         return $this->sendResponse($estimation, 'Estimation are retrieved successfully.');
 
