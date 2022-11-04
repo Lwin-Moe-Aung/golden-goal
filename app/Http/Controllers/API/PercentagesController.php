@@ -21,10 +21,10 @@ class PercentagesController extends BaseController
      */
     public function index()
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
 
         $percentage = Percentage::all();
 

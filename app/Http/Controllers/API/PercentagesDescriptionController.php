@@ -20,11 +20,11 @@ class PercentagesDescriptionController extends BaseController
      */
     public function index()
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
-        
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
+
         $percentages_description = PercentagesDescription::all();
         return $this->sendResponse($percentages_description->toArray(), 'PercentagesDescription retrieved successfully.');
     }
@@ -42,17 +42,17 @@ class PercentagesDescriptionController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
+
         $input = $request->all();
         $validator = Validator::make($input, [
             'description' => 'required',
-            
-            
+
+
         ]);
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
 
@@ -71,11 +71,11 @@ class PercentagesDescriptionController extends BaseController
      */
     public function show($id)
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
-        
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
+
         $percentages_description = PercentagesDescription::find($id);
         if (is_null($percentages_description)) {
             return $this->sendError('PercentagesDescription not found.');
@@ -100,21 +100,21 @@ class PercentagesDescriptionController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
-        
+
+
         $input = $request->all();
         $validator = Validator::make($input, [
                     'description' => 'required',
-                    
+
         ]);
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-        
+
         $percentages_description->description = $input['description'];
-        
+
         $percentages_description->save();
 
 
@@ -134,8 +134,8 @@ class PercentagesDescriptionController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
-        
+
+
         $percentages_description->delete();
         return $this->sendResponse($percentages_description->toArray(), 'PercentagesDescriptiondeleted successfully.');
     }
@@ -146,8 +146,8 @@ class PercentagesDescriptionController extends BaseController
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
         }
-        
-        
+
+
         PercentagesDescription::truncate();
         return $this->sendResponse('', 'All PercentagesDescription deleted successfully.');
     }

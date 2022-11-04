@@ -30,10 +30,10 @@ class EstimationController extends BaseController
      */
     public function index(Request $request)
     {
-        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
+        // if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
         $estimations = DB::table('estimations')
             ->where('publish', '=', '1')
             ->paginate($request->input("per_page"));
@@ -216,10 +216,10 @@ class EstimationController extends BaseController
 
     public function getEstimationsByDate(Request $request)
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
 
         $league = League::select('*')->orderBy('priority', 'ASC')->get();
         $ordered_leagues = [];
@@ -285,10 +285,10 @@ class EstimationController extends BaseController
         $id = $request->estimation_id;
         $user_id = $request->user_id;
 
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
 
         $estimation = Estimation::where('id',$id)
                     ->where('publish', '!=', '0')

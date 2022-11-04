@@ -21,10 +21,10 @@ class ChangeController extends BaseController
      */
     public function index()
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
 
         $change = Change::all();
 
@@ -74,10 +74,10 @@ class ChangeController extends BaseController
      */
     public function show($id)
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
-        }
+        // if (!Auth::guard('api')->check()) {
+        //     $error = "Unauthorized user";
+        //     return $this->sendError($error,'',202);
+        // }
 
         $change = Change::find($id);
         if (is_null($change)) {
