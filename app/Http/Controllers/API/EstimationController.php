@@ -84,16 +84,16 @@ class EstimationController extends BaseController
 
         $validator = Validator::make($input, [
             'date' => 'required',
-            'league_id' => 'required',
-            'home' => 'required',
-            'away' => 'required'
-
+            'league_id' => 'required|exists:leagues,id',
+            'home' => 'required|exists:teams,id',
+            'away' => 'required|exists:teams,id',
+            'odd_team' => 'exists:teams,id'
         ]);
-
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
+
         $estimation = new Estimation;
 
         $estimation['date'] = $request->input('date');
@@ -106,9 +106,15 @@ class EstimationController extends BaseController
         $estimation['away_can_win'] =$request->input('away_can_win');
         $estimation['over'] =$request->input('over');
         $estimation['under'] =$request->input('under');
-        $estimation['start_s'] =$request->input('start_s');
-        $estimation['morning_s'] =$request->input('morning_s');
-        $estimation['evening_s'] =$request->input('evening_s');
+        $estimation['start_body'] =$request->input('start_body');
+        $estimation['start_goal'] =$request->input('start_goal');
+
+        $estimation['morning_body'] =$request->input('morning_body');
+        $estimation['morning_goal'] =$request->input('morning_goal');
+
+        $estimation['evening_body'] =$request->input('evening_body');
+        $estimation['evening_goal'] =$request->input('evening_goal');
+
         $estimation['home_stand_level'] =$request->input('home_stand_level');
         $estimation['away_stand_level'] =$request->input('away_stand_level');
         $estimation['home_last_matchs'] =$request->input('home_last_matchs');
@@ -123,8 +129,17 @@ class EstimationController extends BaseController
         $estimation['over_under_sign'] =$request->input('over_under_sign');
         $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
         $estimation['publish'] =$request->input('publish');
-        $estimation->save();
 
+        $estimation['both_team_odd'] =$request->input('both_team_odd');
+        $estimation['one_team_odd'] =$request->input('one_team_odd');
+        $estimation['both_team_possible'] =$request->input('both_team_possible');
+        $estimation['one_team_possible'] =$request->input('one_team_possible');
+        $estimation['golden_goal_choice'] =$request->input('golden_goal_choice');
+        $estimation['guess_result'] =$request->input('guess_result');
+        $estimation['fact'] =$request->input('fact');
+        $estimation['injury'] =$request->input('injury');
+
+        $estimation->save();
 
         return $this->sendResponse($estimation->toArray(), 'Estimation created successfully.');
     }
@@ -141,10 +156,10 @@ class EstimationController extends BaseController
 
         $validator = Validator::make($input, [
             'date' => 'required',
-            'league_id' => 'required',
-            'home' => 'required',
-            'away' => 'required'
-
+            'league_id' => 'required|exists:leagues,id',
+            'home' => 'required|exists:teams,id',
+            'away' => 'required|exists:teams,id',
+            'odd_team' => 'exists:teams,id'
         ]);
 
 
@@ -164,14 +179,21 @@ class EstimationController extends BaseController
         $estimation['away_can_win'] =$request->input('away_can_win');
         $estimation['over'] =$request->input('over');
         $estimation['under'] =$request->input('under');
-        $estimation['start_s'] =$request->input('start_s');
-        $estimation['morning_s'] =$request->input('morning_s');
-        $estimation['evening_s'] =$request->input('evening_s');
+        $estimation['start_body'] =$request->input('start_body');
+        $estimation['start_goal'] =$request->input('start_goal');
+
+        $estimation['morning_body'] =$request->input('morning_body');
+        $estimation['morning_goal'] =$request->input('morning_goal');
+
+        $estimation['evening_body'] =$request->input('evening_body');
+        $estimation['evening_goal'] =$request->input('evening_goal');
+
         $estimation['home_stand_level'] =$request->input('home_stand_level');
         $estimation['away_stand_level'] =$request->input('away_stand_level');
         $estimation['home_last_matchs'] =$request->input('home_last_matchs');
         $estimation['away_last_matchs'] =$request->input('away_last_matchs');
         $estimation['description'] =$request->input('description');
+
         $estimation['odd'] =$request->input('odd');
         $estimation['odd_sign'] =$request->input('odd_sign');
         $estimation['odd_value'] =$request->input('odd_value');
@@ -180,6 +202,15 @@ class EstimationController extends BaseController
         $estimation['over_under_sign'] =$request->input('over_under_sign');
         $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
         $estimation['publish'] =$request->input('publish');
+
+        $estimation['both_team_odd'] =$request->input('both_team_odd');
+        $estimation['one_team_odd'] =$request->input('one_team_odd');
+        $estimation['both_team_possible'] =$request->input('both_team_possible');
+        $estimation['one_team_possible'] =$request->input('one_team_possible');
+        $estimation['golden_goal_choice'] =$request->input('golden_goal_choice');
+        $estimation['guess_result'] =$request->input('guess_result');
+        $estimation['fact'] =$request->input('fact');
+        $estimation['injury'] =$request->input('injury');
 
         $estimation->save();
 

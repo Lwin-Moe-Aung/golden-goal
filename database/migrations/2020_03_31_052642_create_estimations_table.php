@@ -25,9 +25,25 @@ class CreateEstimationsTable extends Migration
             $table->string('away_can_win')->nullable();
             $table->string('over')->nullable();
             $table->string('under')->nullable();
-            $table->string('start_s')->nullable();
-            $table->string('morning_s')->nullable();
-            $table->string('evening_s')->nullable();
+            $table->string('start_body')->nullable();
+            $table->string('start_goal')->nullable();
+
+            $table->string('morning_body')->nullable();
+            $table->string('morning_goal')->nullable();
+
+            $table->string('evening_body')->nullable();
+            $table->string('evening_goal')->nullable();
+
+            $table->string('both_team_odd')->nullable();
+            $table->string('one_team_odd')->nullable();
+            $table->string('both_team_possible')->nullable();
+            $table->string('one_team_possible')->nullable();
+            $table->string('golden_goal_choice')->nullable();
+            $table->string('guess_result')->nullable();
+            $table->string('fact')->nullable();
+            $table->string('injury')->nullable();
+
+
             $table->string('home_stand_level')->nullable();
             $table->string('away_stand_level')->nullable();
             $table->string('home_last_matchs')->nullable();
@@ -43,6 +59,7 @@ class CreateEstimationsTable extends Migration
             $table->string('home_final_result')->nullable();
             $table->string('away_final_result')->nullable();
             $table->enum('publish', ['0', '1'])->default('1');
+
             $table->timestamps();
         });
     }
