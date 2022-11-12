@@ -48,7 +48,7 @@ class CreateEstimationsTable extends Migration
             $table->string('away_stand_level')->nullable();
             $table->string('home_last_matchs')->nullable();
             $table->string('away_last_matchs')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('odd')->nullable();
             $table->string('odd_value')->nullable();
             $table->integer('odd_team')->nullable();
