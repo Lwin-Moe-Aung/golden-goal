@@ -40,8 +40,8 @@ class CreateEstimationsTable extends Migration
             $table->string('one_team_possible')->nullable();
             $table->string('golden_goal_choice')->nullable();
             $table->string('guess_result')->nullable();
-            $table->string('fact')->nullable();
-            $table->string('injury')->nullable();
+            $table->longText('fact')->nullable();
+            $table->longText('injury')->nullable();
 
 
             $table->string('home_stand_level')->nullable();

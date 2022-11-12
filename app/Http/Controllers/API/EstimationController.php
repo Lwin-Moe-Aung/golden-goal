@@ -87,7 +87,7 @@ class EstimationController extends BaseController
             'league_id' => 'required|exists:leagues,id',
             'home' => 'required|exists:teams,id',
             'away' => 'required|exists:teams,id',
-            'odd_team' => 'exists:teams,id'
+            'publish' => 'required'
         ]);
 
         if($validator->fails()){
@@ -159,7 +159,7 @@ class EstimationController extends BaseController
             'league_id' => 'required|exists:leagues,id',
             'home' => 'required|exists:teams,id',
             'away' => 'required|exists:teams,id',
-            'odd_team' => 'exists:teams,id'
+            'publish' => 'required'
         ]);
 
 
