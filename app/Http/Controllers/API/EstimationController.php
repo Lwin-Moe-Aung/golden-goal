@@ -88,7 +88,11 @@ class EstimationController extends BaseController
             'home' => 'required|exists:teams,id',
             'away' => 'required|exists:teams,id',
             'odd_team' => 'required|exists:teams,id',
-            'publish' => 'required'
+            'publish' => 'required',
+            'publish_changes' => 'required',
+            'publish_percentages' => 'required',
+            'changes_start_time' => 'required',
+            'percentages_start_time' => 'required'
         ]);
 
         if($validator->fails()){
@@ -130,6 +134,10 @@ class EstimationController extends BaseController
         $estimation['over_under_sign'] =$request->input('over_under_sign');
         $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
         $estimation['publish'] =$request->input('publish');
+        $estimation['publish_changes'] =$request->input('publish_changes');
+        $estimation['publish_percentages'] =$request->input('publish_percentages');
+        $estimation['changes_start_time'] =$request->input('changes_start_time');
+        $estimation['percentages_start_time'] =$request->input('percentages_start_time');
 
         $estimation['both_team_odd'] =$request->input('both_team_odd');
         $estimation['one_team_odd'] =$request->input('one_team_odd');
@@ -147,7 +155,6 @@ class EstimationController extends BaseController
 
     public function update(Request $request, $id)
     {
-
         if (!Auth::guard('api')->check()) {
             $error = "Unauthorized user";
             return $this->sendError($error,'',202);
@@ -161,7 +168,11 @@ class EstimationController extends BaseController
             'home' => 'required|exists:teams,id',
             'away' => 'required|exists:teams,id',
             'odd_team' => 'required|exists:teams,id',
-            'publish' => 'required'
+            'publish' => 'required',
+            'publish_changes' => 'required',
+            'publish_percentages' => 'required',
+            'changes_start_time' => 'required',
+            'percentages_start_time' => 'required'
         ]);
 
 
@@ -204,6 +215,10 @@ class EstimationController extends BaseController
         $estimation['over_under_sign'] =$request->input('over_under_sign');
         $estimation['over_under_odd_value'] =$request->input('over_under_odd_value');
         $estimation['publish'] =$request->input('publish');
+        $estimation['publish_changes'] =$request->input('publish_changes');
+        $estimation['publish_percentages'] =$request->input('publish_percentages');
+        $estimation['changes_start_time'] =$request->input('changes_start_time');
+        $estimation['percentages_start_time'] =$request->input('percentages_start_time');
 
         $estimation['both_team_odd'] =$request->input('both_team_odd');
         $estimation['one_team_odd'] =$request->input('one_team_odd');
@@ -261,7 +276,8 @@ class EstimationController extends BaseController
         }
         $estimation = DB::table('estimations')
             ->select('*')
-            ->where('date', '=', $request->input('date'))
+            ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
+            ->orwhere('date', '=', $request->input('date'))
             ->where('publish', '=', '1')
             ->get();
 
@@ -294,6 +310,95 @@ class EstimationController extends BaseController
         }
         return $this->sendError('No Data.....','',202);
 
+    }
+
+    //Get changes By Date
+    public function getChangesByDate(Request $request)
+    {
+        $league = League::select('*')->orderBy('priority', 'ASC')->get();
+        $ordered_leagues = [];
+        foreach ($league as $key => $value) {
+            $ordered_leagues[$value->id] = $value;
+        }
+        $estimation = DB::table('estimations')
+            ->select('id as estimation_id', 'date', 'changes_start_time as time', 'league_id', 'home', 'away', 'start_body',
+                    'start_goal', 'morning_body', 'morning_goal', 'evening_body', 'evening_goal', 'publish_changes as publish', 'created_at', 'updated_at')
+            ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
+            ->orwhere('date', '=', $request->input('date'))
+            ->where('publish_changes', '=', '1')
+            ->get();
+
+        $estimation_by_date = [];
+        $estimation_by_date_no_key = [];
+        if(count($estimation) > 0){
+            foreach ($estimation as $key => $value) {
+                $team = Team::find($value->home);
+                $value->home_team_name = $team->team_name;
+                $value->home_team_icon = $team->team_icon;
+                $team = Team::find($value->away);
+                $value->away_team_name = $team->team_name;
+                $value->away_team_icon = $team->team_icon;
+
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_id"] = $ordered_leagues[$value->league_id]["id"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+            }
+            ksort($estimation_by_date);
+
+            foreach ($estimation_by_date as $key1 => $value1) {
+                $estimation_by_date_no_key[] = $value1;
+            }
+            return $this->sendResponse($estimation_by_date_no_key, 'Changes By Date was retrieved successfully.');
+
+        }
+        return $this->sendError('No Data.....','',202);
+
+    }
+
+
+    //Get Percentages By Date
+    public function getPercentagesByDate(Request $request)
+    {
+        $league = League::select('*')->orderBy('priority', 'ASC')->get();
+        $ordered_leagues = [];
+        foreach ($league as $key => $value) {
+            $ordered_leagues[$value->id] = $value;
+        }
+        $estimation = DB::table('estimations')
+            ->select('id as estimation_id', 'date', 'percentages_start_time as time', 'league_id', 'home', 'away', 'home_can_win',
+                    'can_draw', 'away_can_win', 'over', 'under', 'publish_percentages as publish', 'created_at', 'updated_at')
+            ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
+            ->orwhere('date', '=', $request->input('date'))
+            ->where('publish_percentages', '=', '1')
+            ->get();
+
+        $estimation_by_date = [];
+        $estimation_by_date_no_key = [];
+        if(count($estimation) > 0){
+            foreach ($estimation as $key => $value) {
+                $team = Team::find($value->home);
+                $value->home_team_name = $team->team_name;
+                $value->home_team_icon = $team->team_icon;
+                $team = Team::find($value->away);
+                $value->away_team_name = $team->team_name;
+                $value->away_team_icon = $team->team_icon;
+
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_id"] = $ordered_leagues[$value->league_id]["id"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+            }
+            ksort($estimation_by_date);
+
+            foreach ($estimation_by_date as $key1 => $value1) {
+                $estimation_by_date_no_key[] = $value1;
+            }
+            return $this->sendResponse($estimation_by_date_no_key, 'Percentages By Date was retrieved successfully.');
+        }
+        return $this->sendError('No Data.....','',202);
     }
 
 
@@ -427,11 +532,28 @@ class EstimationController extends BaseController
         $estimation->played_over = $played_over;
         $estimation->played_under = $played_under;
 
-
-
-
-
         return $this->sendResponse($estimation, 'Estimation are retrieved successfully.');
 
+    }
+
+    public function changePublish(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'estimation_id' => 'required',
+            'publish_estimation' => 'required',
+            'publish_changes' => 'required',
+            'publish_percentages' => 'required'
+        ]);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $estimation = Estimation::find($request->input('estimation_id'));
+        if($estimation == null) return $this->sendError('There is no data for this estimation id');
+
+        $estimation->publish = $request->input('publish_estimation');
+        $estimation->publish_changes = $request->input('publish_changes');
+        $estimation->publish_percentages = $request->input('publish_percentages');
+        $estimation->save();
+
+        return $this->sendResponse([], 'Successfully changed!');
     }
 }

@@ -44,6 +44,9 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::resource('estimations', 'API\EstimationController');
 	Route::post('get_estimations_by_date', 'API\EstimationController@getEstimationsByDate');
+	Route::post('get_changes_by_date', 'API\EstimationController@getChangesByDate');
+	Route::post('get_percentages_by_date', 'API\EstimationController@getPercentagesByDate');
+	Route::post('change_publish', 'API\EstimationController@changePublish');
 
 	Route::get('get_ordered_league', 'API\EstimationController@getOrderedLeagues');
 	Route::get('get_estimations_by_id', 'API\EstimationController@getEstimationsById');

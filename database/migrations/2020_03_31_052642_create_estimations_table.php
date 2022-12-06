@@ -59,6 +59,10 @@ class CreateEstimationsTable extends Migration
             $table->string('home_final_result')->nullable();
             $table->string('away_final_result')->nullable();
             $table->enum('publish', ['0', '1'])->default('1');
+            $table->enum('publish_changes', ['0', '1'])->default('1');
+            $table->enum('publish_percentages', ['0', '1'])->default('1');
+            $table->string('changes_start_time')->nullable();
+            $table->string('percentages_start_time')->nullable();
 
             $table->timestamps();
         });

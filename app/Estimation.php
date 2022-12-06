@@ -49,6 +49,10 @@ class Estimation extends Model
         'over_under_odd_value',
         'home_final_result',
         'away_final_result',
-        'publish'
+        'publish',
+        'publish_changes',
+        'publish_percentages',
+        'changes_start_time',
+        'percentages_start_time'
     ];
 }
