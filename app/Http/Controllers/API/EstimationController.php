@@ -35,7 +35,7 @@ class EstimationController extends BaseController
         //     return $this->sendError($error,'',202);
         // }
         $estimations = DB::table('estimations')
-            ->where('publish', '=', '1')
+            // ->where('publish', '=', '1')
             ->paginate($request->input("per_page"));
 
          if(count($estimations) > 0){
