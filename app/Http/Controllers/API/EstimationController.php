@@ -556,4 +556,33 @@ class EstimationController extends BaseController
 
         return $this->sendResponse([], 'Successfully changed!');
     }
+
+    //get all estimations list by user
+    public function getAllEstimationsByUser(Request $request) {
+        $estimations = DB::table('estimations')
+            ->where('publish', '=', '1')
+            ->paginate($request->input("per_page"));
+
+         if(count($estimations) > 0){
+            foreach ($estimations as $key => $value) {
+
+                $team = Team::find($value->home);
+                $value->home_team_name = $team->team_name;
+                $value->home_team_icon = $team->team_icon;
+                $team = Team::find($value->away);
+                $value->away_team_name = $team->team_name;
+                $value->away_team_icon = $team->team_icon;
+                $league = League::find($value->league_id);
+                $value->league_name = $league->league_name;
+                $value->league_icon = $league->league_icon;
+                $team = Team::find($value->odd_team);
+                $value->odd_team_name = $team->team_name;
+                $value->odd_team_icon = $team->team_icon;
+
+                $estimations[$key] = $value;
+            }
+            return $this->sendResponse($estimations->toArray(), 'estimations retrieved successfully by user.');
+        }
+        return $this->sendError('No Data.....','',202);
+    }
 }
