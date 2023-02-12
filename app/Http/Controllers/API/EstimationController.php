@@ -274,10 +274,14 @@ class EstimationController extends BaseController
         foreach ($league as $key => $value) {
             $ordered_leagues[$value->id] = $value;
         }
+        $from = Carbon::parse($request->input('date'))->subDay(30);
+        $to = Carbon::parse($request->input('date'))->addDay(30);
+
         $estimation = DB::table('estimations')
             ->select('*')
-            ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
-            ->orwhere('date', '=', $request->input('date'))
+            ->whereBetween('date', [$from, $to])
+            // ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
+            // ->orwhere('date', '=', $request->input('date'))
             ->where('publish', '=', '1')
             ->get();
 
