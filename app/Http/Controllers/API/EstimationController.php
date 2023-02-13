@@ -324,11 +324,15 @@ class EstimationController extends BaseController
         foreach ($league as $key => $value) {
             $ordered_leagues[$value->id] = $value;
         }
+        $from = Carbon::parse($request->input('date'))->subDay(30);
+        $to = Carbon::parse($request->input('date'))->addDay(30);
+
         $estimation = DB::table('estimations')
             ->select('id as estimation_id', 'date', 'changes_start_time as time', 'league_id', 'home', 'away', 'start_body',
                     'start_goal', 'morning_body', 'morning_goal', 'evening_body', 'evening_goal', 'publish_changes as publish', 'created_at', 'updated_at')
-            ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
-            ->orwhere('date', '=', $request->input('date'))
+            ->whereBetween('date', [$from, $to])
+            // ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
+            // ->orwhere('date', '=', $request->input('date'))
             ->where('publish_changes', '=', '1')
             ->get();
 
@@ -370,11 +374,15 @@ class EstimationController extends BaseController
         foreach ($league as $key => $value) {
             $ordered_leagues[$value->id] = $value;
         }
+        $from = Carbon::parse($request->input('date'))->subDay(30);
+        $to = Carbon::parse($request->input('date'))->addDay(30);
+
         $estimation = DB::table('estimations')
             ->select('id as estimation_id', 'date', 'percentages_start_time as time', 'league_id', 'home', 'away', 'home_can_win',
                     'can_draw', 'away_can_win', 'over', 'under', 'publish_percentages as publish', 'created_at', 'updated_at')
-            ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
-            ->orwhere('date', '=', $request->input('date'))
+            ->whereBetween('date', [$from, $to])
+            // ->where('date', '=', Carbon::parse($request->input('date'))->subDay())
+            // ->orwhere('date', '=', $request->input('date'))
             ->where('publish_percentages', '=', '1')
             ->get();
 
