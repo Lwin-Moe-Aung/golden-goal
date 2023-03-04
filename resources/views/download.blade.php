@@ -1,5 +1,6 @@
 @extends('master')
 @section('content')
+
 <!doctype html>
 <html class=no-js lang="">
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -10,6 +11,19 @@
             content="width=device-width, height=device-height,
             initial-scale=1.0, user-scalable=0, minimum-scale=1.0,
             maximum-scale=1.0">
+
+        <meta content='Golden goal is the best choice for the customer.' name='description' ng-if='metadata.description'>
+        <meta content='en_US' property='og:locale'>
+        <meta content='593758534890229' property='fb:app_id'>
+        <meta content='blog' ng-if='og_meta.type' property='og:type'>
+        <meta content='https://goldengoalmyanmar.com/' ng-if='og_meta.url' property='og:url'>
+        <meta content='goldengoal' ng-if='og_meta.title' property='og:title'>
+        <meta content='https://goldengoalmyanmar.com/storage/logo.png' ng-if='og_meta.image' property='og:image'>
+        {{-- <meta content='{{og_meta.image_width}}' ng-if='og_meta.image_width' property='og:image:width'>
+        <meta content='{{og_meta.image_height}}' ng-if='og_meta.image_height' property='og:image:height'> --}}
+        <meta content='Golden goal is the best choice for the customer.' ng-if='og_meta.description' property='og:description'>
+        <meta content='RoadGoat' property='og:site_name'>
+
         <title>golden goal</title>
 
         <link rel="shortcut icon" href="/css/favicon.ico">
@@ -57,11 +71,11 @@
                                                             <span></span> <span></span>
                                                             <span></span>
                                                             <span></span></a></li>
-                                                    <li><a href="{{ url('/privacy-policy') }}" class=active>Privacy
+                                                    <li><a href="{{ url('/privacy-policy') }}">Privacy
                                                             Policy<span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
-                                                    <li><a href="{{ url('/download') }}"> Download
+                                                    <li><a href="{{ url('/download') }}" class=active> Download
                                                             <span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
@@ -82,15 +96,46 @@
                         </div>
                     </div>
                 </header>
-<div class="container" style="margin-top: 154px;">
-    <h2>Privacy Policy</h2>
-    <p>Your privacy is important to us. It is Golden Goal MM's policy to respect your privacy regarding any information we may collect from you across our website, <a href="https://goldengoalmyanmar.com/" target="_blank">https://www.goldengoalmyanmar.com/</a>, and other sites we own and operate.</p>
-    <p>We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.</p>
-    <p>We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we’ll protect within commercially acceptable means to prevent loss and theft, as well as unauthorised access, disclosure, copying, use or modification.</p>
-    <p>We don’t share any personally identifying information publicly or with third-parties, except when required to by law.</p>
-    <p>Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies.</p>
-    <p>You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.</p>
-    <p>Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.</p>
-    <p>This policy is effective as of 14 August 2020.</p>
-</div>
+
+    <div class="container" style="margin-top: 154px;">
+        <h2><strong>Download Links</strong></h2>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h3>Google Drive Download Links</h3>
+
+        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
+            >Click Here To Download Link 1
+            <span></span> <span></span>
+            <span></span>
+            <span></span>
+        </a>
+        <br>
+        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
+            >Click Here To Download Link 2
+            <span></span> <span></span>
+            <span></span>
+            <span></span>
+        </a>
+        <br>
+        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
+            >Click Here To Download Link 3
+            <span></span> <span></span>
+            <span></span>
+            <span></span>
+        </a>
+        <br>
+        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
+            >Click Here To Download Link 4
+            <span></span> <span></span>
+            <span></span>
+            <span></span>
+        </a>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </div>
 @endsection

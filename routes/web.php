@@ -15,10 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/terms_condition', function () {
+Route::get('/terms-condition', function () {
     return view('terms_condition');
 });
 
-Route::get('/privacy_policy', function () {
+Route::get('/privacy-policy', function () {
     return view('privacy_policy');
+});
+
+Route::get('/download', function () {
+    return view('download');
 });

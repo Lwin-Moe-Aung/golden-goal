@@ -11,13 +11,13 @@
             initial-scale=1.0, user-scalable=0, minimum-scale=1.0,
             maximum-scale=1.0">
         <title>golden goal</title>
-        
+
         <link rel="shortcut icon" href="/css/favicon.ico">
         <link rel="stylesheet" href="/css/vendor.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" type=text/css href="/css/layerslider.css">
         {{-- <script src="/js/modernizr.js"></script> --}}
-        
+
     </head>
     <body><!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
@@ -29,7 +29,7 @@
 
                     <div class="header-lower clearfix">
                         <div class=container>
-                            <div class=row><h1 class=logo><a href="{{ url('/') }}"><img 
+                            <div class=row><h1 class=logo><a href="{{ url('/') }}"><img
                                             src="/images/logo.png" alt=image style="width:154px;" class="logo-img"></a></h1>
                                 <div class=menubar>
                                     <nav class=navbar>
@@ -49,16 +49,16 @@
                                                             class=active>Home
                                                         </a>
                                                     </li>
-                                                    <li><a href="{{ url('/terms_condition') }}">Terms &&
+                                                    <li><a href="{{ url('/terms-condition') }}">Terms &&
                                                             Conditions
                                                             <span></span> <span></span>
                                                             <span></span>
                                                             <span></span></a></li>
-                                                    <li><a href="{{ url('/privacy_policy') }}">Privacy
+                                                    <li><a href="{{ url('/privacy-policy') }}">Privacy
                                                             Policy<span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
-                                                   <li><a href="#">Download
+                                                   <li><a href="{{ url('/download') }}">Download
                                                             <span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
@@ -80,7 +80,7 @@
                     </div>
                 </header>
 
-               
+
     <div class=banner id=layerSlider style="width: 100%;">
         <div class=ls-slide data-ls="transition3d: 33,15;
             slidedelay:
@@ -149,4 +149,3 @@
 
 @endsection
 
-                

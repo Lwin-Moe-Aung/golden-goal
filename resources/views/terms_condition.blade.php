@@ -16,22 +16,22 @@
         <meta content='en_US' property='og:locale'>
         <meta content='593758534890229' property='fb:app_id'>
         <meta content='blog' ng-if='og_meta.type' property='og:type'>
-        <meta content='https://goldengoalmm.com/' ng-if='og_meta.url' property='og:url'>
+        <meta content='https://goldengoalmyanmar.com/' ng-if='og_meta.url' property='og:url'>
         <meta content='goldengoal' ng-if='og_meta.title' property='og:title'>
-        <meta content='https://goldengoalmm.com/storage/logo.png' ng-if='og_meta.image' property='og:image'>
+        <meta content='https://goldengoalmyanmar.com/storage/logo.png' ng-if='og_meta.image' property='og:image'>
         {{-- <meta content='{{og_meta.image_width}}' ng-if='og_meta.image_width' property='og:image:width'>
         <meta content='{{og_meta.image_height}}' ng-if='og_meta.image_height' property='og:image:height'> --}}
         <meta content='Golden goal is the best choice for the customer.' ng-if='og_meta.description' property='og:description'>
         <meta content='RoadGoat' property='og:site_name'>
 
         <title>golden goal</title>
-        
+
         <link rel="shortcut icon" href="/css/favicon.ico">
         <link rel="stylesheet" href="/css/vendor.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" type=text/css href="/css/layerslider.css">
         {{-- <script src="/js/modernizr.js"></script> --}}
-        
+
     </head>
     <body><!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
@@ -43,7 +43,7 @@
 
                     <div class="header-lower clearfix">
                         <div class=container>
-                            <div class=row><h1 class=logo><a href=index-2.html><img
+                            <div class=row><h1 class=logo><a href="{{ url('/') }}"><img
                                             src="images/logo.png" alt=image style="width:154px;" class="logo-img"></a></h1>
                                 <div class=menubar>
                                     <nav class=navbar>
@@ -66,16 +66,16 @@
                                                             <span></span>
                                                         </a>
                                                     </li>
-                                                    <li><a href="{{ url('/terms_condition') }}" class=active>Terms &&
+                                                    <li><a href="{{ url('/terms-condition') }}" class=active>Terms &&
                                                             Conditions
                                                             <span></span> <span></span>
                                                             <span></span>
                                                             <span></span></a></li>
-                                                    <li><a href="{{ url('/privacy_policy') }}">Privacy
+                                                    <li><a href="{{ url('/privacy-policy') }}">Privacy
                                                             Policy<span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
-                                                    <li><a href="#"> Download 
+                                                    <li><a href="{{ url('/download') }}"> Download
                                                             <span></span>
                                                             <span></span>
                                                             <span></span> <span></span></a></li>
@@ -100,30 +100,30 @@
 <div class="container" style="margin-top: 154px;">
     <h2><strong>Terms and Conditions</strong></h2>
 
-    <p>Welcome to www.goldengoalmm.com!</p>
+    <p>Welcome to www.goldengoalmyanmar.com!</p>
 
-    <p>These terms and conditions outline the rules and regulations for the use of Golden Goal MM's Website, located at https://www.goldengoalmm.com/.</p>
+    <p>These terms and conditions outline the rules and regulations for the use of Golden Goal MM's Website, located at https://www.goldengoalmyanmar.com/.</p>
 
-    <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use www.goldengoalmm.com if you do not agree to take all of the terms and conditions stated on this page.</p>
+    <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use www.goldengoalmyanmar.com if you do not agree to take all of the terms and conditions stated on this page.</p>
 
     <p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company’s terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
 
     <h3><strong>Cookies</strong></h3>
 
-    <p>We employ the use of cookies. By accessing www.goldengoalmm.com, you agreed to use cookies in agreement with the Golden Goal MM's Privacy Policy.</p>
+    <p>We employ the use of cookies. By accessing www.goldengoalmyanmar.com, you agreed to use cookies in agreement with the Golden Goal MM's Privacy Policy.</p>
 
     <p>Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.</p>
 
     <h3><strong>License</strong></h3>
 
-    <p>Unless otherwise stated, Golden Goal MM and/or its licensors own the intellectual property rights for all material on www.goldengoalmm.com. All intellectual property rights are reserved. You may access this from www.goldengoalmm.com for your own personal use subjected to restrictions set in these terms and conditions.</p>
+    <p>Unless otherwise stated, Golden Goal MM and/or its licensors own the intellectual property rights for all material on www.goldengoalmyanmar.com. All intellectual property rights are reserved. You may access this from www.goldengoalmyanmar.com for your own personal use subjected to restrictions set in these terms and conditions.</p>
 
     <p>You must not:</p>
     <ul>
-        <li>Republish material from www.goldengoalmm.com</li>
-        <li>Sell, rent or sub-license material from www.goldengoalmm.com</li>
-        <li>Reproduce, duplicate or copy material from www.goldengoalmm.com</li>
-        <li>Redistribute content from www.goldengoalmm.com</li>
+        <li>Republish material from www.goldengoalmyanmar.com</li>
+        <li>Sell, rent or sub-license material from www.goldengoalmyanmar.com</li>
+        <li>Reproduce, duplicate or copy material from www.goldengoalmyanmar.com</li>
+        <li>Redistribute content from www.goldengoalmyanmar.com</li>
     </ul>
 
     <p>This Agreement shall begin on the date hereof.</p>
