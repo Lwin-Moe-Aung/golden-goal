@@ -311,11 +311,16 @@ class EstimationController extends BaseController
             }
             Log::info($estimation_by_date_no_key);
 
-            return Response::json(array(
-                'code'      =>  200,
-                'data'      => $estimation_by_date_no_key,
-                'message'   =>  'Estimation By Date was retrieved successfully.'
-            ), 200);
+            return response()->json([
+                'success' => true,
+                'data' => $estimation_by_date_no_key,
+                'message'=> 'Estimation By Date was retrieved successfully.'
+            ]);
+            // return Response::json(array(
+            //     'code'      =>  200,
+            //     'data'      => $estimation_by_date_no_key,
+            //     'message'   =>  'Estimation By Date was retrieved successfully.'
+            // ), 200);
             // return $this->sendResponse($estimation_by_date_no_key, 'Estimation By Date was retrieved successfully.');
 
         }
