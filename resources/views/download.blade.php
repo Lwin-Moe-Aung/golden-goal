@@ -33,11 +33,6 @@
         {{-- <script src="/js/modernizr.js"></script> --}}
         <style>
 
-            /* visited link */
-            a:visited {
-              color: green;
-            }
-
             /* mouse over link */
             a:hover {
               color: hotpink;
