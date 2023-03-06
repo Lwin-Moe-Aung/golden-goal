@@ -19,7 +19,7 @@ use Image;
 use Illuminate\Support\Facades\Auth;
 use DB;
 Use \Carbon\Carbon;
-
+use Illuminate\Support\Facades\Log;
 
 class EstimationController extends BaseController
 {
@@ -309,7 +309,14 @@ class EstimationController extends BaseController
             foreach ($estimation_by_date as $key1 => $value1) {
                 $estimation_by_date_no_key[] = $value1;
             }
-            return $this->sendResponse($estimation_by_date_no_key, 'Estimation By Date was retrieved successfully.');
+            Log::info($estimation_by_date_no_key);
+
+            return Response::json(array(
+                'code'      =>  200,
+                'data'      => $estimation_by_date_no_key,
+                'message'   =>  'Estimation By Date was retrieved successfully.'
+            ), 200);
+            // return $this->sendResponse($estimation_by_date_no_key, 'Estimation By Date was retrieved successfully.');
 
         }
         return $this->sendError('No Data.....','',202);
