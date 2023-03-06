@@ -309,7 +309,7 @@ class EstimationController extends BaseController
             foreach ($estimation_by_date as $key1 => $value1) {
                 $estimation_by_date_no_key[] = $value1;
             }
-            Log::info($estimation_by_date_no_key);
+            // Log::info($estimation_by_date_no_key);
 
             return response()->json([
                 'success' => true,

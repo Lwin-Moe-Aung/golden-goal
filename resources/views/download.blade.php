@@ -31,7 +31,18 @@
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" type=text/css href="/css/layerslider.css">
         {{-- <script src="/js/modernizr.js"></script> --}}
+        <style>
 
+            /* visited link */
+            a:visited {
+              color: green;
+            }
+
+            /* mouse over link */
+            a:hover {
+              color: hotpink;
+            }
+        </style>
     </head>
     <body><!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
@@ -103,34 +114,28 @@
         <br>
         <br>
         <br>
-        <h3>Google Drive Download Links</h3>
+        <h4>Google Drive</h4>
 
-        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
-            >Click Here To Download Link 1
-            <span></span> <span></span>
-            <span></span>
-            <span></span>
+        <a class="downloadLink" href="https://drive.google.com/file/d/1Zbz1m3l_4GhO3_St_XyR-3nogzBaMoMT/view?usp=share_link" target="_blank"
+            >Click Here To Download
         </a>
         <br>
-        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
-            >Click Here To Download Link 2
-            <span></span> <span></span>
-            <span></span>
-            <span></span>
+        <br>
+        <h4>DropBox</h4>
+        <a class="downloadLink" href="https://www.dropbox.com/s/2m34v1mwkp1i5i8/GoldenGoal.apk?dl=0" target="_blank"
+            >Click Here To Download
         </a>
         <br>
-        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
-            >Click Here To Download Link 3
-            <span></span> <span></span>
-            <span></span>
-            <span></span>
+        <br>
+        <h4>PCloud</h4>
+        <a class="downloadLink" href="https://u.pcloud.link/publink/show?code=XZJD1gVZuidNk0nGBBXwJYdT3vLLpksJxqAV" target="_blank"
+            >Click Here To Download
         </a>
         <br>
-        <a href="https://drive.google.com/file/d/1eLTpLl3WJYNvqiJgCZSNaQIMO6RK2Cc-/view" target="_blank"
-            >Click Here To Download Link 4
-            <span></span> <span></span>
-            <span></span>
-            <span></span>
+        <br>
+        <h4>Megaup</h4>
+        <a class="downloadLink" href="https://megaup.net/1SDbo/GoldenGoal.apk" target="_blank"
+            >Click Here To Download
         </a>
         <br>
         <br>
