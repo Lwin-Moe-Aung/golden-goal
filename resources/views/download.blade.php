@@ -104,7 +104,7 @@
                 </header>
 
     <div class="container" style="margin-top: 154px;">
-        <a href="{{ url('/download/apk') }}"><h2> CLick Here To Download Directly</h2></a>
+        <a href="https://goldengoalmyanmar.com/download/apk"><h2> CLick Here To Download Directly</h2></a>
         <br>
         <br>
         <h2><strong>Another Download Links</strong></h2>
