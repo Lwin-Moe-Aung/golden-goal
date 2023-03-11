@@ -26,3 +26,9 @@ Route::get('/privacy-policy', function () {
 Route::get('/download', function () {
     return view('download');
 });
+
+Route::get('/download/apk', function () {
+    $filePath = storage_path('app/apk/GoldenGoal.apk');
+    return response()->download($filePath);
+});
+

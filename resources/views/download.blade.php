@@ -104,13 +104,13 @@
                 </header>
 
     <div class="container" style="margin-top: 154px;">
-        <h2><strong>Download Links</strong></h2>
+        <a href="{{ url('/download/apk') }}"><h2> CLick Here To Download Directly</h2></a>
         <br>
         <br>
+        <h2><strong>Another Download Links</strong></h2>
         <br>
         <br>
         <h4>Google Drive</h4>
-
         <a class="downloadLink" href="https://drive.google.com/file/d/1Zbz1m3l_4GhO3_St_XyR-3nogzBaMoMT/view?usp=share_link" target="_blank"
             >Click Here To Download
         </a>
@@ -136,6 +136,8 @@
         <br>
         <br>
         <br>
+
+
 
     </div>
 @endsection
