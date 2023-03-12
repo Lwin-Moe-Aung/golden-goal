@@ -19,6 +19,39 @@
         {{-- <script src="/js/modernizr.js"></script> --}}
 
     </head>
+    <style>
+        .banner {
+  position: relative;
+  width: 100%;
+  /* max-width: 400px; */
+}
+
+/* .banner img {
+  width: 100%;
+  height: auto;
+} */
+
+.banner .btn {
+  position: absolute;
+  top: 91%;
+  left: 64%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 10;
+}
+
+.banner .btn:hover {
+  background-color: black;
+}
+    </style>
     <body><!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -139,6 +172,9 @@
                 data-ls="offsetxin:left; flipxin:90 ; durationin:
                 6000;">
                 july , 2020</h6></div>
+
+            <a href="https://goldengoalmyanmar.com/download/apk" class="btn">Download the App</a>
+            {{-- <button class="btn" >Download the App</button> --}}
     </div>
     <div class=banner-text>
         <div class=container>
