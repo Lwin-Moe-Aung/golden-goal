@@ -173,8 +173,8 @@
                 6000;">
                 july , 2020</h6></div>
 
-            <a href="https://goldengoalmyanmar.com/download/apk" class="btn">Download the App</a>
-            {{-- <a href="{{ url('/download/apk') }}" class="btn">Download the App</a> --}}
+            {{-- <a href="https://goldengoalmyanmar.com/download/apk" class="btn">Download the App</a> --}}
+            <a href="{{ url('/download/apk') }}" class="btn">Download the App</a>
 
     </div>
     <div class=banner-text>
