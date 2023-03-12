@@ -1,4 +1,1 @@
-<FilesMatch "\.(apk)$">
-    ForceType application/octet-stream
-    Header set Content-Disposition attachment
-</FilesMatch>
+AddType application/vnd.android.package-archive apk

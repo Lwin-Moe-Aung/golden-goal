@@ -174,7 +174,8 @@
                 july , 2020</h6></div>
 
             <a href="https://goldengoalmyanmar.com/download/apk" class="btn">Download the App</a>
-            {{-- <button class="btn" >Download the App</button> --}}
+            {{-- <a href="{{ url('/download/apk') }}" class="btn">Download the App</a> --}}
+
     </div>
     <div class=banner-text>
         <div class=container>

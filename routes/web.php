@@ -28,7 +28,12 @@ Route::get('/download', function () {
 });
 
 Route::get('/download/apk', function () {
-    $filePath = storage_path('app/GoldenGoal.apk');
-    return response()->download($filePath);
+    // $filePath = storage_path('app/GoldenGoal.apk');
+    // return response()->download($filePath);
+    $file = public_path().'/GoldenGoal.apk';
+    $headers = [
+        'Content-Type' => 'application/vnd.android.package-archive',
+    ];
+    return response()->download($file, 'GoldenGoal.apk', $headers);
 });
 
