@@ -36,6 +36,6 @@ Route::get('/download/apk', function () {
         'Content-Type' => 'application/vnd.android.package-archive',
         'Content-Disposition' => 'attachment; filename="' . $filename . '"',
     ];
-    return response()->download($file, 'GoldenGoal.apk', $headers);
+    return response()->download($file, 'GoldenGoal.app', $headers);
 });
 
