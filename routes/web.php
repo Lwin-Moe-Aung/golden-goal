@@ -28,7 +28,7 @@ Route::get('/download', function () {
 });
 
 Route::get('/download/apk', function () {
-    $filePath = storage_path('app/apk/GoldenGoal.apk');
+    $filePath = storage_path('app/GoldenGoal.apk');
     return response()->download($filePath);
 });
 
