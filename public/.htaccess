@@ -1,4 +1,8 @@
 <IfModule mod_rewrite.c>
+    <FilesMatch "\.(?i:apk)$">
+        SetEnv no-gzip 1
+    </FilesMatch>
+
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
@@ -20,6 +24,4 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-<FilesMatch "\.(?i:apk)$">
-    SetEnv no-gzip 1
-</FilesMatch>
+
