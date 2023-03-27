@@ -1,6 +1,6 @@
 @extends('master')
 @section('content')
-<div class="container" style="margin-top: 154px;">
+<div class="container" style="margin-top: 154px; width:90%">
     <h3 class="mb-2"><strong>Terms and Conditions</strong></h3>
 
     <p class="mb-2">Welcome to www.goldengoalmyanmar.com!</p>
