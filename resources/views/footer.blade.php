@@ -1,45 +1,53 @@
-<footer class=footer-type02>
+<!-- Footer -->
+<div class="footer">
+    <div class="container px-4 sm:px-8">
+        <h4 class="mb-8 lg:max-w-3xl lg:mx-auto">Golden Goal is a mobile application for football fans and you can reach the team at <a class="text-indigo-600 hover:text-gray-500" href="mailto:goldengoal.ggwp@gmail.com">goldengoal.ggwp@gmail.com</a></h4>
+        <div class="social-container">
+            <span class="fa-stack">
+                <a href="https://www.facebook.com/GoldenGoalFootball" target="_blank">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x"></i>
+                </a>
+            </span>
+            {{-- <span class="fa-stack">
+                <a href="#your-link">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x"></i>
+                </a>
+            </span>
+            <span class="fa-stack">
+                <a href="#your-link">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-pinterest-p fa-stack-1x"></i>
+                </a>
+            </span>
+            <span class="fa-stack">
+                <a href="#your-link">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-instagram fa-stack-1x"></i>
+                </a>
+            </span>
+            <span class="fa-stack">
+                <a href="#your-link">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-youtube fa-stack-1x"></i>
+                </a>
+            </span> --}}
+        </div> <!-- end of social-container -->
+    </div> <!-- end of container -->
+</div> <!-- end of footer -->
+<!-- end of footer -->
+<!-- Copyright -->
+<div class="copyright">
+    <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-3">
+        <ul class="mb-4 list-unstyled p-small">
+            <li class="mb-2"><a href="{{ url('/terms-condition') }}">Terms & Conditions</a></li>
+            <li class="mb-2"><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
+        </ul>
+        <p class="pb-2 p-small statement">© 2020Copyright : <a href="{{ url('/') }}" class="no-underline"> Golden Goal</a></p>
 
-
-                    <div class=container>
-                        <div class=row>
-
-                            <a href="{{ url('/') }}"
-                                class=footer-logo><img
-                                    src=images/logo.png alt=image class="footer-logo-img">
-                            </a>
-
-                            <div class=footer-container>
-                                <ul class=clearfix>
-                                    <li><a
-                                            href=https://www.facebook.com/templatespoint.net
-                                            class=bigsocial-link><i
-                                                class="fa fa-facebook" target="_blank"></i></a></li>
-                                    <li><a href=https://twitter.com/
-                                            class=bigsocial-link
-                                            target="_blank"><i
-                                                class="fa fa-twitter"></i></a></li>
-                                </ul>
-                                <p>© 2020Copyright : <a
-                                        href="www.goldengoalmm.com">Golden Goal</a>
-                                </div>
-                                <div class=footer-appstore>
-                                    <figure><a href=#><img
-                                                src=images/appstore/apple.png
-                                                alt=image></a></figure>
-                                    <figure><a href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank"><img
-                                                src=images/appstore/google.png
-                                                alt=image
-                                                ></a></figure>
-                                </div>
-                            </div>
-                        </div>
-
-                    </footer>
-                </div>
-
-                <script src=js/vendor.js></script>
-                <script src=js/main.js></script>
-            </body>
-
-        </html>
+        <p class="pb-2 p-small statement">Distributed by :<a  href="{{ url('/') }}" class="no-underline">Golden Goal</a></p>
+    </div>
+<!-- end of container -->
+</div> <!-- end of copyright -->
+<!-- end of copyright -->
