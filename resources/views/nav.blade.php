@@ -6,10 +6,10 @@
         <!-- <a class="text-gray-800 font-semibold text-3xl leading-4 no-underline page-scroll" href="index.html">Pavo</a> -->
 
         <!-- Image Logo -->
-        <a class="inline-block mr-4 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline"  href="{{ url('/') }}">
+        <a class="inline-block mr-1 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline"  href="{{ url('/') }}">
             <img src="images/logo.png" style="height:73px !important" alt="alternative" class="h-8" />
         </a>
-
+        <span class="inline-block mr-5 py-0.5 text-xl">Golden Goal Myanmar</span>
         <button class="background-transparent rounded text-xl leading-none hover:no-underline focus:no-underline lg:hidden lg:text-gray-400" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon inline-block w-8 h-8 align-middle"></span>
         </button>
@@ -28,7 +28,7 @@
                 </li>
 
                 <li class="dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Drop</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                         <a class="dropdown-item page-scroll" href="{{ url('/terms-condition') }}">Terms &&  Conditions</a>
                         <div class="dropdown-divider"></div>

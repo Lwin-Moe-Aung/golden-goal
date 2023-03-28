@@ -45,7 +45,7 @@
             <div class="lg:col-span-5">
                 <div class="mb-16 lg:mb-0 xl:mt-16">
                     <h2 class="mb-6">Enjoy Top Prediction</h2>
-                    <p class="mb-4">MATCH PERCEMTAGES</p>
+                    <p class="mb-4">MATCH PERCENTAGES</p>
                     <p class="mb-4">We provide well-analysed football match probality on a daily basis from top analysts to ensure accuracy that guarantees high success rates.</p>
                     <p class="mb-4">DATA ACCAURACY</p>
                     <p class="mb-4">Results are refreshed at least once a day which is enough for quality predictions</p>
