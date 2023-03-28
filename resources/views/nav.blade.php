@@ -9,7 +9,7 @@
         <a class="inline-block mr-1 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline"  href="{{ url('/') }}">
             <img src="images/logo.png" style="height:73px !important" alt="alternative" class="h-8" />
         </a>
-        <span class="inline-block mr-5 py-0.5 text-xl">Golden Goal Myanmar</span>
+        <span class="inline-block mr-5 py-0.5 text-xl">Golden Goal</span>
         <button class="background-transparent rounded text-xl leading-none hover:no-underline focus:no-underline lg:hidden lg:text-gray-400" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon inline-block w-8 h-8 align-middle"></span>
         </button>
