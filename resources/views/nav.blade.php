@@ -38,13 +38,14 @@
             </ul>
             <span class="block lg:ml-3.5">
 
-                <a class="no-underline"  href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank">
+                <a class="no-underline" href="https://goldengoalmyanmar.com/GoldenGoal.apk">
                     <i class="fab fa-android text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200"></i>
                 </a>
-                <a class="no-underline" href="https://goldengoalmyanmar.com/GoldenGoal.apk">
+                <a class="no-underline" href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank">
                     <i class="fab fa-google-play text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200"></i>
                     {{-- <i class="fab fa-apple text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200 mr-1.5"></i> --}}
                 </a>
+
             </span>
         </div> <!-- end of navbar-collapse -->
     </div> <!-- end of container -->

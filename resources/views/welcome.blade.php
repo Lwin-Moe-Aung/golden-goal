@@ -6,8 +6,8 @@
             <div class="mb-16 lg:mt-32 xl:mt-40 xl:mr-12">
                 <h1 class="h1-large mb-5">Golden Goal Myanmar mobile application</h1>
                 <p class="p-large mb-8">Golden Goal Myanmar provides in-depth soccer stats, analytics and predictions to improve your soccer knowledge. Get daily predictions and stats to inform to you!</p>
-                <a class="btn-solid-lg" href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank"><i class="fab fa-android"></i>Download</a>
-                <a class="btn-solid-lg secondary" href="https://goldengoalmyanmar.com/GoldenGoal.apk"><i class="fab fa-google-play"></i>Download</a>
+                <a class="btn-solid-lg" href="https://goldengoalmyanmar.com/GoldenGoal.apk"><i class="fab fa-android"></i>Download</a>
+                <a class="btn-solid-lg secondary" href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank"><i class="fab fa-google-play"></i>Download</a>
             </div>
             <div class="xl:text-right">
                 <img class="inline" src="images/home.png" alt="alternative" style="max-width: 75%;height: auto;"/>
@@ -109,8 +109,9 @@
             </div>
             <div class="lg:mt-24 xl:mt-44 xl:ml-12">
                 <p class="mb-9 text-gray-800 text-3xl leading-10">Golden Goal Myanmar provides in-depth soccer stats, analytics and predictions to improve your soccer knowledge. Get daily predictions and stats to inform to you!</p>
-                <a class="btn-solid-lg" href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank"><i class="fab fa-android"></i>Download</a>
-                <a class="btn-solid-lg secondary" href="https://goldengoalmyanmar.com/GoldenGoal.apk"><i class="fab fa-google-play"></i>Download</a>
+                <a class="btn-solid-lg" href="https://goldengoalmyanmar.com/GoldenGoal.apk"><i class="fab fa-android"></i>Download</a>
+                <a class="btn-solid-lg secondary" href="https://play.google.com/store/apps/details?id=com.goldengoalmyanmar.goldengoal&hl=en&gl=US" target="_blank"><i class="fab fa-google-play"></i>Download</a>
+
             </div>
         </div> <!-- end of container -->
     </div> <!-- end of basic-5 -->
