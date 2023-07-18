@@ -15,9 +15,12 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('key');
             $table->enum('publish', ['0', '1'])->default('1');
-            $table->string('image');
+            $table->string('original');
+            $table->string('thumb320x50');
+            $table->string('thumb300x250');
+            $table->string('thumb320x480');
             $table->timestamps();
         });
     }

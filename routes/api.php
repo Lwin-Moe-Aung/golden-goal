@@ -66,6 +66,13 @@ Route::get('logout', 'API\AuthController@logout');
 
 	Route::post('fb-login', 'API\UserManageController@fbLogin');
 
-
+	Route::get('ads/changes', 'API\AdsController@getChanges');
+	Route::get('ads/percentages', 'API\AdsController@getPercentages');
+	Route::get('ads/estimate', 'API\AdsController@getEstimate');
+	Route::get('ads/estimate/detail', 'API\AdsController@getEstimateDetail');
+	
 	Route::resource('ads', 'API\AdsController');
+	Route::post('ads/update', 'API\AdsController@update');
+
+	
 
