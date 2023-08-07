@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdsController extends BaseController
 {
@@ -30,7 +31,7 @@ class AdsController extends BaseController
 
         $ads = Ad::select('*')->get();
         $data = [];
-        foreach ($ads as $ad){ 
+        foreach ($ads as $ad){
             $data[$ad->key] = $ad;
         }
 
@@ -66,13 +67,15 @@ class AdsController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
+        DB::table('ads')->truncate();
+
         if($request->hasFile('changes')) {
            $data = $this->imageSave($request->file('changes'), 'Changes');
            $ads = new Ad;
            $ads->original = $data["original"];
-           $ads->thumb320x50 = $data["320x50"];
-           $ads->thumb300x250 = $data["300x250"];
-           $ads->thumb320x480 = $data["320x480"];
+           $ads->thumb320x50 = $data["path320x50"];
+           $ads->thumb300x250 = $data["path300x250"];
+           $ads->thumb320x480 = $data["path320x480"];
            $ads['key'] = 'changes';
            $ads['publish'] = $input['changesPublish'];
            $ads->save();
@@ -81,9 +84,9 @@ class AdsController extends BaseController
             $data = $this->imageSave($request->file('percentages'), 'Percentages');
             $ads = new Ad;
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
             $ads['key'] = 'percentages';
             $ads['publish'] = $input['percentagesPublish'];
             $ads->save();
@@ -92,9 +95,9 @@ class AdsController extends BaseController
             $data = $this->imageSave($request->file('estimate'), 'Estimate');
             $ads = new Ad;
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
             $ads['key'] = 'estimate';
             $ads['publish'] = $input['estimatePublish'];
             $ads->save();
@@ -103,9 +106,9 @@ class AdsController extends BaseController
             $data = $this->imageSave($request->file('estimateDetail'), 'EstimateDetail');
             $ads = new Ad;
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
             $ads['key'] = 'estimateDetail';
             $ads['publish'] = $input['estimateDetailPublish'];
             $ads->save();
@@ -145,20 +148,20 @@ class AdsController extends BaseController
 
         $thumb_nail300x250 = public_path('storage/'.$path300x250);
         $img = Image::make($file->getRealPath())->resize(300,250)->save($thumb_nail300x250);
-        
+
         //Resize image here 320x480
         $thumbnail_name_320x480 = '320x480'.$rdnName;
         $filethumb320x480 = $thumbnail_name_320x480.'.'.$file->getClientOriginalExtension();
         $path320x480 = '/'."Ads".'/'.$key.'/'.date("Y").'/'.$filethumb320x480;
 
         $thumb_nail320x480 = public_path('storage/'.$path320x480);
-        $img = Image::make($file->getRealPath())->resize(300,250)->save($thumb_nail320x480);
+        $img = Image::make($file->getRealPath())->resize(300,480)->save($thumb_nail320x480);
 
         return [
             'original' => $path,
-            '320x50' => $path320x50,
-            '300x250' => $path300x250,
-            '320x480' => $path320x480
+            'path320x50' => $path320x50,
+            'path300x250' => $path300x250,
+            'path320x480' => $path320x480
         ];
     }
 
@@ -193,9 +196,9 @@ class AdsController extends BaseController
         if($request->hasFile('changes')) {
             $data = $this->imageSave($request->file('changes'), 'Changes');
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
          }
         $ads['key'] = 'changes';
         $ads['publish'] = $input['changesPublish'];
@@ -205,9 +208,9 @@ class AdsController extends BaseController
         if($request->hasFile('percentages')) {
             $data = $this->imageSave($request->file('percentages'), 'Percentages');
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
         }
         $ads['key'] = 'percentages';
         $ads['publish'] = $input['percentagesPublish'];
@@ -217,9 +220,9 @@ class AdsController extends BaseController
         if($request->hasFile('estimate')) {
             $data = $this->imageSave($request->file('estimate'), 'Estimate');
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
         }
         $ads['key'] = 'estimate';
         $ads['publish'] = $input['estimatePublish'];
@@ -229,9 +232,9 @@ class AdsController extends BaseController
         if($request->hasFile('estimateDetail')) {
             $data = $this->imageSave($request->file('estimateDetail'), 'EstimateDetail');
             $ads->original = $data["original"];
-            $ads->thumb320x50 = $data["320x50"];
-            $ads->thumb300x250 = $data["300x250"];
-            $ads->thumb320x480 = $data["320x480"];
+            $ads->thumb320x50 = $data["path320x50"];
+            $ads->thumb300x250 = $data["path300x250"];
+            $ads->thumb320x480 = $data["path320x480"];
         }
         $ads['key'] = 'estimateDetail';
         $ads['publish'] = $input['estimateDetailPublish'];
@@ -242,49 +245,50 @@ class AdsController extends BaseController
 
 
     /**
-     * ads for changes 
+     * ads for changes
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function getChanges()
     {
-        $data = Ad::where('key', 'changes')->first();
+        $data = Ad::where('key', '=', 'changes')->first();
         return $this->sendResponse($data, 'Ads is successfully reteived.');
     }
 
      /**
-     * ads for percentages 
+     * ads for percentages
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function getPercentages()
     {
-        $data = Ad::where('key', 'percentages')->first();
+        $data = Ad::where('key', '=', 'percentages')->first();
+        // dd($data);
         return $this->sendResponse($data, 'Ads is successfully reteived.');
     }
      /**
-     * ads for changes 
+     * ads for changes
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function getEstimate()
     {
-        $data = Ad::where('key', 'estimate')->first();
+        $data = Ad::where('key', '=', 'estimate')->first();
         return $this->sendResponse($data, 'Ads is successfully reteived.');
     }
      /**
-     * ads for changes 
+     * ads for changes
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function getEstimateDetail()
     {
-        $data = Ad::where('key', 'estimateDetail')->first();
+        $data = Ad::where('key', '=', 'estimateDetail')->first();
         return $this->sendResponse($data, 'Ads is successfully reteived.');
     }
-    
+
 }
