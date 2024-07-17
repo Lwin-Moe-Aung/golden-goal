@@ -16,9 +16,37 @@ use Illuminate\Http\Request;
 // Route::post('login', function(Request $request) {
 //     return "hello world";
 // });
+Route::get('/', 'API\HomeController@index');
 
-Route::post('login', 'API\AuthController@login');
-Route::get('logout', 'API\AuthController@logout');
+Route::group(['namespace' => 'API'], function () {
+	Route::post('login', 'AuthController@login');
+	Route::get('logout', 'AuthController@logout');
+	
+	//user login
+	Route::post('user/login', 'AuthController@userLogin')->name('login');;
+	
+	// Route::group(['middleware' => 'verifyUser'], function() {
+	// 	Route::post('/reset/password', 'ResetPasswordController@resetPassword');
+    // });
+  Route::post('reset/password', 'ResetPasswordController@resetPassword');
+
+  Route::middleware('auth:api')->group(function() {
+    // Route::post('logout', 'AuthController@logout');
+  });
+	
+
+	// user registeration
+	Route::post('user/register', 'RegisterController@register');
+	
+	// forget password
+	Route::post('forgot/password', 'ForgotPasswordController@forgotPassword');
+	
+	// OTP
+	Route::post('otp/send', 'OtpController@sendOtp');
+	Route::post('otp/verify', 'OtpController@verifyOtp');
+	
+   
+});
 
 	Route::resource('products', 'API\ProductController');
 	Route::resource('changes', 'API\ChangeController');
@@ -73,6 +101,9 @@ Route::get('logout', 'API\AuthController@logout');
 	
 	Route::resource('ads', 'API\AdsController');
 	Route::post('ads/update', 'API\AdsController@update');
+
+	Route::post('/send-otp', 'API\OtpController@sendOtp');
+	Route::post('/verify-otp', 'API\OtpController@verifyOtp');
 
 	
 

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'password', 'role', 'start_date', 'end_date', 'member_type', 'device_id', 'imei', 'profile_photo','fb_id'
+        'username', 'password', 'role','start_date', 'end_date', 'member_type', 'device_id', 'imei', 'profile_photo','fb_id','phone_number', 'otp', 'expires_at', 'otp_request_count', 'last_otp_request_at'
     ];
 
     /**
@@ -36,7 +36,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_otp_request_at' => 'datetime',
     ];
+
+    protected $dates = ['expires_at'];
 
     public function AauthAcessToken(){
         return $this->hasMany('\App\OauthAccessToken');

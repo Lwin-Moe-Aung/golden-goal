@@ -17,6 +17,9 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('username')->nullable();
             $table->string('password')->nullable();
+            $table->string('phone_number')->unique();
+            $table->string('otp')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->enum('role', ['Admin', 'User']);
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();

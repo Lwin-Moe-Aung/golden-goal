@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends BaseController
 {
@@ -57,17 +59,52 @@ class AuthController extends BaseController
         return $this->sendResponse($success,"login success");
     }
 
+    // Login method for user
+    public function userLogin(Request $request)
+    {
+        // Validate input
+      $validator = Validator::make($request->all(), [
+        'phone_number' => 'required|string',
+        'password' => 'required|string|min:6',
+      ]);
+
+      if ($validator->fails()) {
+          return $this->sendError('Validation Error.', $validator->errors());
+      }
+
+      // Check if the user exists
+      $user = User::where('phone_number', $request->phone_number)->first();
+
+      if (!$user) {
+          return $this->sendError('Phone number is not registered.', []);
+      }
+      // Attempt to log the user in
+      if (!Auth::attempt(['phone_number' => $request->phone_number, 'password' => $request->password])) {
+          return $this->sendError('Password incorrect!', []);
+      }
+
+      // Generate access token
+      $token = $user->createToken('user Access Token')->accessToken;
+
+      // Format response data
+      $data = [
+          'user_id' => $user->id,
+          'name' => $user->username,
+          'token' => $token,
+      ];
+      return $this->sendResponse($data, 'login success');
+    }
+
     //logout
     public function logout(Request $request)
     {
-        // dd(Auth::guard('api')->user()->AauthAcessToken());
-        if (Auth::guard('api')->check()) {
-            Auth::guard('api')->user()->AauthAcessToken()->delete();
-            $error = "successfully logout";
-            return $this->sendResponse($error, "successfully logout");
-        }
-        $error = "Unauthorized user";
-        return $this->sendError($error,'',201);
+      if (Auth::guard('api')->check()) {
+        Auth::guard('api')->user()->AauthAcessToken()->delete();
+        $error = "successfully logout";
+        return $this->sendResponse($error, "successfully logout");
+      }
+      $error = "Unauthorized user";
+      return $this->sendError($error,'',201);
 
     }
 
@@ -83,5 +120,32 @@ class AuthController extends BaseController
             $error = "user not found";
             return $this->sendResponse($error);
         }
+    }
+
+    public function resetPassword(Request $request)
+    {
+      if (!Auth::guard('api')->check()) {
+        return $this->sendError('Unauthorized', []);
+      }
+      // Validate input
+      $validator = Validator::make($request->all(), [
+          'current_password' => 'required|string|min:6',
+          'new_password' => 'required|string|min:6|confirmed',
+      ]);
+
+      if ($validator->fails()) {
+          return $this->sendError('Validation Error.', $validator->errors());
+      }
+
+      $user = Auth::guard('api')->user();
+      // Check if current password is correct
+      if (!Hash::check($request->current_password, $user->password)) {
+          return $this->sendError('Current password is incorrect.', []);
+      }
+
+      // Update the password
+      $user->password = Hash::make($request->new_password);
+      $user->save();
+      return $this->sendResponse([], 'Password has been reset successfully.');
     }
 }

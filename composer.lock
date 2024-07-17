@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db5d191803f9c42ecbe9c1e732e68cfa",
+    "content-hash": "56e7e3f30625e971b3b48cbe2fa01bae",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -2593,6 +2593,72 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.9.12"
             },
             "time": "2019-12-06T14:19:43+00:00"
+        },
+        {
+            "name": "pyaesone17/sms-poh",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pyaesone17/sms-poh.git",
+                "reference": "56259c16b094400b009e676a1dec8a9bcbeecadb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pyaesone17/sms-poh/zipball/56259c16b094400b009e676a1dec8a9bcbeecadb",
+                "reference": "56259c16b094400b009e676a1dec8a9bcbeecadb",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "illuminate/support": "~5.5",
+                "php": "~7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=5.4.3",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "pyaesone17\\SmsPoh\\SmsPohServiceProvider"
+                    ],
+                    "aliases": {
+                        "SmsPohFacade": "pyaesone17\\SmsPoh\\Facades\\SmsPohFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "pyaesone17\\SmsPoh\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pyae Sone Nyein",
+                    "email": "promise286@gmail.com",
+                    "homepage": "https://pyaesone17.github.io/veve/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SmsPoh Sdk for laravel",
+            "homepage": "https://github.com/pyaesone17/SmsPoh",
+            "keywords": [
+                "SmsPoh",
+                "pyaesone17"
+            ],
+            "support": {
+                "issues": "https://github.com/pyaesone17/sms-poh/issues",
+                "source": "https://github.com/pyaesone17/sms-poh/tree/1.1"
+            },
+            "time": "2018-01-13T04:55:44+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -7179,5 +7245,5 @@
         "php": "^7.1.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.6.0"
 }
