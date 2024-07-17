@@ -57,6 +57,7 @@ class RegisterController extends BaseController
         $user->username = $request->username;
         $user->password = Hash::make($request->password);
         $user->save();
+        $user->token = $user->createToken('user Access Token')->accessToken;
 
         return $this->sendResponse($user, 'Registration successful');
         
