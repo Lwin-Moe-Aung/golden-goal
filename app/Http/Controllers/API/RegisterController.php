@@ -50,9 +50,9 @@ class RegisterController extends BaseController
         if(!$user) return $this->sendError('User not found!.', []);
         if(!$otp) return $this->sendError('Verify key is not found!', []);
 
-        if ($this->hasTooManyOtpRequests($user)) {
-            return $this->sendError('Too many OTP requests. Please try again later.', []);
-        }
+        // if ($this->hasTooManyOtpRequests($user)) {
+        //     return $this->sendError('Too many OTP requests. Please try again later.', []);
+        // }
 
         $user->username = $request->username;
         $user->password = Hash::make($request->password);
