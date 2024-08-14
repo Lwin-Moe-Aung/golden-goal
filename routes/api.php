@@ -44,8 +44,9 @@ Route::group(['namespace' => 'API'], function () {
 	// OTP
 	Route::post('otp/send', 'OtpController@sendOtp');
 	Route::post('otp/verify', 'OtpController@verifyOtp');
-	
-   
+	Route::get('get/subscriptions', 'SubscriptionPlanController@getLists');
+
+	Route::get('get/payments', 'PaymentMethodController@getLists');
 });
 
 	Route::resource('products', 'API\ProductController');
