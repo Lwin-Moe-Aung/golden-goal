@@ -18,10 +18,16 @@ use Illuminate\Http\Request;
 // });
 Route::get('/', 'API\HomeController@index');
 
+
 Route::group(['namespace' => 'API'], function () {
 	Route::post('login', 'AuthController@login');
 	Route::get('logout', 'AuthController@logout');
 	
+  //dinger
+  Route::post('process/payment', 'DingerController@processPayment');
+  Route::post('merchant/callback', 'DingerController@handleCallback');
+
+
 	//user login
 	Route::post('user/login', 'AuthController@userLogin')->name('login');;
 	
@@ -48,6 +54,8 @@ Route::group(['namespace' => 'API'], function () {
 
 	Route::get('get/payments', 'PaymentMethodController@getLists');
 });
+
+  
 
 	Route::resource('products', 'API\ProductController');
 	Route::resource('changes', 'API\ChangeController');
