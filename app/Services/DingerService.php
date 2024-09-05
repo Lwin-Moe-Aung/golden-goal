@@ -83,7 +83,8 @@ class DingerService
 
     public function formCheckout($transactionNo, $formToken, $merchantOrderId)
     {
-      return "https://staging.dinger.asia/gateway/formCheckout?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
+
+      return "https://prebuilt-revamp-staging.dinger.asia/gateway/formCheckout?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
     }
     
 }

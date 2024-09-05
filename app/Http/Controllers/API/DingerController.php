@@ -96,6 +96,7 @@ class DingerController extends BaseController
   public function handleCallback(Request $request)
   {
     $secretKey = "d655c33205363f5450427e6b6193e466";
+    // f15cc295f86f6f4779e751e011d823c6
 
     $result = $request->getContent();
     $decodedValue = json_decode($result, true);
