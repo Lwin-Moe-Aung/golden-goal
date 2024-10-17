@@ -13,6 +13,8 @@ class DingerService
     protected $projectName;
     protected $merchantName;
     protected $stagingUrl;
+    protected $productionUrl;
+
 
     public function __construct()
     {
@@ -22,7 +24,7 @@ class DingerService
       $this->projectName = config('dinger.project_name');
       $this->merchantName = "Golden Goal";
       $this->stagingUrl = config('dinger.dinger_staging_url');
-      
+      $this->productionUrl = config('dinger.dinger_production_url');
     }
 
     public function preparePaymentData($providerName, $methodName, $totalAmount, $orderId, $customerName, $customerPhone)
@@ -57,11 +59,11 @@ class DingerService
 
     public function getToken()
     {
-      $response = $this->client->get("{$this->stagingUrl}/api/token", [
+      $response = $this->client->get("{$this->productionUrl}/api/token", [
         'query' => [
-            'projectName' => "GoldenGoal",
-            'apiKey' => "qj8gc3g.hhr8OZWw_YpVpKc2Gl7zyA-SZFY",
-            'merchantName' => "Golden Goal",
+            'projectName' => "GoldenGoalMyanmar",
+            'apiKey' => "fnurn6t.UwYt9z5K1_X5cLArLPU9o-dw8kg",
+            'merchantName' => "Golden Goal Myanmar",
         ]
       ]);
       return json_decode($response->getBody()->getContents(), true);
@@ -69,7 +71,7 @@ class DingerService
 
     public function makePayment($paymentToken, $encryptedData)
     {
-      $response = $this->client->post("{$this->stagingUrl}/api/pay", [
+      $response = $this->client->post("{$this->productionUrl}/api/pay", [
         'headers' => [
             'Authorization' => "Bearer {$paymentToken}",
           ],

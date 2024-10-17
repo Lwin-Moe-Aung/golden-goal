@@ -95,8 +95,8 @@ class DingerController extends BaseController
 
   public function handleCallback(Request $request)
   {
-    $secretKey = "d655c33205363f5450427e6b6193e466";
-    // f15cc295f86f6f4779e751e011d823c6
+    // 3. Merchant's Callback Key
+    $secretKey = "52b377fcea69f03855dcc4f30f9d83f6";
 
     $result = $request->getContent();
     $decodedValue = json_decode($result, true);
@@ -105,7 +105,7 @@ class DingerController extends BaseController
     $checkSum = $decodedValue['checksum'] ?? null;
 
     if (!$paymentResult || !$checkSum) {
-        return response()->json(['error' => 'Invalid payload'], 400);
+      return response()->json(['error' => 'Invalid payload'], 400);
     }
 
     // Base64 decode the payment result before decryption

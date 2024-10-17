@@ -6,5 +6,5 @@ return [
     'project_name' => env('PROJECT_NAME', 'Dinger project name'),
     'merchant_name' => env('MERCHANT_NAME', 'Dinger merchant name'),
     'dinger_staging_url' => env('DINGER_STAGING_URL', 'Dinger staging url'),
-
+    'dinger_production_url' => env('DINGER_PRODUCTION_URL', 'Dinger Production url')
 ];

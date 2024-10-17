@@ -27,6 +27,14 @@ Route::get('/download', function () {
     return view('download');
 });
 
+Route::get('/payment/success', function () {
+  return view('payment_success');
+});
+
+Route::get('/payment/fail', function () {
+  return view('payment_fail');
+});
+
 Route::get('/download/apk', function () {
     // $filePath = storage_path('app/GoldenGoal.apk');
     // return response()->download($filePath);
