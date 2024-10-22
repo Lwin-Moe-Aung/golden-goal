@@ -59,14 +59,19 @@ class DingerService
 
     public function getToken()
     {
-      $response = $this->client->get("{$this->productionUrl}/api/token", [
-        'query' => [
-            'projectName' => "Golden Goal Myanmar",
-            'apiKey' => "fnurn6t.UwYt9z5K1_X5cLArLPU9o-dw8kg",
-            'merchantName' => "GoldenGoalMyanmar",
-        ]
-      ]);
-      return json_decode($response->getBody()->getContents(), true);
+      try {
+        $response = $this->client->get("{$this->productionUrl}/api/token", [
+          'query' => [
+              'projectName' => "Golden Goal Myanmar",
+              'apiKey' => "fnurn6t.UwYt9z5K1_X5cLArLPU9o-dw8kg",
+              'merchantName' => "GoldenGoalMyanmar",
+          ]
+        ]);
+        return json_decode($response->getBody()->getContents(), true);
+      } catch (\GuzzleHttp\Exception\ServerException $e) {
+        \Log::error('Dinger API Error', ['response' => $e->getResponse()->getBody()->getContents()]);
+        return null;
+      }
     }
 
     public function makePayment($paymentToken, $encryptedData)
