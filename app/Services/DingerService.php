@@ -61,9 +61,9 @@ class DingerService
     {
       $response = $this->client->get("{$this->productionUrl}/api/token", [
         'query' => [
-            'projectName' => $this->projectName,
-            'apiKey' => $this->merchantApiKey,
-            'merchantName' => $this->merchantName,
+            'projectName' => "Golden Goal Myanmar",
+            'apiKey' => "fnurn6t.UwYt9z5K1_X5cLArLPU9o-dw8kg",
+            'merchantName' => "GoldenGoalMyanmar",
         ]
       ]);
       return json_decode($response->getBody()->getContents(), true);
