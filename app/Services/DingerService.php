@@ -21,8 +21,8 @@ class DingerService
       $this->client = new Client();
       $this->publicKey = config('dinger.public_key');
       $this->merchantApiKey = config('dinger.merchant_api_key');
-      $this->projectName = config('dinger.project_name');
-      $this->merchantName = "Golden Goal";
+      $this->projectName = "Golden Goal Myanmar";
+      $this->merchantName = "GoldenGoalMyanmar";
       $this->stagingUrl = config('dinger.dinger_staging_url');
       $this->productionUrl = config('dinger.dinger_production_url');
     }
@@ -61,9 +61,9 @@ class DingerService
     {
       $response = $this->client->get("{$this->productionUrl}/api/token", [
         'query' => [
-            'projectName' => "GoldenGoalMyanmar",
-            'apiKey' => "fnurn6t.UwYt9z5K1_X5cLArLPU9o-dw8kg",
-            'merchantName' => "Golden Goal Myanmar",
+            'projectName' => $this->projectName,
+            'apiKey' => $this->merchantApiKey,
+            'merchantName' => $this->merchantName,
         ]
       ]);
       return json_decode($response->getBody()->getContents(), true);
@@ -86,7 +86,7 @@ class DingerService
     public function formCheckout($transactionNo, $formToken, $merchantOrderId)
     {
       
-      return "https://staging.dinger.asia/gateway/formCheckout?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
+      return "{$this->productionUrl}/gateway/formCheckout?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
     }
     
 }

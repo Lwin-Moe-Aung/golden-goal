@@ -61,6 +61,7 @@ class DingerController extends BaseController
     $tokenResponse = $this->dingerService->getToken();
     $paymentToken = $tokenResponse["response"]["paymentToken"];
 
+
     // Step 2: Prepare and encrypt payment data
     $paymentData = [
         'providerName' => $request->input('providerName'),
@@ -76,7 +77,7 @@ class DingerController extends BaseController
 
     // Step 3: Make Payment Request
     $paymentResponse = $this->dingerService->makePayment($paymentToken, $encryptedData);
-
+    
     if (is_array($paymentResponse) && isset($paymentResponse['response']) && !isset($paymentResponse['response']['formToken'])) {
       return response()->json($paymentResponse);
     }

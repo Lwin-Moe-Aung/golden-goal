@@ -79,7 +79,7 @@ Route::group(['namespace' => 'API'], function () {
 	Route::post('football_team_update', 'API\FootballTeamController@footballTeamUpdate');
 	Route::get('get_team_by_leg_id/{id}', 'API\FootballTeamController@getTeamByLeagueid');
 
-    Route::get('get_all_estimations_by_user', 'API\EstimationController@getAllEstimationsByUser');
+  Route::get('get_all_estimations_by_user', 'API\EstimationController@getAllEstimationsByUser');
 	Route::resource('estimations', 'API\EstimationController');
 	Route::post('get_estimations_by_date', 'API\EstimationController@getEstimationsByDate');
 	Route::post('get_changes_by_date', 'API\EstimationController@getChangesByDate');
