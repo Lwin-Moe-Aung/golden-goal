@@ -18,6 +18,7 @@ class CreateLeaguesTable extends Migration
             $table->string('league_name');
             $table->string('league_icon');
             $table->integer('priority');
+            $table->enum('is_paid', ['0', '1'])->default('0');
             $table->timestamps();
         });
     }

@@ -12,6 +12,8 @@ use App\League;
 use App\Change;
 use App\Percentage;
 use App\Tip;
+use App\User;
+
 use Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -264,10 +266,27 @@ class EstimationController extends BaseController
 
     public function getEstimationsByDate(Request $request)
     {
-        // if (!Auth::guard('api')->check()) {
-        //     $error = "Unauthorized user";
-        //     return $this->sendError($error,'',202);
-        // }
+        $expired = 1;
+        $subscribed = 0;
+        $is_login = 0;
+        if (Auth::guard('api')->check()) {
+          $is_login = 1;
+          $subscription_end_date = Auth::guard('api')->user()->subscription_end_date;
+          if($subscription_end_date !== null){
+            $subscriptionEndDate = Carbon::parse($subscription_end_date);
+            $today = Carbon::now();
+            if ($subscriptionEndDate->greaterThan($today)) {
+              $expired = 0; 
+              $subscribed = 1;
+            }else{
+              $user_id = Auth::guard('api')->user()->id;
+              $user = User::findOrFail($user_id);
+              $user->subscription_plan_id = null;
+              $user->subscription_end_date = null;
+              $user->save();
+            }
+          }
+        }
 
         $league = League::select('*')->orderBy('priority', 'ASC')->get();
         $ordered_leagues = [];
@@ -300,7 +319,19 @@ class EstimationController extends BaseController
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
-                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["is_paid"] = $ordered_leagues[$value->league_id]["is_paid"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["is_login"] = $is_login;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["subscribed"] = $subscribed;
+                
+                if($ordered_leagues[$value->league_id]["is_paid"]){
+                  if(!$expired){
+                    $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                  }else{
+                    $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"] = [];
+                  }
+                }else{
+                  $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                }
 
 
             }
@@ -331,6 +362,28 @@ class EstimationController extends BaseController
     //Get changes By Date
     public function getChangesByDate(Request $request)
     {
+        $expired = 1;
+        $subscribed = 0;
+        $is_login = 0;
+        if (Auth::guard('api')->check()) {
+          $is_login = 0;
+          $subscription_end_date = Auth::guard('api')->user()->subscription_end_date;
+          if($subscription_end_date !== null){
+            $subscriptionEndDate = Carbon::parse($subscription_end_date);
+            $today = Carbon::now();
+            if ($subscriptionEndDate->greaterThan($today)) {
+              $expired = 0; 
+              $subscribed = 1;
+            }else{
+              $user_id = Auth::guard('api')->user()->id;
+              $user = User::findOrFail($user_id);
+              $user->subscription_plan_id = null;
+              $user->subscription_end_date = null;
+              $user->save();
+            }
+          }
+        }
+
         $league = League::select('*')->orderBy('priority', 'ASC')->get();
         $ordered_leagues = [];
         foreach ($league as $key => $value) {
@@ -363,7 +416,21 @@ class EstimationController extends BaseController
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
-                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["is_paid"] = $ordered_leagues[$value->league_id]["is_paid"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["is_login"] = $is_login;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["subscribed"] = $subscribed;
+                
+            
+                if($ordered_leagues[$value->league_id]["is_paid"]){
+                  if(!$expired){
+                    $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                  }else{
+                    $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"] = [];
+                  }
+                }else{
+                  $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                }
+            
             }
             ksort($estimation_by_date);
 
@@ -381,6 +448,28 @@ class EstimationController extends BaseController
     //Get Percentages By Date
     public function getPercentagesByDate(Request $request)
     {
+        $expired = 1;
+        $subscribed = 0;
+        $is_login = 0;
+        if (Auth::guard('api')->check()) {
+          $is_login = 1;
+          $subscription_end_date = Auth::guard('api')->user()->subscription_end_date;
+          if($subscription_end_date !== null){
+            $subscriptionEndDate = Carbon::parse($subscription_end_date);
+            $today = Carbon::now();
+            if ($subscriptionEndDate->greaterThan($today)) {
+              $expired = 0; 
+              $subscribed = 1;
+            }else{
+              $user_id = Auth::guard('api')->user()->id;
+              $user = User::findOrFail($user_id);
+              $user->subscription_plan_id = null;
+              $user->subscription_end_date = null;
+              $user->save();
+            }
+          }
+        }
+
         $league = League::select('*')->orderBy('priority', 'ASC')->get();
         $ordered_leagues = [];
         foreach ($league as $key => $value) {
@@ -413,7 +502,19 @@ class EstimationController extends BaseController
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_name"] = $ordered_leagues[$value->league_id]["league_name"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["league_icon"] = $ordered_leagues[$value->league_id]["league_icon"];
                 $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["priority"] = $ordered_leagues[$value->league_id]["priority"];
-                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["is_paid"] = $ordered_leagues[$value->league_id]["is_paid"];
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["is_login"] = $is_login;
+                $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["subscribed"] = $subscribed;
+                
+                if($ordered_leagues[$value->league_id]["is_paid"]){
+                  if(!$expired){
+                    $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                  }else{
+                    $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"] = [];
+                  }
+                }else{
+                  $estimation_by_date[$ordered_leagues[$value->league_id]["priority"]]["match"][] = $value;
+                }
             }
             ksort($estimation_by_date);
 

@@ -90,6 +90,8 @@ class AuthController extends BaseController
       $data = [
           'user_id' => $user->id,
           'name' => $user->username,
+          'subscription_plan_id' => $user->subscription_plan_id,
+          'subscription_end_date' => $user->subscription_end_date,
           'token' => $token,
       ];
       return $this->sendResponse($data, 'login success');
