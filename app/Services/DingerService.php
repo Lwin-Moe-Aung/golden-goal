@@ -90,8 +90,12 @@ class DingerService
 
     public function formCheckout($transactionNo, $formToken, $merchantOrderId)
     {
-      
-      return "{$this->productionUrl}/gateway/formCheckout?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
+      //staging
+      //return "{$this->productionUrl}/gateway/formCheckout?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
+
+      //production
+      return "https://portal.dinger.asia/gateway/redirect?transactionNo={$transactionNo}&formToken={$formToken}&merchantOrderId={$merchantOrderId}";
+
     }
     
 }

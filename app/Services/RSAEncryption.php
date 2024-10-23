@@ -13,7 +13,7 @@ class RSAEncryption
 
   public function encrypt($jsonData)
   {
-    // try {
+    try {
       $rsa = new RSA();
 
       extract($rsa->createKey(1024));
@@ -26,9 +26,9 @@ class RSAEncryption
 
       return $encoded_cipherText;
 
-    // } catch (\Exception $e) {
+    } catch (\Exception $e) {
       // Handle general encryption errors
-    //   throw new \Exception('Failed to encrypt data: ' . $e->getMessage());
-    // } 
+      throw new \Exception('Failed to encrypt data: ' . $e->getMessage());
+    } 
   }
 }
