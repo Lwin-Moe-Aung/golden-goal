@@ -8,6 +8,8 @@ use App\Services\DingerService;
 use App\Services\RSAEncryption;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class DingerController extends BaseController
 {
@@ -59,9 +61,9 @@ class DingerController extends BaseController
   {
     if (!Auth::guard('api')->check()) {
       $error = "Unauthorized user";
-      return $this->sendError($error,'',400);
+      return $this->sendError($error,'',401);
     }
-
+    
     // Step 1: Get Dinger Token
     $tokenResponse = $this->dingerService->getToken();
     $paymentToken = $tokenResponse["response"]["paymentToken"];
