@@ -160,9 +160,9 @@ class DingerController extends BaseController
     $transactionData = Transaction::where('order_id', '=', $merchantOrderId)->first();
 
     if ($transactionStatus === "SUCCESS") {
-        $this->callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date);
+        $this->callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, "fb8c7365-409a-43b8-8b1c-7d1a0da5a7d4", $transactionId, $customerName, $date);
     } else {
-        $this->callBackFail($merchantOrderId);
+        $this->callBackFail("fb8c7365-409a-43b8-8b1c-7d1a0da5a7d4");
         Log::error('Transaction failed', $decryptedValues);
     }
 
@@ -178,18 +178,18 @@ class DingerController extends BaseController
 
     return response()->json(['data' => $callBackResponse]);
   }
-
   
   protected function callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date)
   {
-    $transaction = Transaction::where('order_id', '=', $merchantOrderId)->first();
-    $transaction->transaction_status = 'SUCCESS';
-    $transaction->save();
+    $transactions = Transaction::where('order_id', $merchantOrderId)->get();
+    if ($transactions->isNotEmpty()) {
+      $transactions[0]->transaction_status = 'SUCCESS';
+      $transactions[0]->save();
+    }
+    $user_id = $transactions[0]->user_id;
+    $plan_id = $transactions[0]->plan_id;
 
-    $user_id = $transaction->user_id;
-    $plan_id = $transaction->plan_id;
-
-    $user = Estimation::findOrFail($user_id);
+    $user = User::findOrFail($user_id);
     $user->subscription_plan_id = $plan_id;
     if ($plan_id == 2) {
       // Standard plan for 30 days
@@ -202,7 +202,6 @@ class DingerController extends BaseController
       $user->subscription_end_date = Carbon::now()->addDays(180);
     }
     $user->save();
-
 
     DB::table('dinger_call_back_data')->insert([
         'totalAmount' => $totalAmount,
