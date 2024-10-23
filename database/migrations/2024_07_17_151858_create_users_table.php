@@ -30,6 +30,8 @@ class CreateUsersTable extends Migration
             $table->string('fb_id')->nullable();
             $table->string('profile_photo')->nullable();
             $table->float('rank')->nullable();
+            $table->integer('subscription_plan_id')->nullable();
+            $table->dateTime('subscription_end_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

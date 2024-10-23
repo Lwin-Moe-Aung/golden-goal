@@ -9,7 +9,9 @@ use App\Services\RSAEncryption;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use App\Transaction;
+use App\User;
+use Carbon\Carbon;
 
 class DingerController extends BaseController
 {
@@ -63,12 +65,12 @@ class DingerController extends BaseController
       $error = "Unauthorized user";
       return $this->sendError($error,'',401);
     }
-    
+    $user_id = Auth::guard('api')->user()->id;
     // Step 1: Get Dinger Token
     $tokenResponse = $this->dingerService->getToken();
     $paymentToken = $tokenResponse["response"]["paymentToken"];
-
-
+    
+    
     // Step 2: Prepare and encrypt payment data
     $paymentData = [
         'providerName' => $request->input('providerName'),
@@ -84,6 +86,15 @@ class DingerController extends BaseController
 
     // Step 3: Make Payment Request
     $paymentResponse = $this->dingerService->makePayment($paymentToken, $encryptedData);
+
+    DB::table('transactions')->insert([
+      'user_id' => $user_id,
+      'plan_id' => $request->input('planId'),
+      'order_id' => $request->input('orderId'),
+      'transaction_status' => 'PENDING',
+      'created_at' => now(),
+      'updated_at' => now()
+    ]);
 
     if (is_array($paymentResponse) && isset($paymentResponse['response']) && !isset($paymentResponse['response']['formToken'])) {
       return response()->json($paymentResponse);
@@ -146,9 +157,12 @@ class DingerController extends BaseController
     $customerName = $decryptedValues["customerName"] ?? null;
     $date = now();
 
+    $transactionData = Transaction::where('order_id', '=', $merchantOrderId)->first();
+
     if ($transactionStatus === "SUCCESS") {
-        $this->storeTransaction($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date);
+        $this->callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date);
     } else {
+        $this->callBackFail($merchantOrderId);
         Log::error('Transaction failed', $decryptedValues);
     }
 
@@ -165,8 +179,31 @@ class DingerController extends BaseController
     return response()->json(['data' => $callBackResponse]);
   }
 
-  protected function storeTransaction($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date)
+  
+  protected function callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date)
   {
+    $transaction = Transaction::where('order_id', '=', $merchantOrderId)->first();
+    $transaction->transaction_status = 'SUCCESS';
+    $transaction->save();
+
+    $user_id = $transaction->user_id;
+    $plan_id = $transaction->plan_id;
+
+    $user = Estimation::findOrFail($user_id);
+    $user->subscription_plan_id = $plan_id;
+    if ($plan_id == 2) {
+      // Standard plan for 30 days
+      $user->subscription_end_date = Carbon::now()->addDays(30);
+    } else if ($plan_id == 3) {
+      // Advance plan for 90 days
+      $user->subscription_end_date = Carbon::now()->addDays(90);
+    } else if ($plan_id == 4) {
+      // Pro Mac plan for 180 days
+      $user->subscription_end_date = Carbon::now()->addDays(180);
+    }
+    $user->save();
+
+
     DB::table('dinger_call_back_data')->insert([
         'totalAmount' => $totalAmount,
         'transactionStatus' => $transactionStatus,
@@ -179,6 +216,14 @@ class DingerController extends BaseController
         'updated_at' => $date
     ]);
 
+    Log::info('New transaction record created successfully');
+  }
+
+  protected function callBackFail($merchantOrderId)
+  {
+    $transaction = Transaction::where('order_id', '=', $merchantOrderId)->first();
+    $transaction->transaction_status = 'FAIL';
+    $transaction->save();
     Log::info('New transaction record created successfully');
   }
 
