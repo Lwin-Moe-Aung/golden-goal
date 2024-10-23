@@ -49,10 +49,16 @@
             <h2> Your payment was successful </h2>
             <p> Thank you for your payment. we will <br>
 be in contact with more details shortly </p>   
-            <a href="#">Back to Home</a>   
+            <button onclick="dingerPaymentSuccess()">Back to Home</button>
         </div> 
       </div> 
     </div> 
-  </div> 
+  </div>
+  <script type="text/javascript">
+      function dingerPaymentSuccess() {
+          // Call Android's navigateToMainActivity() method
+          Android.dingerPaymentSuccess();
+      }
+  </script> 
 </body>
 </html>

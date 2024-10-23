@@ -48,11 +48,17 @@
           <i class="fa fa-times-circle" aria-hidden="true"></i>
           <h2> Your payment failed </h2>
           <p>  Try again later </p> 
-          <a href="#">Back to Home</a>   
+          <button onclick="dingerPaymentFail()">Back to Home</button>
 
         </div> 
       </div> 
     </div> 
   </div> 
+  <script type="text/javascript">
+      function dingerPaymentFail() {
+          // Call Android's navigateToMainActivity() method
+          Android.dingerPaymentFail();
+      }
+  </script> 
 </body>
 </html>

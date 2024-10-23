@@ -57,6 +57,11 @@ class DingerController extends BaseController
 
   public function processPayment(Request $request)
   {
+    if (!Auth::guard('api')->check()) {
+      $error = "Unauthorized user";
+      return $this->sendError($error,'',400);
+    }
+
     // Step 1: Get Dinger Token
     $tokenResponse = $this->dingerService->getToken();
     $paymentToken = $tokenResponse["response"]["paymentToken"];
