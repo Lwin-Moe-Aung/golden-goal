@@ -157,10 +157,10 @@ class DingerController extends BaseController
     $customerName = $decryptedValues["customerName"] ?? null;
     $date = now();
 
-    $transactionData = Transaction::where('order_id', '=', $merchantOrderId)->first();
+    // $transactionData = Transaction::where('order_id', '=', $merchantOrderId)->first();
 
     if ($transactionStatus === "SUCCESS") {
-        $this->callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, "fb8c7365-409a-43b8-8b1c-7d1a0da5a7d4", $transactionId, $customerName, $date);
+        $this->callBackSuccess($totalAmount, $transactionStatus, $methodName, $providerName, $merchantOrderId, $transactionId, $customerName, $date);
     } else {
         $this->callBackFail("fb8c7365-409a-43b8-8b1c-7d1a0da5a7d4");
         Log::error('Transaction failed', $decryptedValues);
