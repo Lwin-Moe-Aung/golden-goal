@@ -27,6 +27,12 @@ Route::group(['namespace' => 'API'], function () {
   Route::post('process/payment', 'DingerController@processPayment');
   Route::post('merchant/callback', 'DingerController@handleCallback');
 
+  Route::get('profile', 'AuthController@getProfile');
+  Route::get('get/user-with-phone', 'AuthController@getUserByPhone');
+  Route::post('admin/subscribe', 'SubscriptionPlanController@adminSubscribeForUser');
+
+
+
 
 	//user login
 	Route::post('user/login', 'AuthController@userLogin')->name('login');;

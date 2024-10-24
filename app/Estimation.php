@@ -53,6 +53,8 @@ class Estimation extends Model
         'publish_changes',
         'publish_percentages',
         'changes_start_time',
-        'percentages_start_time'
+        'percentages_start_time',
+        'last_match_price',
+        'current_match_price'
     ];
 }

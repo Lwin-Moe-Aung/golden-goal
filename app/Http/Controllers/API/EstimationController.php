@@ -149,7 +149,8 @@ class EstimationController extends BaseController
         $estimation['guess_result'] =$request->input('guess_result');
         $estimation['fact'] =$request->input('fact');
         $estimation['injury'] =$request->input('injury');
-
+        $estimation['last_match_price'] =$request->input('last_match_price');
+        $estimation['current_match_price'] =$request->input('current_match_price');
         $estimation->save();
 
         return $this->sendResponse($estimation->toArray(), 'Estimation created successfully.');
@@ -157,9 +158,9 @@ class EstimationController extends BaseController
 
     public function update(Request $request, $id)
     {
-        if (!Auth::guard('api')->check()) {
-            $error = "Unauthorized user";
-            return $this->sendError($error,'',202);
+        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+          $error = "Unauthorized user";
+          return $this->sendError($error,'',202);
         }
 
         $input = $request->all();
@@ -230,6 +231,8 @@ class EstimationController extends BaseController
         $estimation['guess_result'] =$request->input('guess_result');
         $estimation['fact'] =$request->input('fact');
         $estimation['injury'] =$request->input('injury');
+        $estimation['last_match_price'] =$request->input('last_match_price');
+        $estimation['current_match_price'] =$request->input('current_match_price');
 
         $estimation->save();
 
@@ -556,7 +559,6 @@ class EstimationController extends BaseController
         $estimation = Estimation::where('id',$id)
                     ->where('publish', '!=', '0')
                     ->first();
-
         if($estimation == null){
             return $this->sendError('No Data.....','',202);
         }

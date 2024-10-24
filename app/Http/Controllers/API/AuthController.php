@@ -8,6 +8,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\SubscriptionPlan;
 use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -124,6 +125,48 @@ class AuthController extends BaseController
         }
     }
 
+    //get profile
+    public function getProfile(Request $request)
+    {
+      if (!Auth::guard('api')->check()) {
+          $error = "Unauthorized user";
+          return $this->sendError($error, '', 401);
+      }
+
+      $user = Auth::guard('api')->user();
+      $planData = null;
+
+      if ($user->subscription_plan_id !== null) {
+          $endDate = Carbon::parse($user->subscription_end_date);
+          $today = Carbon::now();
+          $daysRemaining = $today->diffInDays($endDate, false);
+          $plan = SubscriptionPlan::findOrFail($user->subscription_plan_id);
+          // dd($plan);
+          $count = (int)$plan->duration - (int)$daysRemaining;
+
+          $plan_remaining = "{$count}/{$plan->duration} days";
+          $planData = [
+            'id'=> $plan->id,
+            "title"=> $plan->title,
+            "total_amount"=> $plan->total_amount,
+            "duration" => $plan->duration,
+            "use_count" => (string)$count,
+            "remaining"=> $plan_remaining,
+          ];
+      }
+
+      $userData = [
+        'id' => $user->id,
+        'name' => $user->username,
+        'profile_photo' => $user->profile_photo,
+        'phone_number' => $user->phone_number
+      ];
+      return response()->json([
+          "user" => $userData,
+          "plan" => $planData
+      ]);
+    }
+
     public function resetPassword(Request $request)
     {
       if (!Auth::guard('api')->check()) {
@@ -150,4 +193,27 @@ class AuthController extends BaseController
       $user->save();
       return $this->sendResponse([], 'Password has been reset successfully.');
     }
+
+    public function getUserByPhone(Request $request)
+    {
+      if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+        $error = "Unauthorized user";
+        return $this->sendError($error,'',401);
+      }
+      $user = User::where('phone_number', $request->input('phone_number'))->first();
+      
+      if(!$user){
+        return $this->sendError("User not found!",'',400);
+      }
+      $data = [
+        'id' => $user->id,
+        'username' => $user->username,
+        'phone_number' => $user->phone_number,
+        'subscription_plan_id' => $user->subscription_plan_id,
+        'subscription_end_date' => $user->subscription_end_date
+      ];
+
+      return $this->sendResponse($data, 'User data!'); 
+    }
+
 }

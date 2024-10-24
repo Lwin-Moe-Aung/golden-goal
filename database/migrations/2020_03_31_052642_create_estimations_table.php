@@ -63,6 +63,8 @@ class CreateEstimationsTable extends Migration
             $table->enum('publish_percentages', ['0', '1'])->default('1');
             $table->string('changes_start_time')->nullable();
             $table->string('percentages_start_time')->nullable();
+            $table->string('last_match_price')->nullable();
+            $table->string('current_match_price')->nullable();
 
             $table->timestamps();
         });

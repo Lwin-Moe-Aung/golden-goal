@@ -15,6 +15,6 @@ class SubscriptionPlan extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'total_amount', 'desc'
+        'title', 'total_amount', 'desc', 'duration'
     ];
 }

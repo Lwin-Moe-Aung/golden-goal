@@ -18,6 +18,7 @@ class CreateSubscriptionPlansTable extends Migration
             $table->string('title');
             $table->string('total_amount');
             $table->string('desc')->nullable();
+            $table->string('duration');
             $table->timestamps();
         });
     }
