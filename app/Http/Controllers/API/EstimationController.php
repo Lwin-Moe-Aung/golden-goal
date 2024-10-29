@@ -369,7 +369,7 @@ class EstimationController extends BaseController
         $subscribed = 0;
         $is_login = 0;
         if (Auth::guard('api')->check()) {
-          $is_login = 0;
+          $is_login = 1;
           $subscription_end_date = Auth::guard('api')->user()->subscription_end_date;
           if($subscription_end_date !== null){
             $subscriptionEndDate = Carbon::parse($subscription_end_date);
