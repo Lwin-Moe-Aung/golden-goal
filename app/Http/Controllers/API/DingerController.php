@@ -71,6 +71,7 @@ class DingerController extends BaseController
     $paymentToken = $tokenResponse["response"]["paymentToken"];
     
     
+
     // Step 2: Prepare and encrypt payment data
     $paymentData = [
         'providerName' => $request->input('providerName'),
@@ -86,7 +87,6 @@ class DingerController extends BaseController
 
     // Step 3: Make Payment Request
     $paymentResponse = $this->dingerService->makePayment($paymentToken, $encryptedData);
-
     DB::table('transactions')->insert([
       'user_id' => $user_id,
       'plan_id' => $request->input('planId'),
