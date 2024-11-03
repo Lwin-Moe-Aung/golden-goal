@@ -45,6 +45,7 @@
             text-decoration: none;
             border-radius: 5px;
             transition: background-color 0.3s;
+            border: 0;
         }
         .container .button:hover {
             background-color: #218838;
@@ -64,6 +65,7 @@
             .container .button {
                 padding: 8px 16px;
                 font-size: 13px;
+
             }
         }
     </style>
@@ -72,7 +74,9 @@
     <div class="container">
         <h1>Payment Successful</h1>
         <p>Thank you for your payment. Your transaction has been processed successfully.</p>
-        <a onclick="dingerPaymentSuccess()" class="button">Back to Home</a>
+        <!-- <a onclick="dingerPaymentSuccess()" class="button">Back to Home</a> -->
+        <button onclick="dingerPaymentSuccess()" class="button">Back to Home</button>
+
     </div>
     <script type="text/javascript">
       function dingerPaymentSuccess() {

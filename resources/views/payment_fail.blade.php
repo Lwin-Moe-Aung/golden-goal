@@ -45,6 +45,8 @@
             text-decoration: none;
             border-radius: 5px;
             transition: background-color 0.3s;
+            border: 0;
+
         }
         .container .button:hover {
             background-color: #c82333;
@@ -72,14 +74,15 @@
     <div class="container">
         <h1>Payment Failed</h1>
         <p>We're sorry, but your transaction could not be completed. Please try again or contact support if the issue persists.</p>
-        <a onclick="dingerPaymentFail()" class="button">Contact Support</a>
+        <!-- <a onclick="dingerPaymentFail()" class="button">Contact Support</a> -->
+        <button onclick="dingerPaymentFail()" class="button">Contact Support</button>
     </div>
 
     <script type="text/javascript">
-      function dingerPaymentFail() {
+        function dingerPaymentFail() {
           // Call Android's navigateToMainActivity() method
           Android.dingerPaymentFail();
-      }
+        }
   </script> 
 </body>
 
