@@ -75,7 +75,9 @@
         <h1>Payment Failed</h1>
         <p>We're sorry, but your transaction could not be completed. Please try again or contact support if the issue persists.</p>
         <!-- <a onclick="dingerPaymentFail()" class="button">Contact Support</a> -->
-        <button onclick="dingerPaymentFail()" class="button">Contact Support</button>
+        <!-- <button onclick="dingerPaymentFail()" class="button">Contact Support</button> -->
+        <button onclick="window.location.href='https://goldengoalmyanmar.com/payment/fail'" class="button">Contact Support</button>
+
     </div>
 
     <script type="text/javascript">

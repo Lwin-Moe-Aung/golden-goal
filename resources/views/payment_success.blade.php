@@ -75,7 +75,8 @@
         <h1>Payment Successful</h1>
         <p>Thank you for your payment. Your transaction has been processed successfully.</p>
         <!-- <a onclick="dingerPaymentSuccess()" class="button">Back to Home</a> -->
-        <button onclick="dingerPaymentSuccess()" class="button">Back to Home</button>
+        <!-- <button onclick="dingerPaymentSuccess()" class="button">Back to Home</button> -->
+        <button onclick="window.location.href='https://goldengoalmyanmar.com/payment/success'" class="button">Back to Home</button>
 
     </div>
     <script type="text/javascript">
