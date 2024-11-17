@@ -2,88 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful</title>
+    <title>Payment Success</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            text-align: center;
             padding: 20px;
-            box-sizing: border-box;
+            background-color: #f5f5f5;
         }
         .container {
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
             padding: 30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .container h1 {
-            color: #28a745;
-            font-size: 28px;
-            margin-bottom: 15px;
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #003366;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        .container p {
-            color: #333;
-            font-size: 16px;
+        .button:hover {
+            background-color: #3f5c94;
+        }
+        .success-icon {
+            color: #003366;
+            font-size: 48px;
             margin-bottom: 20px;
         }
-        .container .button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 14px;
-            color: #fff;
-            background-color: #28a745;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            border: 0;
-        }
-        .container .button:hover {
-            background-color: #218838;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            .container h1 {
-                font-size: 24px;
-            }
-            .container p {
-                font-size: 14px;
-            }
-            .container .button {
-                padding: 8px 16px;
-                font-size: 13px;
-
-            }
+        h1 {
+            color: #000c3b;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Payment Successful</h1>
-        <p>Thank you for your payment. Your transaction has been processed successfully.</p>
-        <!-- <a onclick="dingerPaymentSuccess()" class="button">Back to Home</a> -->
-        <!-- <button onclick="dingerPaymentSuccess()" class="button">Back to Home</button> -->
-        <button onclick="window.location.href='https://goldengoalmyanmar.com/payment/success'" class="button">Back to Home</button>
-
+        <div class="success-icon">✓</div>
+        <h1>Payment Success</h1>
+        <p>Thank you for your payment. Click below to return to the app.</p>
+        <a href="goldengoal://payment/success" class="button" id="openApp">Return to App</a>
     </div>
-    <script type="text/javascript">
-      function dingerPaymentSuccess() {
-          // Call Android's navigateToMainActivity() method
-          Android.dingerPaymentSuccess();
-      }
-  </script> 
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            let queryString = '';
+            for(const [key, value] of params) {
+                queryString += `/${key}/${value}`;
+            }
+            return queryString;
+        }
+
+        function openApp() {
+            const queryParams = getQueryParams();
+            const appUrl = `goldengoal://payment/success${queryParams}`;
+            window.location.href = appUrl;
+            
+            setTimeout(function() {
+                window.location.href = 'market://details?id=com.goldengoal.myanmar';
+            }, 2500);
+        }
+
+        window.onload = function() {
+            openApp();
+        };
+
+        document.getElementById('openApp').addEventListener('click', function(e) {
+            e.preventDefault();
+            openApp();
+        });
+    </script>
 </body>
 </html>

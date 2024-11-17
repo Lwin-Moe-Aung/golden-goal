@@ -25,7 +25,7 @@ Route::group(['namespace' => 'API'], function () {
 	
   //dinger
   Route::post('v1/process/payment', 'DingerController@processPayment');
-  Route::post('v1/merchant/callback', 'DingerController@handleCallback');
+  Route::post('merchant/callback', 'DingerController@handleCallback');
 
   Route::get('v1/profile', 'AuthController@getProfile');
   Route::get('v1/get/user-with-phone', 'AuthController@getUserByPhone');

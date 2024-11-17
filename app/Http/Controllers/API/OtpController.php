@@ -33,6 +33,7 @@ class OtpController extends BaseController
         // Validate input
         $validator = Validator::make($request->all(), [
             'phone_number' => 'required|string',
+            'type' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -42,13 +43,15 @@ class OtpController extends BaseController
         // Check if the phone number is registered
         $user = User::where('phone_number', $request->phone_number)->first();
 
-        if (!$user) {
+        if ($request->type == 'REGISTER') {
+            if($user){
+              return $this->sendError('Your number is already registered.',[], 200);
+            }
             // Proceed with normal registration if user does not exist
             $newUser = User::create([
                 'phone_number' => $request->phone_number,
                 'role' => 'User',
             ]);
-
             // Generate OTP
             $otp_code = rand(100000, 999999);
             Otp::create([
@@ -68,6 +71,9 @@ class OtpController extends BaseController
             $this->smsPohService->sendOtp($newUser->phone_number, $otp_code);
 
         }else{
+            if(!$user){
+              return $this->sendError('Please create account first!',[], 200);
+            }
             if ($this->hasTooManyOtpRequests($user)) {
                 return $this->sendError('Too many OTP requests. Please try again later.', [], 200);
             }
