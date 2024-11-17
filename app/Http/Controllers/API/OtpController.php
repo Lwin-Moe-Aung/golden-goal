@@ -84,7 +84,7 @@ class OtpController extends BaseController
             ]);
 
             // Send OTP
-            $this->smsPohService->sendOtp($newUser->phone_number, $otp_code);
+            $this->smsPohService->sendOtp($request->phone_number, $otp_code);
 
         }else{
             if(!$user){
