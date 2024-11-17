@@ -41,30 +41,42 @@ class OtpController extends BaseController
         }
 
         // Check if the phone number is registered
-        $user = User::where('phone_number', $request->phone_number)->first();
+        $user = User::where('phone_number', $request->phone_number)
+          ->where('is_verify', '1')
+          ->first();
 
         if ($request->type == 'REGISTER') {
             if($user){
               return $this->sendError('Your number is already registered.',[], 200);
             }
-            // Proceed with normal registration if user does not exist
-            $newUser = User::create([
+            $notVerifyUser = User::where('phone_number', $request->phone_number)
+              ->where('is_verify', '0')
+              ->first();
+            $user_id = $notVerifyUser->id;
+            if(!$notVerifyUser){
+              // Proceed with normal registration if user does not exist
+              $newUser = User::create([
                 'phone_number' => $request->phone_number,
                 'role' => 'User',
-            ]);
+                'otp_request_count' => 1,
+                'last_otp_request_at' => Carbon::now()
+              ]);
+              $user_id = $newUser->id;
+            }else{
+              // Update OTP request count and time
+              $newUser->update([
+                'otp_request_count' => 1,
+                'last_otp_request_at' => Carbon::now()
+              ]);
+            }
+           
             // Generate OTP
             $otp_code = rand(100000, 999999);
             Otp::create([
-                'user_id' => $newUser->id,
+                'user_id' => $user_id,
                 'otp_code' => $otp_code,
                 'expires_at' => Carbon::now()->addMinutes(1),
                 'action' => 'registration',
-            ]);
-
-            // Update OTP request count and time
-            $newUser->update([
-                'otp_request_count' => 1,
-                'last_otp_request_at' => Carbon::now()
             ]);
 
             // Send OTP

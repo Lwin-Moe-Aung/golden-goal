@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->float('rank')->nullable();
             $table->integer('subscription_plan_id')->nullable();
             $table->dateTime('subscription_end_date')->nullable();
+            $table->enum('is_verify', ['0', '1'])->default('0');
             $table->rememberToken();
             $table->timestamps();
         });
