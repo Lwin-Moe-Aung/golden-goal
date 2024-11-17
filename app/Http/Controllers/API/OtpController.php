@@ -52,7 +52,7 @@ class OtpController extends BaseController
             $notVerifyUser = User::where('phone_number', $request->phone_number)
               ->where('is_verify', '0')
               ->first();
-            $user_id = $notVerifyUser->id;
+            $user_id = null;
             if(!$notVerifyUser){
               // Proceed with normal registration if user does not exist
               $newUser = User::create([
@@ -63,11 +63,15 @@ class OtpController extends BaseController
               ]);
               $user_id = $newUser->id;
             }else{
+              if ($this->hasTooManyOtpRequests($notVerifyUser)) {
+                return $this->sendError('Too many OTP requests. Please try again later.', [], 200);
+              }
               // Update OTP request count and time
-              $newUser->update([
-                'otp_request_count' => 1,
+              $notVerifyUser->update([
+                'otp_request_count' => $notVerifyUser->otp_request_count + 1,
                 'last_otp_request_at' => Carbon::now()
               ]);
+              $user_id = $notVerifyUser->id;
             }
            
             // Generate OTP
@@ -141,7 +145,6 @@ class OtpController extends BaseController
         $otp->is_verified = true;
         $otp->unique_key = (string) \Str::uuid();
         $otp->save();
-
         return $this->sendResponse(['verifyKey' => $otp->unique_key], 'OTP verified successfully.');
     }
 
