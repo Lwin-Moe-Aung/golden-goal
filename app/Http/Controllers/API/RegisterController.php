@@ -45,7 +45,13 @@ class RegisterController extends BaseController
         }
 
         // Check if the phone number is already registered but not verified
-        $user = User::where('phone_number', $request->phone_number)->first();
+        $checkUser = User::where('phone_number', $request->phone_number)
+          ->where('is_verify', '1')
+          ->first();
+        if($checkUser) return $this->sendError('User is already registered', []);
+        $user = User::where('phone_number', $request->phone_number)
+          ->where('is_verify', '0')
+          ->first();
         $otp = Otp::where('unique_key', $request->verify_key)->first();
         if(!$user) return $this->sendError('User not found!.', []);
         if(!$otp) return $this->sendError('Verify key is not found!', []);
@@ -56,6 +62,7 @@ class RegisterController extends BaseController
 
         $user->username = $request->username;
         $user->password = Hash::make($request->password);
+        $user->is_verify = '1';
         $user->save();
         $user->token = $user->createToken('user Access Token')->accessToken;
 
