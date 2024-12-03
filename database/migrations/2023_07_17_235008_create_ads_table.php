@@ -21,6 +21,16 @@ class CreateAdsTable extends Migration
             $table->string('thumb320x50');
             $table->string('thumb300x250');
             $table->string('thumb320x480');
+
+            $table->string('changes_ads_type')->nullable();
+            $table->string('changes_url')->nullable();
+            $table->string('percentage_ads_type')->nullable();
+            $table->string('percentage_url')->nullable();
+            $table->string('estimate_ads_type')->nullable();
+            $table->string('esitimage_ads_url')->nullable();
+            $table->string('estimate_detail_ads_type')->nullable();
+            $table->string('estimate_detail_url')->nullable();
+
             $table->timestamps();
         });
     }

@@ -66,6 +66,44 @@ class EstimationController extends BaseController
         return $this->sendError('No Data.....','',202);
     }
 
+ /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getWinLoseHistory(Request $request)
+    {
+      $estimations = DB::table('estimations')
+          ->where('is_body_win', '!=', '')
+          ->orWhere('is_goal_win', '!=', '')
+          ->paginate($request->input("per_page"));
+
+        if(count($estimations) > 0){
+          foreach ($estimations as $key => $value) {
+
+              $team = Team::find($value->home);
+              $value->home_team_name = $team->team_name;
+              $value->home_team_icon = $team->team_icon;
+              $team = Team::find($value->away);
+              $value->away_team_name = $team->team_name;
+              $value->away_team_icon = $team->team_icon;
+              $league = League::find($value->league_id);
+              $value->league_name = $league->league_name;
+              $value->league_icon = $league->league_icon;
+              $team = Team::find($value->odd_team);
+              $value->odd_team_name = $team->team_name;
+              $value->odd_team_icon = $team->team_icon;
+
+              $estimations[$key] = $value;
+
+          }
+
+          return $this->sendResponse($estimations->toArray(), 'estimations retrieved successfully.');
+
+        }
+      return $this->sendError('No Data.....','',202);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -151,6 +189,10 @@ class EstimationController extends BaseController
         $estimation['injury'] =$request->input('injury');
         $estimation['last_match_price'] =$request->input('last_match_price');
         $estimation['current_match_price'] =$request->input('current_match_price');
+        $estimation['selected_body_team'] =$request->input('selected_body_team');
+        $estimation['is_body_win'] =$request->input('is_body_win');
+        $estimation['is_goal_win'] =$request->input('is_goal_win');
+
         $estimation->save();
 
         return $this->sendResponse($estimation->toArray(), 'Estimation created successfully.');
@@ -234,6 +276,9 @@ class EstimationController extends BaseController
         $estimation['last_match_price'] =$request->input('last_match_price');
         $estimation['current_match_price'] =$request->input('current_match_price');
 
+        $estimation['selected_body_team'] =$request->input('selected_body_team');
+        $estimation['is_body_win'] =$request->input('is_body_win');
+        $estimation['is_goal_win'] =$request->input('is_goal_win');
         $estimation->save();
 
 
@@ -265,7 +310,15 @@ class EstimationController extends BaseController
         return $this->sendResponse($estimation->toArray(), 'league deleted successfully.');
     }
 
+    public function getEstimationsByDateOld(Request $request)
+    {
 
+      return response()->json([
+        'success' => true,
+        'data' => [],
+        'message'=> 'Estimation By Date was retrieved successfully.'
+      ]);
+    }
 
     public function getEstimationsByDate(Request $request)
     {

@@ -87,6 +87,10 @@ Route::group(['namespace' => 'API'], function () {
 
   Route::get('v1/get_all_estimations_by_user', 'API\EstimationController@getAllEstimationsByUser');
 	Route::resource('v1/estimations', 'API\EstimationController');
+	Route::get('v1/get_win_lose_history', 'API\EstimationController@getWinLoseHistory');
+
+	Route::post('get_estimations_by_date', 'API\EstimationController@getEstimationsByDateOld');
+
 	Route::post('v1/get_estimations_by_date', 'API\EstimationController@getEstimationsByDate');
 	Route::post('v1/get_changes_by_date', 'API\EstimationController@getChangesByDate');
 	Route::post('v1/get_percentages_by_date', 'API\EstimationController@getPercentagesByDate');

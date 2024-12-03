@@ -55,6 +55,9 @@ class Estimation extends Model
         'changes_start_time',
         'percentages_start_time',
         'last_match_price',
-        'current_match_price'
+        'current_match_price',
+        'selected_body_team',
+        'is_body_win',
+        'is_goal_win'
     ];
 }

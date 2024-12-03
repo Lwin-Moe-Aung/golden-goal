@@ -65,7 +65,9 @@ class CreateEstimationsTable extends Migration
             $table->string('percentages_start_time')->nullable();
             $table->string('last_match_price')->nullable();
             $table->string('current_match_price')->nullable();
-
+            $table->string('selected_body_team')->nullable();
+            $table->string('is_body_win')->nullable();
+            $table->string('is_goal_win')->nullable();
             $table->timestamps();
         });
     }

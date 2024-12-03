@@ -78,6 +78,8 @@ class AdsController extends BaseController
            $ads->thumb320x480 = $data["path320x480"];
            $ads['key'] = 'changes';
            $ads['publish'] = $input['changesPublish'];
+           $ads['changes_ads_type'] = $input['changes_ads_type'];
+           $ads['changes_url'] = $input['changes_url'];
            $ads->save();
         }
         if($request->hasFile('percentages')) {
@@ -89,6 +91,8 @@ class AdsController extends BaseController
             $ads->thumb320x480 = $data["path320x480"];
             $ads['key'] = 'percentages';
             $ads['publish'] = $input['percentagesPublish'];
+            $ads['percentage_ads_type'] = $input['percentage_ads_type'];
+            $ads['percentage_url'] = $input['percentage_url'];
             $ads->save();
         }
         if($request->hasFile('estimate')) {
@@ -100,6 +104,8 @@ class AdsController extends BaseController
             $ads->thumb320x480 = $data["path320x480"];
             $ads['key'] = 'estimate';
             $ads['publish'] = $input['estimatePublish'];
+            $ads['estimate_ads_type'] = $input['estimate_ads_type'];
+            $ads['estimate_url'] = $input['estimate_url'];
             $ads->save();
         }
         if($request->hasFile('estimateDetail')) {
@@ -111,6 +117,8 @@ class AdsController extends BaseController
             $ads->thumb320x480 = $data["path320x480"];
             $ads['key'] = 'estimateDetail';
             $ads['publish'] = $input['estimateDetailPublish'];
+            $ads['estimate_detail_ads_type'] = $input['estimate_detail_ads_type'];
+            $ads['estimate_detail_url'] = $input['estimate_detail_url'];
             $ads->save();
         }
 
@@ -202,6 +210,8 @@ class AdsController extends BaseController
          }
         $ads['key'] = 'changes';
         $ads['publish'] = $input['changesPublish'];
+        $ads['changes_ads_type'] = $input['changes_ads_type'];
+        $ads['changes_url'] = $input['changes_url'];
         $ads->update();
 
         $ads = Ad::where('key', 'percentages')->first();
@@ -214,6 +224,8 @@ class AdsController extends BaseController
         }
         $ads['key'] = 'percentages';
         $ads['publish'] = $input['percentagesPublish'];
+        $ads['percentage_ads_type'] = $input['percentage_ads_type'];
+        $ads['percentage_url'] = $input['percentage_url'];
         $ads->save();
 
         $ads = Ad::where('key', 'estimate')->first();
@@ -226,6 +238,8 @@ class AdsController extends BaseController
         }
         $ads['key'] = 'estimate';
         $ads['publish'] = $input['estimatePublish'];
+        $ads['estimate_ads_type'] = $input['estimate_ads_type'];
+        $ads['estimate_url'] = $input['estimate_url'];
         $ads->save();
 
         $ads = Ad::where('key', 'estimateDetail')->first();
@@ -238,6 +252,8 @@ class AdsController extends BaseController
         }
         $ads['key'] = 'estimateDetail';
         $ads['publish'] = $input['estimateDetailPublish'];
+        $ads['estimate_detail_ads_type'] = $input['estimate_detail_ads_type'];
+        $ads['estimate_detail_url'] = $input['estimate_detail_url'];
         $ads->save();
 
         return $this->sendResponse([],'Ads updated successfully.');
