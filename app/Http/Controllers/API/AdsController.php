@@ -105,7 +105,7 @@ class AdsController extends BaseController
             $ads['key'] = 'estimate';
             $ads['publish'] = $input['estimatePublish'];
             $ads['estimate_ads_type'] = $input['estimate_ads_type'];
-            $ads['estimate_url'] = $input['estimate_url'];
+            $ads['esitimage_ads_url'] = $input['esitimage_ads_url'];
             $ads->save();
         }
         if($request->hasFile('estimateDetail')) {
@@ -239,7 +239,7 @@ class AdsController extends BaseController
         $ads['key'] = 'estimate';
         $ads['publish'] = $input['estimatePublish'];
         $ads['estimate_ads_type'] = $input['estimate_ads_type'];
-        $ads['estimate_url'] = $input['estimate_url'];
+        $ads['esitimage_ads_url'] = $input['esitimage_ads_url'];
         $ads->save();
 
         $ads = Ad::where('key', 'estimateDetail')->first();
