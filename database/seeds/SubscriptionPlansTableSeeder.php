@@ -14,24 +14,22 @@ class SubscriptionPlansTableSeeder extends Seeder
     {
       $plans = [
         [
-        	'title' => 'Starter',
-          'total_amount' => 'Free',
-          'desc' => '[{"value":"Every basic features","status":"true"},{"value":"Previews","status":"true"},{"value":"Detail Information","status":"false"},{"value":"Real time results","status":"false"}]',
-        ],
-        [
         	'title' => 'Standard (30 days)',
-          'total_amount' => '15000',
-          'desc' => '[{"value":"Every basic features","status":"true"},{"value":"Previews","status":"true"},{"value":"Detail Information","status":"true"},{"value":"Real time results","status":"false"}]',
+          'total_amount' => '5900',
+          'desc' => '[{"value":"ပွဲကြိုအားလုံး","status":"true"},{"value":"ကြေးပြောင်းအားလုံး","status":"true"},{"value":"ရာခိုင်နှုန်းအားလုံး","status":"true"},{"value":"Special ပွဲကြိုများ","status":"true"}]',
+          'duration' => '30',
         ],
         [
         	'title' => 'Advance (90 days)',
-          'total_amount' => '30000',
-          'desc' => '[{"value":"Every basic features","status":"true"},{"value":"Previews","status":"true"},{"value":"Detail Information","status":"true"},{"value":"Real time results","status":"true"}]',
+          'total_amount' => '9900',
+          'desc' => '[{"value":"ပွဲကြိုအားလုံး","status":"true"},{"value":"ကြေးပြောင်းအားလုံး","status":"true"},{"value":"ရာခိုင်နှုန်းအားလုံး","status":"true"},{"value":"Special ပွဲကြိုများ","status":"true"}]',
+          'duration' => '90',
         ],
         [
         	'title' => 'Pro Max (180 days)',
-          'total_amount' => '50000',
-          'desc' => '[{"value":"Every basic features","status":"true"},{"value":"Previews","status":"true"},{"value":"Detail Information","status":"true"},{"value":"Real time results","status":"true"}]',
+          'total_amount' => '14900',
+          'desc' => '[{"value":"ပွဲကြိုအားလုံး","status":"true"},{"value":"ကြေးပြောင်းအားလုံး","status":"true"},{"value":"ရာခိုင်နှုန်းအားလုံး","status":"true"},{"value":"Special ပွဲကြိုများ","status":"true"}]',
+          'duration' => '180',
         ]
       ];
 

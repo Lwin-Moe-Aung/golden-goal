@@ -49,6 +49,8 @@ Route::group(['namespace' => 'API'], function () {
 
 	// user registeration
 	Route::post('v1/user/register', 'RegisterController@register');
+	Route::post('v1/user/no-otp/register', 'RegisterController@noOtpRegister');
+
 	
 	// forget password
 	Route::post('v1/forgot/password', 'ForgotPasswordController@forgotPassword');
@@ -62,6 +64,10 @@ Route::group(['namespace' => 'API'], function () {
 });
 
   
+  //get all settings
+  Route::get('v1/get/settings', 'API\SettingController@index');
+  //update settings 
+  Route::post('v1/update/settings', 'API\SettingController@update');
 
 	Route::resource('v1/products', 'API\ProductController');
 	Route::resource('v1/changes', 'API\ChangeController');
@@ -124,5 +130,7 @@ Route::group(['namespace' => 'API'], function () {
 	Route::post('v1/send-otp', 'API\OtpController@sendOtp');
 	Route::post('v1/verify-otp', 'API\OtpController@verifyOtp');
 
-	
-
+	//user
+  Route::get('v1/user/lists', 'API\UserManageController@getAllUserLists');
+  Route::get('v1/user/{id}', 'API\UserManageController@getDetailUser');
+  Route::post('v1/user/update/password/{id}', 'API\UserManageController@updateUserPassword');

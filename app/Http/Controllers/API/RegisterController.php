@@ -70,6 +70,48 @@ class RegisterController extends BaseController
         
    
     }
+
+    // Registration method
+    public function noOtpRegister(Request $request)
+    {
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|max:255',
+            'phone_number' => 'required|string',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        // Check if the phone number is already registered but not verified
+        $checkUser = User::where('phone_number', $request->phone_number)
+          ->where('is_verify', '1')
+          ->first();
+        if($checkUser) return $this->sendError('User is already registered', []);
+
+        $user = User::where('phone_number', $request->phone_number)
+          ->where('is_verify', '0')
+          ->first();
+        if($user){
+          $user->username = $request->username;
+          $user->password = Hash::make($request->password);
+          $user->role = 'User';
+          $user->is_verify = '1';
+          $user->save();
+        }else{
+          $user = User::create([
+            'username' => $request->username,
+            'phone_number' => $request->phone_number,
+            'password' => Hash::make($request->password),
+            'role' => 'User',
+            'is_verify' => '1',
+          ]);
+        }
+        $user->token = $user->createToken('user Access Token')->accessToken;
+        return $this->sendResponse($user, 'Registration successful');
+    }
     
     // // Method to resend OTP
     // public function resendOtp(Request $request)

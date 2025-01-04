@@ -350,4 +350,65 @@ class UserManageController extends BaseController
 
         return $this->sendResponse($success,"login success");
     }
+
+      /**
+     * Get all user lists.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllUserLists(Request $request)
+    {
+        $phone = $request->query('phone');
+        $perPage = $request->query('per_page', 10); // Default to 10 if not provided
+        $page = $request->query('page', 1); // Default to 1 if not provided
+
+        $query = User::query();
+
+        if ($phone) {
+            $query->where('phone_number', 'like', "%{$phone}%");
+        }
+        $query->where('role', '!=', 'Admin');
+        $users = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return $this->sendResponse($users->toArray(),"User lists retrieved successfully.");
+    }
+
+    public function getDetailUser($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+          return $this->sendError('User not found.');
+        }
+
+        return $this->sendResponse($user,"User detail retrieved successfully.");
+    }
+
+    public function updateUserPassword(Request $request, $id)
+    {
+        if (!Auth::guard('api')->check() || Auth::guard('api')->user()->role != 'Admin') {
+          $error = "Unauthorized user";
+          return $this->sendError($error,'',401);
+        }
+        
+        // Validate input
+        $validator = Validator::make($request->all(), [
+          'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+    
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return $this->sendResponse($user,"Password updated successfully");
+    }
 }
