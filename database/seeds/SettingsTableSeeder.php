@@ -15,6 +15,7 @@ class SettingsTableSeeder extends Seeder
             [
                 'is_active_otp_service' => '0',
                 'is_force_update' => '0',
+                'version' => '1',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

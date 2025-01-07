@@ -39,6 +39,8 @@ class SettingController extends BaseController
       $validator = Validator::make($request->all(), [
         'is_active_otp_service' => 'required|boolean',
         'is_force_update' => 'required|boolean',
+        'version' => 'required|string',
+
       ]);
 
       if ($validator->fails()) {

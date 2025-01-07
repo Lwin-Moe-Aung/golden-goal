@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
             $table->bigIncrements('id');
             $table->enum('is_active_otp_service', ['0', '1'])->default('0');
             $table->enum('is_force_update', ['0', '1'])->default('0');
+            $table->string('version');
             $table->timestamps();
         });
     }

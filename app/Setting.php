@@ -13,6 +13,7 @@ class Setting extends Model
      */
     protected $fillable = [
         'is_active_otp_service',
-        'is_force_update'
+        'is_force_update',
+        'version'
     ];
 }
